@@ -4,131 +4,193 @@ import { useEffect, useRef } from "react";
 
 const skillGroups = [
   {
-    index: "01",
-    title: "Veri Bilimi & Makine Öğrenmesi",
-    description:
-      "Sınıflandırma, regresyon ve görüntü işleme problemlerine yönelik model geliştirme ve değerlendirme.",
-    categories: [
-      {
-        label: "Algoritmalar",
-        items: [
-          "Logistic Regression",
-          "Random Forest",
-          "SVM",
-          "KNN",
-          "CNN",
-          "Karar Ağaçları",
-        ],
-      },
-      {
-        label: "Kütüphaneler",
-        items: ["scikit-learn", "pandas", "NumPy", "matplotlib", "seaborn"],
-      },
+    icon: "🧠",
+    title: "Veri Bilimi & ML",
+    sub: "Sınıflandırma, regresyon ve görüntü işleme üzerine model geliştirme.",
+    bars: [
+      { name: "scikit-learn",        pct: 92, variant: "" },
+      { name: "pandas / NumPy",      pct: 90, variant: "" },
+      { name: "matplotlib / seaborn", pct: 85, variant: "" },
     ],
+    tags: ["Logistic Reg.", "Random Forest", "SVM", "KNN", "CNN"],
   },
   {
-    index: "02",
-    title: "Veri Mühendisliği & Görselleştirme",
-    description:
-      "İlişkisel veritabanı tasarımı, sorgu optimizasyonu ve kurumsal düzeyde BI çözümleri geliştirme.",
-    categories: [
-      {
-        label: "Veritabanları",
-        items: ["MS SQL Server", "PostgreSQL", "T-SQL", "PL/pgSQL"],
-      },
-      {
-        label: "BI & Görselleştirme",
-        items: ["Power BI", "DAX", "SSMS", "pgAdmin"],
-      },
+    icon: "🗄️",
+    title: "Veri Mühendisliği & BI",
+    sub: "İlişkisel DB tasarımı, sorgu optimizasyonu ve kurumsal BI çözümleri.",
+    bars: [
+      { name: "SQL / T-SQL",    pct: 88, variant: "orange-fill" },
+      { name: "Power BI / DAX", pct: 84, variant: "orange-fill" },
+      { name: "PostgreSQL",     pct: 80, variant: "orange-fill" },
     ],
+    tags: ["MS SQL Server", "pgAdmin", "SSMS", "ETL"],
   },
   {
-    index: "03",
+    icon: "⚙️",
     title: "Yazılım Geliştirme",
-    description:
-      "Nesne yönelimli programlama prensipleri ve otomasyon çözümleri üzerine odaklanarak yazılım üretme.",
-    categories: [
-      {
-        label: "Diller & Paradigmalar",
-        items: ["Python", "C# / OOP", "SQL"],
-      },
-      {
-        label: "Araçlar & Entegrasyon",
-        items: ["Git", "Playwright", "Twilio API", "VS Code"],
-      },
+    sub: "OOP prensipleri, otomasyon ve API entegrasyonları.",
+    bars: [
+      { name: "Python",          pct: 93, variant: "green-fill" },
+      { name: "C# / OOP",       pct: 78, variant: "green-fill" },
+      { name: "Playwright / Git", pct: 82, variant: "green-fill" },
     ],
+    tags: ["Twilio API", "VS Code", "Web Scraping", "Git"],
   },
 ];
 
 export default function Skills() {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((e) => e.isIntersecting && e.target.classList.add("visible")),
+    // Scroll reveal
+    const revealObserver = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add("visible")),
       { threshold: 0.1 }
     );
-    sectionRef.current?.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    sectionRef.current?.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
+
+    // Skill bar fills
+    const fillObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            const el = e.target as HTMLElement;
+            el.style.width = el.dataset.w + "%";
+            fillObserver.unobserve(el);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+    sectionRef.current?.querySelectorAll(".skill-fill").forEach((el) => fillObserver.observe(el));
+
+    return () => {
+      revealObserver.disconnect();
+      fillObserver.disconnect();
+    };
   }, []);
 
   return (
-    <section id="skills" className="py-28 px-6 border-t border-white/5" ref={sectionRef}>
+    <section
+      id="skills"
+      ref={sectionRef}
+      className="relative z-[1] py-28 px-6 md:px-12"
+      style={{ borderTop: "1px solid var(--border)" }}
+    >
       <div className="max-w-5xl mx-auto">
-        {/* Header row */}
-        <div className="grid md:grid-cols-3 gap-16 mb-16">
-          <div className="reveal">
-            <span className="font-mono text-xs text-white/25 tracking-widest uppercase">
-              02 / Beceriler
-            </span>
-          </div>
-          <div className="md:col-span-2 reveal">
-            <p className="text-white/50 text-sm leading-relaxed max-w-lg">
-              Veri bilimi sürecinin tamamında — veri toplama ve temizleme,
-              model geliştirme, görselleştirme ve üretime alma — aktif olarak
-              çalışıyorum.
-            </p>
-          </div>
+
+        {/* Section header */}
+        <div className="flex items-baseline gap-5 mb-14 reveal">
+          <span
+            className="text-[0.7rem] tracking-[0.2em] opacity-60"
+            style={{ color: "var(--cyan)" }}
+          >
+            // 02
+          </span>
+          <h2
+            className="text-[clamp(1.8rem,4vw,2.8rem)] font-bold tracking-tight leading-none"
+            style={{ color: "var(--text)" }}
+          >
+            Beceriler
+          </h2>
+          <div
+            className="flex-1 h-px"
+            style={{ background: "linear-gradient(to right, var(--border), transparent)" }}
+          />
         </div>
 
-        {/* Skill blocks */}
-        <div className="space-y-px">
+        {/* Skill groups grid */}
+        <div
+          className="grid md:grid-cols-3 gap-px reveal"
+          style={{ background: "var(--border)", border: "1px solid var(--border)" }}
+        >
           {skillGroups.map((group, i) => (
             <div
-              key={group.index}
-              className="grid md:grid-cols-3 gap-0 border border-white/5 hover:border-white/10 transition-colors reveal"
-              style={{ transitionDelay: `${i * 0.08}s` }}
+              key={group.title}
+              className="relative p-8 overflow-hidden transition-colors duration-300"
+              style={{
+                background: "var(--bg2)",
+                transitionDelay: `${i * 0.08}s`,
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.background = "var(--bg3)";
+                const bar = el.querySelector(".hover-bar") as HTMLElement;
+                if (bar) bar.style.transform = "scaleX(1)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.background = "var(--bg2)";
+                const bar = el.querySelector(".hover-bar") as HTMLElement;
+                if (bar) bar.style.transform = "scaleX(0)";
+              }}
             >
-              {/* Left: index + title + description */}
-              <div className="p-7 border-b md:border-b-0 md:border-r border-white/5">
-                <div className="font-mono text-xs text-white/20 mb-4">{group.index}</div>
-                <h3 className="text-white/90 font-medium text-sm mb-3 leading-snug">
-                  {group.title}
-                </h3>
-                <p className="text-white/40 text-xs leading-relaxed">
-                  {group.description}
-                </p>
+              {/* Top accent bar */}
+              <div
+                className="hover-bar absolute top-0 left-0 right-0 h-0.5 origin-left transition-transform duration-300"
+                style={{ background: "var(--cyan)", transform: "scaleX(0)" }}
+              />
+
+              <div className="text-2xl mb-4">{group.icon}</div>
+              <div
+                className="text-sm font-bold mb-1 tracking-[0.05em]"
+                style={{ color: "var(--text)" }}
+              >
+                {group.title}
+              </div>
+              <div
+                className="text-[0.65rem] leading-relaxed mb-6"
+                style={{ color: "var(--muted)" }}
+              >
+                {group.sub}
               </div>
 
-              {/* Right: two sub-categories */}
-              <div className="md:col-span-2 grid sm:grid-cols-2 divide-x divide-white/5">
-                {group.categories.map((cat) => (
-                  <div key={cat.label} className="p-7">
-                    <div className="font-mono text-xs text-white/25 uppercase tracking-widest mb-5">
-                      {cat.label}
+              {/* Skill bars */}
+              <div className="space-y-3 mb-5">
+                {group.bars.map((bar) => (
+                  <div key={bar.name}>
+                    <div className="flex justify-between mb-1">
+                      <span className="text-[0.65rem]" style={{ color: "var(--muted2)" }}>
+                        {bar.name}
+                      </span>
+                      <span className="text-[0.65rem]" style={{ color: "var(--cyan)" }}>
+                        {bar.pct}%
+                      </span>
                     </div>
-                    <div className="flex flex-wrap gap-2">
-                      {cat.items.map((item) => (
-                        <span
-                          key={item}
-                          className="text-xs text-white/65 border border-white/10 px-2.5 py-1 hover:border-white/25 hover:text-white/85 transition-colors cursor-default"
-                        >
-                          {item}
-                        </span>
-                      ))}
+                    <div
+                      className="h-0.5 rounded-sm overflow-hidden"
+                      style={{ background: "rgba(255,255,255,0.06)" }}
+                    >
+                      <div
+                        className={`skill-fill ${bar.variant}`}
+                        data-w={bar.pct}
+                      />
                     </div>
                   </div>
+                ))}
+              </div>
+
+              {/* Tags */}
+              <div className="flex flex-wrap gap-1.5">
+                {group.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-[0.55rem] uppercase tracking-[0.1em] px-2 py-0.5 rounded-sm transition-colors duration-200 cursor-default"
+                    style={{
+                      border: "1px solid var(--border)",
+                      color: "var(--muted2)",
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLElement).style.borderColor = "var(--cyan)";
+                      (e.currentTarget as HTMLElement).style.color = "var(--cyan)";
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
+                      (e.currentTarget as HTMLElement).style.color = "var(--muted2)";
+                    }}
+                  >
+                    {tag}
+                  </span>
                 ))}
               </div>
             </div>

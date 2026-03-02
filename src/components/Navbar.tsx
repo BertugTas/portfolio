@@ -1,18 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import LogoMark from "./LogoMark";
 
 const navLinks = [
-  { label: "Hakkımda", href: "#about" },
-  { label: "Beceriler", href: "#skills" },
-  { label: "Projeler", href: "#projects" },
-  { label: "İletişim", href: "#contact" },
+  { label: "hakkımda", href: "#about" },
+  { label: "beceriler", href: "#skills" },
+  { label: "projeler",  href: "#projects" },
+  { label: "iletişim",  href: "#contact" },
 ];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled,  setScrolled]  = useState(false);
+  const [menuOpen,  setMenuOpen]  = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -22,48 +21,81 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-[#080808]/95 border-b border-white/5" : "bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-5 transition-all duration-300 ${
+        scrolled
+          ? "border-b bg-[#030609]/90 backdrop-blur-md"
+          : "bg-transparent"
       }`}
+      style={{ borderColor: "var(--border)" }}
     >
-      <div className="max-w-5xl mx-auto px-6 py-5 flex items-center justify-between">
-        <a
-          href="#"
-          aria-label="Ana sayfa"
-          className="group text-white/60 hover:text-white transition-colors"
-        >
-          <LogoMark className="w-10 h-10 transition-transform duration-300 group-hover:scale-105" />
-        </a>
+      {/* Logo */}
+      <a
+        href="#"
+        aria-label="Ana sayfa"
+        className="font-mono text-sm font-bold tracking-[0.1em]"
+        style={{ color: "var(--cyan)" }}
+      >
+        BT<span style={{ color: "var(--muted2)" }}>.</span>dev
+      </a>
 
-        <ul className="hidden md:flex items-center gap-10">
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                className="text-sm text-white/50 hover:text-white transition-colors"
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+      {/* Desktop links */}
+      <ul className="hidden md:flex items-center gap-10">
+        {navLinks.map((link) => (
+          <li key={link.href}>
+            <a
+              href={link.href}
+              className="relative text-[0.7rem] uppercase tracking-[0.15em] transition-colors duration-200 group"
+              style={{ color: "var(--muted2)" }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--cyan)")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--muted2)")}
+            >
+              {link.label}
+              <span
+                className="absolute -bottom-1 left-0 right-0 h-px origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-200"
+                style={{ background: "var(--cyan)" }}
+              />
+            </a>
+          </li>
+        ))}
+      </ul>
 
-        <button
-          className="md:hidden text-white/50 hover:text-white text-sm"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          {menuOpen ? "kapat" : "menü"}
-        </button>
+      {/* Status indicator (desktop) */}
+      <div
+        className="hidden md:flex items-center gap-2 text-[0.65rem] tracking-[0.1em]"
+        style={{ color: "var(--green)" }}
+      >
+        <span
+          className="status-dot w-1.5 h-1.5 rounded-full"
+          style={{ background: "var(--green)", boxShadow: "0 0 6px var(--green)" }}
+        />
+        İzmir, TR — aktif
       </div>
 
+      {/* Mobile menu toggle */}
+      <button
+        className="md:hidden text-xs tracking-widest transition-colors"
+        style={{ color: "var(--muted2)" }}
+        onClick={() => setMenuOpen(!menuOpen)}
+      >
+        {menuOpen ? "kapat" : "menü"}
+      </button>
+
+      {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-[#080808] border-t border-white/5">
-          <ul className="flex flex-col px-6 py-5 gap-5">
+        <div
+          className="absolute top-full left-0 right-0 border-t border-b"
+          style={{
+            background: "rgba(3,6,9,0.97)",
+            borderColor: "var(--border)",
+          }}
+        >
+          <ul className="flex flex-col px-6 py-6 gap-5">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <a
                   href={link.href}
-                  className="text-sm text-white/50 hover:text-white transition-colors"
+                  className="text-xs uppercase tracking-[0.15em] transition-colors"
+                  style={{ color: "var(--muted2)" }}
                   onClick={() => setMenuOpen(false)}
                 >
                   {link.label}

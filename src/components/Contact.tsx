@@ -1,17 +1,16 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { ArrowUpRight } from "lucide-react";
 
 const links = [
-  { label: "E-posta", value: "bertugtaas@gmail.com", href: "mailto:bertugtaas@gmail.com" },
-  { label: "GitHub", value: "github.com/BertugTas", href: "https://github.com/BertugTas" },
-  { label: "LinkedIn", value: "Bertuğ Taş", href: "https://linkedin.com/in/bertuğ-taş-bb20562b5" },
-  { label: "ResearchGate", value: "Akademik Profil", href: "https://www.researchgate.net" },
+  { icon: "✉",  label: "bertugtaas@gmail.com",       href: "mailto:bertugtaas@gmail.com" },
+  { icon: "⌥",  label: "github.com/BertugTas",        href: "https://github.com/BertugTas" },
+  { icon: "◈",  label: "LinkedIn — Bertuğ Taş",       href: "https://linkedin.com/in/bertuğ-taş-bb20562b5" },
+  { icon: "◎",  label: "ResearchGate — Akademik",     href: "https://www.researchgate.net" },
 ];
 
 export default function Contact() {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -23,38 +22,114 @@ export default function Contact() {
   }, []);
 
   return (
-    <section id="contact" className="py-28 px-6 border-t border-white/5" ref={sectionRef}>
+    <section
+      id="contact"
+      ref={sectionRef}
+      className="relative z-[1] py-28 px-6 md:px-12"
+      style={{ borderTop: "1px solid var(--border)" }}
+    >
       <div className="max-w-5xl mx-auto">
-        <div className="grid md:grid-cols-3 gap-16">
-          <div className="reveal">
-            <span className="font-mono text-xs text-white/20 tracking-widest uppercase">04 / İletişim</span>
-          </div>
 
-          <div className="md:col-span-2 reveal">
-            <p className="text-white/50 text-base leading-relaxed mb-10 max-w-md">
+        {/* Section header */}
+        <div className="flex items-baseline gap-5 mb-14 reveal">
+          <span
+            className="text-[0.7rem] tracking-[0.2em] opacity-60"
+            style={{ color: "var(--cyan)" }}
+          >
+            // 04
+          </span>
+          <h2
+            className="text-[clamp(1.8rem,4vw,2.8rem)] font-bold tracking-tight leading-none"
+            style={{ color: "var(--text)" }}
+          >
+            İletişim
+          </h2>
+          <div
+            className="flex-1 h-px"
+            style={{ background: "linear-gradient(to right, var(--border), transparent)" }}
+          />
+        </div>
+
+        {/* Content */}
+        <div className="grid md:grid-cols-2 gap-16 items-center">
+
+          {/* Left: big text + CTA */}
+          <div className="reveal">
+            <div
+              className="text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.1] tracking-tight mb-6"
+              style={{ color: "var(--text)" }}
+            >
+              Birlikte
+              <br />
+              <span style={{ color: "var(--cyan)" }}>çalışalım.</span>
+            </div>
+            <p
+              className="text-sm leading-[2] mb-8 max-w-sm"
+              style={{ color: "var(--muted2)" }}
+            >
               Veri bilimi projeleri, iş zekası çözümleri veya yazılım geliştirme
               konularında iş birliği için ulaşabilirsiniz.
             </p>
+            <a
+              href="mailto:bertugtaas@gmail.com"
+              className="inline-flex items-center gap-2 px-7 py-3 text-[0.75rem] font-bold uppercase tracking-[0.1em] transition-all duration-200 hover:-translate-y-0.5"
+              style={{
+                background: "var(--cyan)",
+                color: "var(--bg)",
+              }}
+              onMouseEnter={(e) =>
+                ((e.currentTarget as HTMLElement).style.boxShadow =
+                  "0 0 20px rgba(0,229,255,0.4), 0 0 40px rgba(0,229,255,0.15)")
+              }
+              onMouseLeave={(e) =>
+                ((e.currentTarget as HTMLElement).style.boxShadow = "none")
+              }
+            >
+              Mail Gönder →
+            </a>
+          </div>
 
-            <div className="divide-y divide-white/5">
-              {links.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target={link.href.startsWith("mailto") ? undefined : "_blank"}
-                  rel="noopener noreferrer"
-                  className="group flex items-center justify-between py-4 hover:bg-white/[0.02] -mx-4 px-4 transition-colors"
-                >
-                  <div>
-                    <div className="font-mono text-xs text-white/20 mb-0.5">{link.label}</div>
-                    <div className="text-sm text-white/60 group-hover:text-white transition-colors">
-                      {link.value}
-                    </div>
-                  </div>
-                  <ArrowUpRight size={14} className="text-white/15 group-hover:text-white/50 transition-colors" />
-                </a>
-              ))}
-            </div>
+          {/* Right: contact links */}
+          <div
+            className="flex flex-col gap-px reveal"
+            style={{
+              background: "var(--border)",
+              border: "1px solid var(--border)",
+              transitionDelay: "0.15s",
+            }}
+          >
+            {links.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                target={link.href.startsWith("mailto") ? undefined : "_blank"}
+                rel="noopener noreferrer"
+                className="flex items-center justify-between px-6 py-5 text-sm transition-all duration-200"
+                style={{
+                  background: "var(--bg2)",
+                  color: "var(--muted2)",
+                  paddingLeft: "1.5rem",
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = "var(--bg3)";
+                  el.style.color = "var(--cyan)";
+                  el.style.paddingLeft = "2rem";
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = "var(--bg2)";
+                  el.style.color = "var(--muted2)";
+                  el.style.paddingLeft = "1.5rem";
+                }}
+              >
+                <span>
+                  <span className="mr-3">{link.icon}</span>
+                  {link.label}
+                </span>
+                <span className="text-xs opacity-40 group-hover:opacity-100 transition-all">→</span>
+              </a>
+            ))}
           </div>
         </div>
       </div>

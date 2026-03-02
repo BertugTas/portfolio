@@ -1,35 +1,32 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["300", "400", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "Bertuğ Taş",
+  title: "Bertuğ Taş — ML & Data Science",
   description:
-    "Dokuz Eylül Üniversitesi Bilgisayar Bilimi öğrencisi. Veri bilimi, iş zekası ve yazılım geliştirme.",
+    "Dokuz Eylül Üniversitesi Bilgisayar Bilimi öğrencisi. Makine öğrenmesi, derin öğrenme ve veri mühendisliği.",
   keywords: [
     "Bertuğ Taş",
     "Data Science",
-    "Business Intelligence",
-    "Python",
     "Machine Learning",
+    "Deep Learning",
+    "CNN",
+    "Python",
     "Power BI",
     "SQL",
     "İzmir",
   ],
   authors: [{ name: "Bertuğ Taş" }],
   openGraph: {
-    title: "Bertuğ Taş",
-    description: "Veri bilimi ve yazılım geliştirme.",
+    title: "Bertuğ Taş — ML & Data Science",
+    description: "Makine öğrenmesi, derin öğrenme ve veri mühendisliği.",
     url: "https://bertugtas.com.tr",
     siteName: "Bertuğ Taş",
     locale: "tr_TR",
@@ -45,9 +42,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="tr" className="scroll-smooth">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#080808] text-[#e8e8e8]`}
-      >
+      <body className={`${jetbrainsMono.variable} antialiased`}>
         {children}
       </body>
     </html>

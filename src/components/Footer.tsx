@@ -1,14 +1,18 @@
 export default function Footer() {
   return (
-    <footer className="border-t border-white/5 py-8 px-6">
-      <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-        <span className="font-mono text-xs text-white/15">
-          bertugtas.com.tr
-        </span>
-        <span className="font-mono text-xs text-white/15">
-          © {new Date().getFullYear()} Bertuğ Taş · İzmir
-        </span>
-      </div>
+    <footer
+      className="relative z-[1] flex flex-col sm:flex-row items-center justify-between px-6 md:px-12 py-6"
+      style={{ borderTop: "1px solid var(--border)" }}
+    >
+      <span className="font-mono text-[0.65rem] tracking-[0.1em]" style={{ color: "var(--muted)" }}>
+        © {new Date().getFullYear()} Bertuğ Taş · İzmir, Türkiye
+      </span>
+      <span
+        className="font-mono text-[0.65rem] tracking-[0.1em]"
+        style={{ color: "var(--cyan)" }}
+      >
+        bertugtas.com.tr
+      </span>
     </footer>
   );
 }

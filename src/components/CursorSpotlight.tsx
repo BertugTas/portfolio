@@ -3,34 +3,36 @@
 import { useEffect, useRef } from "react";
 
 export default function CursorSpotlight() {
-  const spotRef = useRef<HTMLDivElement>(null);
+  const dotRef  = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = spotRef.current;
-    if (!el) return;
+    const dot  = dotRef.current;
+    const ring = ringRef.current;
+    if (!dot || !ring) return;
 
+    let mx = window.innerWidth / 2;
+    let my = window.innerHeight / 2;
+    let rx = mx, ry = my;
     let raf: number;
-    let targetX = window.innerWidth / 2;
-    let targetY = window.innerHeight / 2;
-    let currentX = targetX;
-    let currentY = targetY;
 
     const onMove = (e: MouseEvent) => {
-      targetX = e.clientX;
-      targetY = e.clientY;
+      mx = e.clientX;
+      my = e.clientY;
+      dot.style.left = mx + "px";
+      dot.style.top  = my + "px";
     };
 
-    const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-
-    const animate = () => {
-      currentX = lerp(currentX, targetX, 0.08);
-      currentY = lerp(currentY, targetY, 0.08);
-      el.style.transform = `translate(${currentX - 300}px, ${currentY - 300}px)`;
-      raf = requestAnimationFrame(animate);
+    const animateRing = () => {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + "px";
+      ring.style.top  = ry + "px";
+      raf = requestAnimationFrame(animateRing);
     };
 
     window.addEventListener("mousemove", onMove);
-    raf = requestAnimationFrame(animate);
+    raf = requestAnimationFrame(animateRing);
 
     return () => {
       window.removeEventListener("mousemove", onMove);
@@ -39,14 +41,22 @@ export default function CursorSpotlight() {
   }, []);
 
   return (
-    <div
-      ref={spotRef}
-      className="pointer-events-none fixed top-0 left-0 z-0 w-[600px] h-[600px] rounded-full"
-      style={{
-        background:
-          "radial-gradient(circle, rgba(255,255,255,0.028) 0%, rgba(255,255,255,0.01) 40%, transparent 70%)",
-        willChange: "transform",
-      }}
-    />
+    <>
+      {/* Cyan dot */}
+      <div
+        ref={dotRef}
+        className="pointer-events-none fixed z-[9999] w-2 h-2 rounded-full -translate-x-1/2 -translate-y-1/2"
+        style={{
+          background: "#00e5ff",
+          boxShadow: "0 0 10px #00e5ff, 0 0 20px #00e5ff",
+        }}
+      />
+      {/* Ring */}
+      <div
+        ref={ringRef}
+        className="pointer-events-none fixed z-[9998] w-8 h-8 rounded-full -translate-x-1/2 -translate-y-1/2"
+        style={{ border: "1px solid rgba(0,229,255,0.4)" }}
+      />
+    </>
   );
 }

@@ -6,10 +6,12 @@ import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import CursorSpotlight from "@/components/CursorSpotlight";
+import NeuralBackground3D from "@/components/NeuralBackground3D";
 
 export default function Home() {
   return (
     <main className="relative min-h-screen">
+      <NeuralBackground3D />
       <CursorSpotlight />
       <Navbar />
       <Hero />
