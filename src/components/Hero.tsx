@@ -54,7 +54,7 @@ export default function Hero() {
 
         {/* Eyebrow */}
         <div
-          className="flex items-center gap-4 mb-8 opacity-0 animate-fade-up"
+          className="flex items-center gap-4 mb-3 opacity-0 animate-fade-up"
           style={{ animationDelay: "100ms", animationFillMode: "forwards" }}
         >
           <div className="w-10 h-px" style={{ background: "var(--cyan)" }} />
@@ -67,32 +67,31 @@ export default function Hero() {
         </div>
 
         {/* Name + Cube row */}
-        <div className="mb-8 lg:mb-6 lg:flex lg:items-start lg:justify-between lg:gap-10">
+        <div className="mb-8 lg:mb-6 lg:flex lg:items-center lg:justify-between lg:gap-10">
 
           {/* Name — horizontal, same size */}
-          <h1 className="font-bold tracking-tight leading-none flex flex-row flex-wrap items-baseline gap-[0.22em] mb-0">
+          <h1 className="font-bold tracking-tight leading-none flex flex-row flex-wrap items-baseline mb-0">
             <SplitReveal
               chars={firstName}
               baseDelay={200}
-              className="text-[clamp(3.2rem,6.5vw,6rem)] text-[var(--text)]"
+              className="text-[clamp(3.2rem,6.5vw,6rem)] text-[var(--text)] mr-[0.35em]"
             />
             <SplitReveal
               chars={lastName}
               baseDelay={200 + firstName.length * 60 + 80}
-              className="text-[clamp(3.2rem,6.5vw,6rem)]"
-              outlined
+              className="text-[clamp(3.2rem,6.5vw,6rem)] text-[var(--cyan)]"
               glow
             />
           </h1>
 
           <div
-            className="hidden lg:flex shrink-0 -mt-4 opacity-0 animate-fade-up"
+            className="hidden lg:flex shrink-0 translate-x-72 opacity-0 animate-fade-up"
             style={{
               animationDelay: `${nameEnd - 40}ms`,
               animationFillMode: "forwards",
             }}
           >
-            <DataScienceCube size={240} />
+            <DataScienceCube size={280} />
           </div>
         </div>
 

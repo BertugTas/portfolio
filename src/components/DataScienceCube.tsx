@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 type DragState = {
   pointerId: number;
@@ -71,9 +71,9 @@ function createFaces(half: number): Face[] {
 }
 
 const PARTICLE_COLORS = [
-  "rgba(103, 232, 249, 0.72)",
-  "rgba(110, 231, 183, 0.66)",
-  "rgba(251, 191, 36, 0.6)",
+  "rgba(255, 255, 255, 0.18)",
+  "rgba(255, 255, 255, 0.12)",
+  "rgba(255, 255, 255, 0.08)",
 ];
 
 export default function DataScienceCube({ size = 260, className = "" }: DataScienceCubeProps) {
@@ -85,6 +85,7 @@ export default function DataScienceCube({ size = 260, className = "" }: DataScie
   const dragRef = useRef<DragState | null>(null);
   const rotationRef = useRef({ x: -20, y: 28 });
   const reduceMotion = useRef(false);
+  const [spotlight, setSpotlight] = useState<{ x: number; y: number } | null>(null);
 
   const applyRotation = useCallback(() => {
     const cube = cubeRef.current;
@@ -178,15 +179,32 @@ export default function DataScienceCube({ size = 260, className = "" }: DataScie
   );
 
   return (
-    <div className={`relative aspect-square ${className}`} style={{ width: `${stageSize}px` }}>
+    <div
+      className={`relative aspect-square cube-float ${className}`}
+      style={{ width: `${stageSize}px`, cursor: "crosshair" }}
+      onMouseMove={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        setSpotlight({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+      }}
+      onMouseLeave={() => setSpotlight(null)}
+    >
       <div
         className="absolute rounded-full blur-3xl"
         style={{
-          inset: `${haloInset}px`,
-          background:
-            "radial-gradient(circle, rgba(103,232,249,0.18) 0%, rgba(110,231,183,0.1) 36%, rgba(251,191,36,0.08) 52%, transparent 72%)",
+          inset: `${haloInset + 20}px`,
+          background: "radial-gradient(circle, rgba(255,255,255,0.02) 0%, transparent 70%)",
         }}
       />
+
+      {spotlight && (
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: `radial-gradient(circle 130px at ${spotlight.x}px ${spotlight.y}px, rgba(103,232,249,0.09), rgba(103,232,249,0.03) 50%, transparent 75%)`,
+            zIndex: 10,
+          }}
+        />
+      )}
 
       <div className="absolute inset-0 flex items-center justify-center">
         <div
@@ -214,34 +232,30 @@ export default function DataScienceCube({ size = 260, className = "" }: DataScie
             {faces.map((face) => (
               <div
                 key={face.label}
-                className="absolute inset-0 flex flex-col items-center justify-center border backdrop-blur-sm"
+                className="absolute inset-0 flex flex-col items-center justify-center border"
                 style={{
                   transform: face.transform,
-                  borderColor: "var(--border)",
-                  background:
-                    "linear-gradient(155deg, rgba(26,26,26,0.86), rgba(15,15,15,0.78) 58%, rgba(103,232,249,0.05) 100%)",
-                  boxShadow: `inset 0 0 40px ${face.glow}, 0 0 28px rgba(0,0,0,0.22)`,
+                  borderColor: "rgba(255,255,255,0.07)",
+                  background: "linear-gradient(160deg, rgba(22,22,22,0.98) 0%, rgba(10,10,10,0.99) 100%)",
+                  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.05), inset 1px 0 0 rgba(255,255,255,0.03), 0 4px 24px rgba(0,0,0,0.9)",
                   backfaceVisibility: "hidden",
                 }}
               >
                 <span
                   className="font-semibold tracking-[0.18em] uppercase"
-                  style={{ color: "var(--text)", fontSize: size < 220 ? "1rem" : "1.2rem" }}
+                  style={{ color: "rgba(255,255,255,0.45)", fontSize: size < 220 ? "1rem" : "1.2rem" }}
                 >
                   {face.label}
                 </span>
                 <span
                   className="tracking-[0.22em] uppercase mt-1"
-                  style={{ color: "var(--text)" }}
+                  style={{ fontSize: size < 220 ? "0.54rem" : "0.62rem", color: "rgba(255,255,255,0.2)" }}
                 >
-                  <span style={{ color: face.accent, fontSize: size < 220 ? "0.54rem" : "0.62rem" }}>
-                    {face.sublabel}
-                  </span>
+                  {face.sublabel}
                 </span>
               </div>
             ))}
           </div>
-
         </div>
       </div>
 
@@ -258,7 +272,6 @@ export default function DataScienceCube({ size = 260, className = "" }: DataScie
           aria-hidden
         />
       ))}
-
     </div>
   );
 }
