@@ -1,18 +1,12 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-
-const details = [
-  ["Üniversite", "Dokuz Eylül Üni."],
-  ["Bölüm",      "Bilgisayar Bilimi"],
-  ["Konum",      "İzmir, TR"],
-  ["Uzmanlık",   "Veri Bilimi & ML"],
-  ["Durum",      "● Müsait",          "green"],
-  ["Hedef Rol",  "Veri Mühendisi"],
-];
+import { useLanguage, T } from "@/context/LanguageContext";
 
 export default function About() {
   const sectionRef = useRef<HTMLElement>(null);
+  const { lang } = useLanguage();
+  const t = T[lang].about;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -32,81 +26,58 @@ export default function About() {
     >
       <div className="max-w-5xl mx-auto">
 
-        {/* Section header */}
         <div className="flex items-baseline gap-5 mb-14 reveal">
-          <span
-            className="text-[0.7rem] tracking-[0.2em] opacity-60"
-            style={{ color: "var(--cyan)" }}
-          >
-            // 01
+          <span className="text-[0.7rem] tracking-[0.2em] opacity-60" style={{ color: "var(--cyan)" }}>
+            {t.num}
           </span>
           <h2
             className="text-[clamp(1.8rem,4vw,2.8rem)] font-bold tracking-tight leading-none"
             style={{ color: "var(--text)" }}
           >
-            Hakkımda
+            {t.title}
           </h2>
-          <div
-            className="flex-1 h-px"
-            style={{ background: "linear-gradient(to right, var(--border), transparent)" }}
-          />
+          <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, var(--border), transparent)" }} />
         </div>
 
-        {/* Content grid */}
         <div className="grid md:grid-cols-2 gap-16 items-start">
 
           {/* Text */}
           <div className="space-y-5 reveal" style={{ transitionDelay: "0.1s" }}>
             <p className="text-sm leading-[2]" style={{ color: "var(--muted2)" }}>
-              <span style={{ color: "var(--cyan)" }}>Dokuz Eylül Üniversitesi</span>{" "}
-              Bilgisayar Bilimi bölümünde öğrenciyim. İzmir merkezli olarak çalışıyor,
-              veri bilimi ve makine öğrenmesi alanında teorik birikimimi gerçek
-              projelere dönüştürüyorum.
+              <span style={{ color: "var(--cyan)" }}>{t.p1[0]}</span>{t.p1[1]}
             </p>
             <p className="text-sm leading-[2]" style={{ color: "var(--muted2)" }}>
-              Temel odağım{" "}
-              <span style={{ color: "var(--cyan)" }}>makine öğrenmesi modeli geliştirme</span> ve{" "}
-              <span style={{ color: "var(--cyan)" }}>derin öğrenme</span>.
-              Sınıflandırma problemlerinden CNN mimarisine kadar geniş bir alanda
-              çalışıyorum; özellikle{" "}
-              <span style={{ color: "var(--cyan)" }}>tıbbi görüntü analizi</span> ve
-              teşhis sistemleri üzerine aktif projelerim var.
+              {t.p2intro}
+              <span style={{ color: "var(--cyan)" }}>{t.p2a}</span>{" "}
+              {lang === "tr" ? "ve " : "and "}
+              <span style={{ color: "var(--cyan)" }}>{t.p2b}</span>
+              {t.p2rest}
+              <span style={{ color: "var(--cyan)" }}>{t.p2c}</span>
+              {t.p2end}
             </p>
             <p className="text-sm leading-[2]" style={{ color: "var(--muted2)" }}>
-              Veri mühendisliği tarafında{" "}
-              <span style={{ color: "var(--green)" }}>SQL ve PostgreSQL</span> ile
-              veritabanı tasarımı ve sorgu optimizasyonu yapıyorum.{" "}
-              <span style={{ color: "var(--green)" }}>Power BI ve DAX</span>{" "}
-              konularında yetkinim; kurumsal veriyi anlamlı iş kararlarına
-              dönüştürecek analitik yapılar kuruyorum.
+              {t.p3intro}
+              <span style={{ color: "var(--green)" }}>{t.p3a}</span>
+              {t.p3b}
+              <span style={{ color: "var(--green)" }}>{t.p3c}</span>
+              {t.p3end}
             </p>
           </div>
 
           {/* Detail grid */}
           <div
             className="grid grid-cols-2 gap-px reveal"
-            style={{
-              background: "var(--border)",
-              border: "1px solid var(--border)",
-              transitionDelay: "0.2s",
-            }}
+            style={{ background: "var(--border)", border: "1px solid var(--border)", transitionDelay: "0.2s" }}
           >
-            {details.map(([key, val, accent]) => (
+            {t.details.map(([key, val, accent]) => (
               <div
                 key={key}
                 className="p-5 transition-colors duration-200"
                 style={{ background: "var(--bg2)" }}
-                onMouseEnter={(e) =>
-                  ((e.currentTarget as HTMLElement).style.background = "var(--bg3)")
-                }
-                onMouseLeave={(e) =>
-                  ((e.currentTarget as HTMLElement).style.background = "var(--bg2)")
-                }
+                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "var(--bg3)")}
+                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "var(--bg2)")}
               >
-                <div
-                  className="text-[0.6rem] uppercase tracking-[0.2em] mb-1.5"
-                  style={{ color: "var(--muted)" }}
-                >
+                <div className="text-[0.6rem] uppercase tracking-[0.2em] mb-1.5" style={{ color: "var(--muted)" }}>
                   {key}
                 </div>
                 <div

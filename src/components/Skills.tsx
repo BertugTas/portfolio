@@ -1,48 +1,12 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-
-const skillGroups = [
-  {
-    icon: "◈",
-    title: "Makine Öğrenmesi",
-    sub: "Sınıflandırma, regresyon ve ensemble yöntemleriyle model geliştirme, değerlendirme ve optimizasyon.",
-    bars: [
-      { name: "Model Tasarımı & Eğitimi",          pct: 92, variant: "" },
-      { name: "Veri Analizi & Keşifsel Analiz",    pct: 90, variant: "" },
-      { name: "Model Değerlendirme & Yorumlama",   pct: 88, variant: "" },
-    ],
-    tags: ["Logistic Reg.", "Random Forest", "SVM", "KNN", "Ensemble"],
-    focus: "Meme kanseri çok-model karşılaştırmalı analizi",
-  },
-  {
-    icon: "◉",
-    title: "Derin Öğrenme",
-    sub: "Tıbbi görüntü analizi için CNN mimarileri. Gerçek veri setleri üzerinde model eğitimi ve iyileştirme.",
-    bars: [
-      { name: "CNN Mimarisi & Tasarımı",         pct: 82, variant: "" },
-      { name: "Tıbbi Görüntü Sınıflandırması",   pct: 80, variant: "" },
-      { name: "Model Eğitimi & Fine-tuning",     pct: 78, variant: "" },
-    ],
-    tags: ["CNN", "TensorFlow", "Keras", "NumPy", "OpenCV"],
-    focus: "Beyin MRI tümör tespiti ve sınıflandırması",
-  },
-  {
-    icon: "◎",
-    title: "Veri Mühendisliği",
-    sub: "İlişkisel veritabanı tasarımı ve SQL optimizasyonu. Power BI ile iş zekası çözümleri.",
-    bars: [
-      { name: "SQL & Veritabanı Tasarımı",  pct: 88, variant: "orange-fill" },
-      { name: "ETL & Veri Modelleme",       pct: 78, variant: "orange-fill" },
-      { name: "İş Zekası & Raporlama",     pct: 80, variant: "orange-fill" },
-    ],
-    tags: ["T-SQL", "PostgreSQL", "MS SQL Server", "Power BI", "DAX"],
-    focus: null,
-  },
-];
+import { useLanguage, T } from "@/context/LanguageContext";
 
 export default function Skills() {
   const sectionRef = useRef<HTMLElement>(null);
+  const { lang } = useLanguage();
+  const t = T[lang].skills;
 
   useEffect(() => {
     const revealObserver = new IntersectionObserver(
@@ -65,11 +29,10 @@ export default function Skills() {
     );
     sectionRef.current?.querySelectorAll(".skill-fill").forEach((el) => fillObserver.observe(el));
 
-    return () => {
-      revealObserver.disconnect();
-      fillObserver.disconnect();
-    };
-  }, []);
+    return () => { revealObserver.disconnect(); fillObserver.disconnect(); };
+  }, [lang]);
+
+  const variants = ["", "", "orange-fill"];
 
   return (
     <section
@@ -80,39 +43,28 @@ export default function Skills() {
     >
       <div className="max-w-5xl mx-auto">
 
-        {/* Section header */}
         <div className="flex items-baseline gap-5 mb-14 reveal">
-          <span
-            className="text-[0.7rem] tracking-[0.2em] opacity-60"
-            style={{ color: "var(--cyan)" }}
-          >
-            // 02
+          <span className="text-[0.7rem] tracking-[0.2em] opacity-60" style={{ color: "var(--cyan)" }}>
+            {t.num}
           </span>
           <h2
             className="text-[clamp(1.8rem,4vw,2.8rem)] font-bold tracking-tight leading-none"
             style={{ color: "var(--text)" }}
           >
-            Uzmanlık Alanları
+            {t.title}
           </h2>
-          <div
-            className="flex-1 h-px"
-            style={{ background: "linear-gradient(to right, var(--border), transparent)" }}
-          />
+          <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, var(--border), transparent)" }} />
         </div>
 
-        {/* Skill groups grid */}
         <div
           className="grid md:grid-cols-3 gap-px reveal"
           style={{ background: "var(--border)", border: "1px solid var(--border)" }}
         >
-          {skillGroups.map((group, i) => (
+          {t.groups.map((group, i) => (
             <div
               key={group.title}
               className="relative p-8 overflow-hidden transition-colors duration-300"
-              style={{
-                background: "var(--bg2)",
-                transitionDelay: `${i * 0.08}s`,
-              }}
+              style={{ background: "var(--bg2)", transitionDelay: `${i * 0.08}s` }}
               onMouseEnter={(e) => {
                 const el = e.currentTarget as HTMLElement;
                 el.style.background = "var(--bg3)";
@@ -126,66 +78,39 @@ export default function Skills() {
                 if (bar) bar.style.transform = "scaleX(0)";
               }}
             >
-              {/* Top accent bar */}
               <div
                 className="hover-bar absolute top-0 left-0 right-0 h-0.5 origin-left transition-transform duration-300"
                 style={{ background: "var(--cyan)", transform: "scaleX(0)" }}
               />
 
-              <div
-                className="text-lg mb-4 font-mono"
-                style={{ color: "var(--cyan)" }}
-              >
-                {group.icon}
-              </div>
-              <div
-                className="text-sm font-bold mb-1 tracking-[0.05em]"
-                style={{ color: "var(--text)" }}
-              >
+              <div className="text-lg mb-4 font-mono" style={{ color: "var(--cyan)" }}>{group.icon}</div>
+              <div className="text-sm font-bold mb-1 tracking-[0.05em]" style={{ color: "var(--text)" }}>
                 {group.title}
               </div>
-              <div
-                className="text-[0.65rem] leading-relaxed mb-6"
-                style={{ color: "var(--muted)" }}
-              >
+              <div className="text-[0.65rem] leading-relaxed mb-6" style={{ color: "var(--muted)" }}>
                 {group.sub}
               </div>
 
-              {/* Skill bars */}
               <div className="space-y-3 mb-5">
-                {group.bars.map((bar) => (
+                {group.bars.map((bar, bi) => (
                   <div key={bar.name}>
                     <div className="flex justify-between mb-1">
-                      <span className="text-[0.65rem]" style={{ color: "var(--muted2)" }}>
-                        {bar.name}
-                      </span>
-                      <span className="text-[0.65rem]" style={{ color: "var(--cyan)" }}>
-                        {bar.pct}%
-                      </span>
+                      <span className="text-[0.65rem]" style={{ color: "var(--muted2)" }}>{bar.name}</span>
+                      <span className="text-[0.65rem]" style={{ color: "var(--cyan)" }}>{bar.pct}%</span>
                     </div>
-                    <div
-                      className="h-0.5 rounded-sm overflow-hidden"
-                      style={{ background: "rgba(255,255,255,0.06)" }}
-                    >
-                      <div
-                        className={`skill-fill ${bar.variant}`}
-                        data-w={bar.pct}
-                      />
+                    <div className="h-0.5 rounded-sm overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
+                      <div className={`skill-fill ${variants[i] ?? ""}`} data-w={bar.pct} key={`${lang}-${bi}`} />
                     </div>
                   </div>
                 ))}
               </div>
 
-              {/* Tags */}
               <div className="flex flex-wrap gap-1.5">
                 {group.tags.map((tag) => (
                   <span
                     key={tag}
                     className="text-[0.55rem] uppercase tracking-[0.1em] px-2 py-0.5 rounded-sm transition-colors duration-200 cursor-default"
-                    style={{
-                      border: "1px solid var(--border)",
-                      color: "var(--muted2)",
-                    }}
+                    style={{ border: "1px solid var(--border)", color: "var(--muted2)" }}
                     onMouseEnter={(e) => {
                       (e.currentTarget as HTMLElement).style.borderColor = "var(--cyan)";
                       (e.currentTarget as HTMLElement).style.color = "var(--cyan)";
@@ -200,17 +125,12 @@ export default function Skills() {
                 ))}
               </div>
 
-              {/* Active focus indicator */}
               {group.focus && (
                 <div
                   className="mt-5 pt-4 text-[0.6rem] tracking-[0.03em]"
-                  style={{
-                    borderTop: "1px solid var(--border)",
-                    color: "var(--muted)",
-                  }}
+                  style={{ borderTop: "1px solid var(--border)", color: "var(--muted)" }}
                 >
-                  <span style={{ color: "var(--cyan)" }}>▸</span>{" "}
-                  {group.focus}
+                  <span style={{ color: "var(--cyan)" }}>▸</span> {group.focus}
                 </div>
               )}
             </div>

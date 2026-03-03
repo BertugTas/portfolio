@@ -74,6 +74,16 @@ body {
   animation: blinkCursor 1s step-end infinite;
 }
 
+/* TAŞ glow pulse */
+@keyframes nameglow {
+  0%, 100% { filter: drop-shadow(0 0 0px rgba(103,232,249,0)); }
+  50%       { filter: drop-shadow(0 0 16px rgba(103,232,249,0.5)) drop-shadow(0 0 32px rgba(103,232,249,0.2)); }
+}
+.tas-glow {
+  animation: nameglow 4s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
 @keyframes scanDown { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.7; } }
 .animate-scan-down {
   animation: scanDown 2s ease-in-out infinite;
