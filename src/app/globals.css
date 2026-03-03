@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Desktop (mouse): hide browser cursor, glow cursor takes over ── */
+@media (pointer: fine) {
+  *, *::before, *::after,
+  html, body, div, span, canvas, svg,
+  a, button, input, textarea, select, label {
+    cursor: none !important;
+  }
+}
+
+/* ── Touch/mobile: ensure glow cursor is gone, restore default cursor ── */
+@media (pointer: coarse) {
+  #glow-cursor {
+    display: none !important;
+  }
+  *, *::before, *::after {
+    cursor: auto !important;
+  }
+}
 
 :root {
   --background: #080808;
