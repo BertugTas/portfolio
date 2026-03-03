@@ -201,7 +201,7 @@ export default function Hero() {
         >
           {[
             { icon: <Github size={16} />,   href: "https://github.com/BertugTas",                   label: "GitHub"   },
-            { icon: <Linkedin size={16} />, href: "https://linkedin.com/in/bertuğ-taş-bb20562b5",   label: "LinkedIn" },
+            { icon: <Linkedin size={16} />, href: "https://linkedin.com/in/bertu%C4%9F-ta%C5%9F-bb20562b5",   label: "LinkedIn" },
             { icon: <Mail size={16} />,     href: "mailto:bertugtaas@gmail.com",                     label: "Email"    },
           ].map((s) => (
             <a

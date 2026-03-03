@@ -47,7 +47,7 @@ function createFaces(half: number): Face[] {
       glow: "rgba(251, 191, 36, 0.2)",
     },
     {
-      label: "DataOps",
+      label: "Data Ops",
       sublabel: "Platform",
       accent: "var(--muted2)",
       transform: `rotateY(-90deg) translateZ(${half}px)`,
@@ -243,13 +243,13 @@ export default function DataScienceCube({ size = 260, className = "" }: DataScie
               >
                 <span
                   className="font-semibold tracking-[0.18em] uppercase"
-                  style={{ color: "rgba(255,255,255,0.45)", fontSize: size < 220 ? "1rem" : "1.2rem" }}
+                  style={{ display: "block", color: "rgba(255,255,255,0.45)", fontSize: size < 220 ? "1rem" : "1.2rem" }}
                 >
                   {face.label}
                 </span>
                 <span
                   className="tracking-[0.22em] uppercase mt-1"
-                  style={{ fontSize: size < 220 ? "0.54rem" : "0.62rem", color: "rgba(255,255,255,0.2)" }}
+                  style={{ display: "block", fontSize: size < 220 ? "0.54rem" : "0.62rem", color: "rgba(255,255,255,0.2)" }}
                 >
                   {face.sublabel}
                 </span>

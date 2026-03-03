@@ -11,8 +11,8 @@ export default function Contact() {
   const links = [
     { icon: "✉",  label: "bertugtaas@gmail.com",     href: "mailto:bertugtaas@gmail.com" },
     { icon: "⌥",  label: "github.com/BertugTas",      href: "https://github.com/BertugTas" },
-    { icon: "◈",  label: "LinkedIn — Bertuğ Taş",     href: "https://linkedin.com/in/bertuğ-taş-bb20562b5" },
-    { icon: "◎",  label: lang === "tr" ? "ResearchGate — Akademik" : "ResearchGate — Academic", href: "https://www.researchgate.net/profile/Bertug-Tas" },
+    { icon: "◈",  label: "LinkedIn — Bertuğ Taş",     href: "https://linkedin.com/in/bertu%C4%9F-ta%C5%9F-bb20562b5" },
+    { icon: "◎",  label: lang === "tr" ? "ResearchGate — Akademik" : "ResearchGate — Academic", href: "https://www.researchgate.net/profile/Bertug-Tas?ev=hdr_xprf" },
   ];
 
   useEffect(() => {

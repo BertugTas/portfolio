@@ -14,9 +14,15 @@ export default function Footer() {
       <span className="font-mono text-[0.65rem] tracking-[0.1em]" style={{ color: "var(--muted)" }}>
         © {new Date().getFullYear()} Bertuğ Taş · {t.location}
       </span>
-      <span className="font-mono text-[0.65rem] tracking-[0.1em]" style={{ color: "var(--cyan)" }}>
+      <a
+        href="https://www.bertugtas.com.tr"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="font-mono text-[0.65rem] tracking-[0.1em] transition-opacity duration-200 hover:opacity-70"
+        style={{ color: "var(--cyan)" }}
+      >
         bertugtas.com.tr
-      </span>
+      </a>
     </footer>
   );
 }

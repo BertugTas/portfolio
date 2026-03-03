@@ -167,23 +167,25 @@ export default function Projects() {
                     className="flex flex-wrap gap-2 mt-auto pt-4"
                     style={{ borderTop: "1px solid var(--border)" }}
                   >
-                    <a
-                      href={project.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-[0.65rem] font-bold uppercase tracking-[0.1em] px-4 py-2 transition-all duration-200"
-                      style={{ border: "1px solid var(--border)", color: "var(--muted2)" }}
-                      onMouseEnter={(e) => {
-                        (e.currentTarget as HTMLElement).style.borderColor = "var(--cyan)";
-                        (e.currentTarget as HTMLElement).style.color = "var(--cyan)";
-                      }}
-                      onMouseLeave={(e) => {
-                        (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
-                        (e.currentTarget as HTMLElement).style.color = "var(--muted2)";
-                      }}
-                    >
-                      GitHub ↗
-                    </a>
+                    {projectSlug !== "bi-dashboard" && (
+                      <a
+                        href={project.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-[0.65rem] font-bold uppercase tracking-[0.1em] px-4 py-2 transition-all duration-200"
+                        style={{ border: "1px solid var(--border)", color: "var(--muted2)" }}
+                        onMouseEnter={(e) => {
+                          (e.currentTarget as HTMLElement).style.borderColor = "var(--cyan)";
+                          (e.currentTarget as HTMLElement).style.color = "var(--cyan)";
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
+                          (e.currentTarget as HTMLElement).style.color = "var(--muted2)";
+                        }}
+                      >
+                        GitHub ↗
+                      </a>
+                    )}
 
                     {projectSlug && (
                       <Link
