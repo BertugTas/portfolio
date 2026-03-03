@@ -16,9 +16,9 @@ function hasWebGL() {
 }
 
 function Network() {
-  const groupRef  = useRef<THREE.Group>(null);
-  const ptGeoRef  = useRef<THREE.BufferGeometry>(null);
-  const lnGeoRef  = useRef<THREE.BufferGeometry>(null);
+  const groupRef = useRef<THREE.Group>(null);
+  const ptGeoRef = useRef<THREE.BufferGeometry>(null);
+  const lnGeoRef = useRef<THREE.BufferGeometry>(null);
 
   const { pos, vel } = useMemo(() => {
     const pos = new Float32Array(N * 3);
@@ -27,9 +27,9 @@ function Network() {
       pos[i * 3]     = (Math.random() - 0.5) * BOUND * 2;
       pos[i * 3 + 1] = (Math.random() - 0.5) * BOUND * 2;
       pos[i * 3 + 2] = (Math.random() - 0.5) * BOUND * 2;
-      vel[i * 3]     = (Math.random() - 0.5) * 0.014;
-      vel[i * 3 + 1] = (Math.random() - 0.5) * 0.014;
-      vel[i * 3 + 2] = (Math.random() - 0.5) * 0.014;
+      vel[i * 3]     = (Math.random() - 0.5) * 0.013;
+      vel[i * 3 + 1] = (Math.random() - 0.5) * 0.013;
+      vel[i * 3 + 2] = (Math.random() - 0.5) * 0.013;
     }
     return { pos, vel };
   }, []);
@@ -37,7 +37,6 @@ function Network() {
   const linePosArr = useMemo(() => new Float32Array(MAX_EDGES * 6), []);
 
   useFrame(({ clock }) => {
-    // Update node positions
     for (let i = 0; i < N; i++) {
       const i3 = i * 3;
       pos[i3]     += vel[i3];
@@ -48,13 +47,11 @@ function Network() {
       if (Math.abs(pos[i3 + 2]) > BOUND) vel[i3 + 2] *= -1;
     }
 
-    // Mark points for GPU update
     const ptGeo = ptGeoRef.current;
     if (ptGeo) {
       (ptGeo.attributes.position as THREE.BufferAttribute).needsUpdate = true;
     }
 
-    // Compute edges
     let edgeCount = 0;
     const cd2 = CONNECT_DIST * CONNECT_DIST;
     for (let i = 0; i < N; i++) {
@@ -72,14 +69,12 @@ function Network() {
       }
     }
 
-    // Update lines geometry
     const lnGeo = lnGeoRef.current;
     if (lnGeo) {
       (lnGeo.attributes.position as THREE.BufferAttribute).needsUpdate = true;
       lnGeo.setDrawRange(0, edgeCount * 2);
     }
 
-    // Slow rotation
     if (groupRef.current) {
       groupRef.current.rotation.y = clock.elapsedTime * 0.045;
       groupRef.current.rotation.x = Math.sin(clock.elapsedTime * 0.022) * 0.18;
@@ -93,10 +88,10 @@ function Network() {
           <bufferAttribute attach="attributes-position" args={[pos, 3]} />
         </bufferGeometry>
         <pointsMaterial
-          size={0.065}
-          color="#00e5ff"
+          size={0.055}
+          color="#ffffff"
           transparent
-          opacity={0.75}
+          opacity={0.35}
           sizeAttenuation
         />
       </points>
@@ -105,15 +100,15 @@ function Network() {
         <bufferGeometry ref={lnGeoRef}>
           <bufferAttribute attach="attributes-position" args={[linePosArr, 3]} />
         </bufferGeometry>
-        <lineBasicMaterial color="#00e5ff" transparent opacity={0.2} />
+        <lineBasicMaterial color="#ffffff" transparent opacity={0.08} />
       </lineSegments>
     </group>
   );
 }
 
 export default function NeuralBackground3D() {
-  const [ready,  setReady]  = useState(false);
-  const [webgl,  setWebgl]  = useState(false);
+  const [ready, setReady] = useState(false);
+  const [webgl, setWebgl] = useState(false);
 
   useEffect(() => {
     setReady(true);
@@ -125,7 +120,7 @@ export default function NeuralBackground3D() {
   return (
     <div
       className="pointer-events-none fixed inset-0 z-0"
-      style={{ opacity: 0.4 }}
+      style={{ opacity: 0.45 }}
       aria-hidden
     >
       <Canvas

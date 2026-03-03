@@ -23,7 +23,7 @@ export default function Navbar() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-5 transition-all duration-300 ${
         scrolled
-          ? "border-b bg-[#030609]/90 backdrop-blur-md"
+          ? "border-b bg-[#080808]/90 backdrop-blur-md"
           : "bg-transparent"
       }`}
       style={{ borderColor: "var(--border)" }}
@@ -85,7 +85,7 @@ export default function Navbar() {
         <div
           className="absolute top-full left-0 right-0 border-t border-b"
           style={{
-            background: "rgba(3,6,9,0.97)",
+            background: "rgba(8,8,8,0.97)",
             borderColor: "var(--border)",
           }}
         >

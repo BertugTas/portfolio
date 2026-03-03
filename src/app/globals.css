@@ -3,17 +3,20 @@
 @tailwind utilities;
 
 :root {
-  --bg:     #030609;
-  --bg2:    #080f14;
-  --bg3:    #0c1820;
-  --cyan:   #00e5ff;
-  --green:  #00ff9d;
-  --orange: #ff6d3b;
-  --muted:  #3a5568;
-  --muted2: #607080;
-  --text:   #d4eaf5;
-  --border: rgba(0,229,255,0.1);
-  --logo-accent: #00e5ff;
+  --background: #080808;
+  --foreground: #e8e8e8;
+  --logo-accent: #67e8f9;
+  /* component aliases */
+  --bg:     #080808;
+  --bg2:    #0f0f0f;
+  --bg3:    #1a1a1a;
+  --cyan:   #67e8f9;
+  --green:  #6ee7b7;
+  --orange: #fbbf24;
+  --muted:  #3f3f46;
+  --muted2: #71717a;
+  --text:   #e8e8e8;
+  --border: rgba(255,255,255,0.06);
 }
 
 html {
@@ -21,41 +24,28 @@ html {
 }
 
 body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--font-jetbrains-mono), monospace;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
   overflow-x: hidden;
 }
 
-/* Noise overlay */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 999;
-  opacity: 0.35;
-}
-
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: rgba(0,229,255,0.2); border-radius: 2px; }
+::-webkit-scrollbar-track { background: #111; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
 
-::selection { background: var(--cyan); color: var(--bg); }
+::selection { background: #e8e8e8; color: #080808; }
 
-/* Scroll reveal */
 .reveal {
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity 0.55s ease, transform 0.55s ease;
 }
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Character reveal animation */
 @keyframes charReveal {
   from { opacity: 0; transform: translateY(60%); }
   to   { opacity: 1; transform: translateY(0); }
@@ -65,7 +55,6 @@ body::after {
   animation: charReveal 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-/* Fade up animation */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -74,35 +63,23 @@ body::after {
   animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-/* Blink cursor */
-@keyframes blinkCursor {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
-}
+@keyframes blinkCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 .blink-cursor {
   display: inline-block;
   width: 2px;
-  height: 0.9em;
-  background: var(--cyan);
+  height: 0.85em;
+  background: rgba(255,255,255,0.6);
   vertical-align: middle;
   margin-left: 3px;
   animation: blinkCursor 1s step-end infinite;
 }
 
-/* Scroll line indicator */
-@keyframes scanDown {
-  0%, 100% { opacity: 0.3; }
-  50%       { opacity: 1; }
-}
+@keyframes scanDown { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.7; } }
 .animate-scan-down {
   animation: scanDown 2s ease-in-out infinite;
 }
 
-/* Status dot blink */
-@keyframes statusBlink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.3; }
-}
+@keyframes statusBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 .status-dot {
   animation: statusBlink 2s ease infinite;
 }
@@ -111,13 +88,9 @@ body::after {
 .skill-fill {
   height: 100%;
   border-radius: 1px;
-  background: linear-gradient(90deg, var(--cyan), var(--green));
+  background: linear-gradient(90deg, rgba(255,255,255,0.65), rgba(255,255,255,0.25));
   width: 0%;
   transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.skill-fill.orange-fill {
-  background: linear-gradient(90deg, var(--orange), #ffb347);
-}
-.skill-fill.green-fill {
-  background: linear-gradient(90deg, var(--green), var(--cyan));
-}
+.skill-fill.orange-fill { background: linear-gradient(90deg, rgba(255,255,255,0.55), rgba(255,255,255,0.2)); }
+.skill-fill.green-fill  { background: linear-gradient(90deg, rgba(255,255,255,0.65), rgba(255,255,255,0.25)); }
