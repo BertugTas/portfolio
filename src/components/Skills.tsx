@@ -57,7 +57,7 @@ export default function Skills() {
         </div>
 
         <div
-          className="grid md:grid-cols-3 gap-px reveal"
+          className="grid md:grid-cols-3 gap-px reveal items-start md:items-stretch"
           style={{ background: "var(--border)", border: "1px solid var(--border)" }}
         >
           {t.groups.map((group, i) => (

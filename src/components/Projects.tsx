@@ -64,7 +64,7 @@ export default function Projects() {
         </div>
 
         <div
-          className="grid grid-cols-1 md:grid-cols-2 gap-px reveal"
+          className="grid grid-cols-1 md:grid-cols-2 gap-px reveal items-start md:items-stretch"
           style={{ background: "var(--border)", border: "1px solid var(--border)" }}
         >
           {t.items.map((project) => {
