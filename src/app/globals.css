@@ -9,6 +9,19 @@ a, button, input, textarea, select, label {
   cursor: none !important;
 }
 
+/* ── Touch/mobile: override cursor:none and kill the glow dot ── */
+/* Must come AFTER the cursor:none block so same-specificity !important wins */
+@media (pointer: coarse), (hover: none) {
+  #glow-cursor {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+  }
+  *, *::before, *::after {
+    cursor: auto !important;
+  }
+}
+
 :root {
   --background: #080808;
   --foreground: #e8e8e8;

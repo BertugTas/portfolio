@@ -2,9 +2,18 @@
 
 import { useEffect, useRef } from "react";
 
+// Evaluated once at module load — never changes, safe to use as early-return guard
+const isTouchDevice =
+  typeof window !== "undefined" &&
+  (window.matchMedia("(pointer: coarse)").matches || "ontouchstart" in window);
+
 export default function CursorSpotlight() {
+  if (isTouchDevice) return null;
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const elRef = useRef<HTMLDivElement>(null);
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     const el = elRef.current;
     if (!el) return;
