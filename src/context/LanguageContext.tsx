@@ -129,6 +129,13 @@ export const T = {
           description: "OOP prensipleriyle C# üzerinde geliştirilen fatura, stok ve kullanıcı yönetimi uygulaması. MS SQL Server backend ile rol tabanlı yetkilendirme, CRUD operasyonları ve raporlama modülü.",
           href: "https://github.com/BertugTas/DataBaseUI",
         },
+        {
+          featured: false,
+          title: "PredictiveOps Platform — Full-Stack ML Platformu",
+          area: "MLOps · Full-Stack AI Mühendisliği",
+          description: "FastAPI backend, Next.js dashboard ve modüler ML pipeline'ından oluşan production-style makine öğrenmesi platformu. Docker Compose ile tek komutta ayağa kalkan tam stack deployment; GitHub Actions CI ile otomatik kalite kontrol.",
+          href: "https://github.com/BertugTas/predictiveops-platform",
+        },
       ],
     },
     contact: {
@@ -244,6 +251,13 @@ export const T = {
           area: "Software Development · Database",
           description: "Invoice, inventory, and user management application built in C# with OOP principles. MS SQL Server backend with role-based authorization, CRUD operations, and reporting module.",
           href: "https://github.com/BertugTas/DataBaseUI",
+        },
+        {
+          featured: false,
+          title: "PredictiveOps Platform — Full-Stack ML Platform",
+          area: "MLOps · Full-Stack AI Engineering",
+          description: "Production-style ML platform with FastAPI backend, Next.js dashboard, and modular ML pipeline. Full-stack deployment with Docker Compose in a single command; automated quality checks via GitHub Actions CI.",
+          href: "https://github.com/BertugTas/predictiveops-platform",
         },
       ],
     },

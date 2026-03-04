@@ -141,6 +141,37 @@ export const projectsData: ProjectEntry[] = [
     },
   },
   {
+    slug: "predictiveops-platform",
+    tr: {
+      title: "PredictiveOps Platform — Full-Stack ML Platformu",
+      area: "MLOps · Full-Stack AI Mühendisliği",
+      problem:
+        "Makine öğrenmesi modellerini production ortamına taşımak; eğitim, değerlendirme ve tahmin adımlarını yönetmek için entegre bir araç seti gerektiriyor. Ayrı bileşenlerin koordinasyonu, izleme ve deployment süreci karmaşık ve hata prone.",
+      approach:
+        "FastAPI ile RESTful API katmanı (train/evaluate/predict endpoint'leri) oluşturuldu. Baseline ML pipeline (veri alımı, doğrulama, eğitim, değerlendirme) modüler biçimde tasarlandı. SQLite ile tahmin geçmişi kalıcı hale getirildi. Next.js dashboard ile ML workflow'u görsel olarak yönetildi. Docker Compose ile tüm servisler tek komutla ayağa kaldırılacak şekilde yapılandırıldı. GitHub Actions CI pipeline'ı ile backend, ML modülü ve frontend build süreçleri otomatize edildi.",
+      outcome:
+        "Tek bir platform üzerinden model eğitimi, değerlendirmesi ve tahmin işlemleri yönetilebilir hale geldi. CI/CD pipeline sayesinde kod kalitesi otomatik olarak kontrol edildi. Docker ile local ve cloud ortamlarında tutarlı deployment sağlandı.",
+      learnings:
+        "MLOps pipeline tasarımı, FastAPI ile REST API geliştirme, Docker multi-service orchestration, GitHub Actions CI entegrasyonu ve Next.js dashboard geliştirme konularında kapsamlı deneyim kazanıldı.",
+      stack: ["Python", "FastAPI", "Next.js", "SQLite", "Docker", "scikit-learn", "GitHub Actions"],
+      github: "https://github.com/BertugTas/predictiveops-platform",
+    },
+    en: {
+      title: "PredictiveOps Platform — Full-Stack ML Platform",
+      area: "MLOps · Full-Stack AI Engineering",
+      problem:
+        "Moving ML models to production requires an integrated toolkit for managing training, evaluation, and prediction steps. Coordinating separate components, monitoring, and the deployment process is complex and error-prone.",
+      approach:
+        "A RESTful API layer (train/evaluate/predict endpoints) was built with FastAPI. A baseline ML pipeline (data ingestion, validation, training, evaluation) was designed modularly. SQLite was used to persist prediction history. A Next.js dashboard was built for visual ML workflow management. Docker Compose was configured to bring up all services with a single command. GitHub Actions CI pipeline automated backend, ML module, and frontend build processes.",
+      outcome:
+        "Model training, evaluation, and prediction became manageable from a single platform. CI/CD pipeline automatically enforced code quality. Docker ensured consistent deployment across local and cloud environments.",
+      learnings:
+        "Gained comprehensive experience in MLOps pipeline design, REST API development with FastAPI, Docker multi-service orchestration, GitHub Actions CI integration, and Next.js dashboard development.",
+      stack: ["Python", "FastAPI", "Next.js", "SQLite", "Docker", "scikit-learn", "GitHub Actions"],
+      github: "https://github.com/BertugTas/predictiveops-platform",
+    },
+  },
+  {
     slug: "database-ui",
     tr: {
       title: "Kurumsal Veritabanı Yönetim Sistemi",
@@ -184,4 +215,6 @@ export const slugMap: Record<string, string> = {
   "Otomatik Veri Toplama & Uyarı Sistemi":            "automation-bot",
   "Enterprise Database Management System":             "database-ui",
   "Kurumsal Veritabanı Yönetim Sistemi":              "database-ui",
+  "PredictiveOps Platform — Full-Stack ML Platform":  "predictiveops-platform",
+  "PredictiveOps Platform — Full-Stack ML Platformu": "predictiveops-platform",
 };

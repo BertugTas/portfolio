@@ -16,6 +16,8 @@ const stack: Record<string, string[]> = {
   "Otomatik Veri Toplama & Uyarı Sistemi":            ["Python", "Playwright", "Twilio API"],
   "Enterprise Database Management System":             ["C#", "OOP", "MS SQL Server", "T-SQL"],
   "Kurumsal Veritabanı Yönetim Sistemi":              ["C#", "OOP", "MS SQL Server", "T-SQL", "Windows Forms"],
+  "PredictiveOps Platform — Full-Stack ML Platform":  ["Python", "FastAPI", "Next.js", "Docker", "GitHub Actions"],
+  "PredictiveOps Platform — Full-Stack ML Platformu": ["Python", "FastAPI", "Next.js", "Docker", "GitHub Actions"],
 };
 
 const badges: Record<string, string[]> = {
@@ -29,6 +31,8 @@ const badges: Record<string, string[]> = {
   "Otomatik Veri Toplama & Uyarı Sistemi":            ["Scheduled Pipeline", "SMS Alert", "Auto Filter"],
   "Enterprise Database Management System":             ["CRUD", "Role-based Auth", "Reporting Module"],
   "Kurumsal Veritabanı Yönetim Sistemi":              ["CRUD", "Role-based Auth", "Reporting Module"],
+  "PredictiveOps Platform — Full-Stack ML Platform":  ["REST API", "CI/CD", "Docker"],
+  "PredictiveOps Platform — Full-Stack ML Platformu": ["REST API", "CI/CD", "Docker"],
 };
 
 const metrics: Record<string, { val: string; valColor: string; key: string }[]> = {
