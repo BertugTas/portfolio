@@ -51,7 +51,7 @@ export default function Contact() {
           <div className="reveal">
             <div
               className="text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.1] tracking-tight mb-6"
-              style={{ color: "var(--text)" }}
+              style={{ color: "var(--text)", overflowWrap: "break-word", wordBreak: "break-word", maxWidth: "100%" }}
             >
               {t.heading1}
               <br />

@@ -124,15 +124,23 @@ body {
 .skill-fill.orange-fill { background: linear-gradient(90deg, rgba(255,255,255,0.55), rgba(255,255,255,0.2)); }
 .skill-fill.green-fill  { background: linear-gradient(90deg, rgba(255,255,255,0.65), rgba(255,255,255,0.25)); }
 
-/* ── Touch/mobile: hide glow cursor and restore default pointer ── */
-@media (pointer: coarse) {
-  #glow-cursor {
-    display: none !important;
+/* ── Mobile-only layout fixes (max-width: 768px) ── */
+@media (max-width: 768px) {
+  /* 1. Footer gap: dvh accounts for mobile browser bar, prevents blank space at bottom */
+  main {
+    min-height: 100dvh;
   }
 
-  *, *::before, *::after,
-  html, body, div, span, canvas, svg,
-  a, button, input, textarea, select, label {
-    cursor: auto !important;
+  /* 3. Belt-and-suspenders horizontal overflow guard */
+  html {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
+  /* 5. Typography: prevent large clamp headings from overflowing narrow screens */
+  h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;
   }
 }

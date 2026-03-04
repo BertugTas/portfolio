@@ -231,7 +231,7 @@ export default function Hero() {
 
       {/* Scroll indicator */}
       <div
-        className="absolute bottom-8 left-6 md:left-12 flex flex-col items-center gap-2 opacity-0 animate-fade-up"
+        className="absolute bottom-8 left-6 md:left-12 hidden md:flex flex-col items-center gap-2 opacity-0 animate-fade-up"
         style={{
           animationDelay: `${nameEnd + 500}ms`,
           animationFillMode: "forwards",
