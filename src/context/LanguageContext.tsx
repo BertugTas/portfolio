@@ -96,6 +96,20 @@ export const T = {
       items: [
         {
           featured: true,
+          title: "PredictiveOps Platform — Full-Stack ML Platformu",
+          area: "MLOps · Full-Stack AI Mühendisliği",
+          description: "FastAPI backend, Next.js dashboard ve modüler ML pipeline'ından oluşan production-style makine öğrenmesi platformu. Docker Compose ile tek komutta ayağa kalkan tam stack deployment; GitHub Actions CI ile otomatik kalite kontrol.",
+          href: "https://github.com/BertugTas/predictiveops-platform",
+        },
+        {
+          featured: false,
+          title: "bt-flow — Tek Satırda ML Deployment",
+          area: "AÇIK KAYNAK · MLOPS",
+          description: "PyPI üzerinde yayınlanan, scikit-learn modellerini tek satırda production'a hazır FastAPI REST API'lerine dönüştüren açık kaynaklı Python kütüphanesi. Dinamik Pydantic şema çıkarımı içerir.",
+          href: "https://github.com/BertugTas/bt-flow",
+        },
+        {
+          featured: false,
           title: "Beyin MRI Tümör Sınıflandırma Sistemi",
           area: "Derin Öğrenme · Tıbbi Görüntü Analizi",
           description: "CNN mimarisi kullanılarak beyin MRI görüntülerinden tümör tespiti ve sınıflandırması. Veri augmentasyonu ile model genelleştirme kapasitesi artırıldı; precision, recall ve F1 metrikleriyle kapsamlı model değerlendirmesi yapıldı.",
@@ -128,20 +142,6 @@ export const T = {
           area: "Yazılım Geliştirme · Veritabanı",
           description: "OOP prensipleriyle C# üzerinde geliştirilen fatura, stok ve kullanıcı yönetimi uygulaması. MS SQL Server backend ile rol tabanlı yetkilendirme, CRUD operasyonları ve raporlama modülü.",
           href: "https://github.com/BertugTas/DataBaseUI",
-        },
-        {
-          featured: false,
-          title: "PredictiveOps Platform — Full-Stack ML Platformu",
-          area: "MLOps · Full-Stack AI Mühendisliği",
-          description: "FastAPI backend, Next.js dashboard ve modüler ML pipeline'ından oluşan production-style makine öğrenmesi platformu. Docker Compose ile tek komutta ayağa kalkan tam stack deployment; GitHub Actions CI ile otomatik kalite kontrol.",
-          href: "https://github.com/BertugTas/predictiveops-platform",
-        },
-        {
-          featured: false,
-          title: "bt-flow — Tek Satırda ML Deployment",
-          area: "AÇIK KAYNAK · MLOPS",
-          description: "PyPI üzerinde yayınlanan, scikit-learn modellerini tek satırda production'a hazır FastAPI REST API'lerine dönüştüren açık kaynaklı Python kütüphanesi. Dinamik Pydantic şema çıkarımı içerir.",
-          href: "https://github.com/BertugTas/bt-flow",
         },
       ],
     },
@@ -226,6 +226,20 @@ export const T = {
       items: [
         {
           featured: true,
+          title: "PredictiveOps Platform — Full-Stack ML Platform",
+          area: "MLOps · Full-Stack AI Engineering",
+          description: "Production-style ML platform with FastAPI backend, Next.js dashboard, and modular ML pipeline. Full-stack deployment with Docker Compose in a single command; automated quality checks via GitHub Actions CI.",
+          href: "https://github.com/BertugTas/predictiveops-platform",
+        },
+        {
+          featured: false,
+          title: "bt-flow — Zero-Boilerplate ML Deployment",
+          area: "OPEN SOURCE · MLOPS",
+          description: "An open-source Python package published on PyPI that wraps trained scikit-learn models into production-ready FastAPI REST APIs in a single line of code. Features dynamic schema inference.",
+          href: "https://github.com/BertugTas/bt-flow",
+        },
+        {
+          featured: false,
           title: "Brain MRI Tumor Classification System",
           area: "Deep Learning · Medical Image Analysis",
           description: "Automated tumor detection and classification from brain MRI images using CNN architecture. Data augmentation enhanced model generalization; comprehensive evaluation with precision, recall, and F1 metrics.",
@@ -258,20 +272,6 @@ export const T = {
           area: "Software Development · Database",
           description: "Invoice, inventory, and user management application built in C# with OOP principles. MS SQL Server backend with role-based authorization, CRUD operations, and reporting module.",
           href: "https://github.com/BertugTas/DataBaseUI",
-        },
-        {
-          featured: false,
-          title: "PredictiveOps Platform — Full-Stack ML Platform",
-          area: "MLOps · Full-Stack AI Engineering",
-          description: "Production-style ML platform with FastAPI backend, Next.js dashboard, and modular ML pipeline. Full-stack deployment with Docker Compose in a single command; automated quality checks via GitHub Actions CI.",
-          href: "https://github.com/BertugTas/predictiveops-platform",
-        },
-        {
-          featured: false,
-          title: "bt-flow — Zero-Boilerplate ML Deployment",
-          area: "OPEN SOURCE · MLOPS",
-          description: "An open-source Python package published on PyPI that wraps trained scikit-learn models into production-ready FastAPI REST APIs in a single line of code. Features dynamic schema inference.",
-          href: "https://github.com/BertugTas/bt-flow",
         },
       ],
     },
