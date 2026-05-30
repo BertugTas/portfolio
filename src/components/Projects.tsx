@@ -2,18 +2,20 @@
 
 import { useEffect, useRef } from "react";
 import { useLanguage, T } from "@/context/LanguageContext";
-import { projectsList, type ProjectCard, type ProjectMetaKV } from "@/data/projects";
+import {
+  projectsList,
+  type ProjectCard,
+  type ProjectMetaKV,
+  type ProjectMetric,
+} from "@/data/projects";
 
-/* ─────────────────────────────────────────── helpers ── */
+/* ──────────────────────────────────── primitives ── */
 
 function StackTag({ label }: { label: string }) {
   return (
     <span
       className="text-[0.58rem] tracking-[0.07em] px-1.5 py-px"
-      style={{
-        border: "1px solid rgba(255,255,255,0.08)",
-        color: "var(--muted)",
-      }}
+      style={{ border: "1px solid rgba(255,255,255,0.08)", color: "var(--muted)" }}
     >
       {label}
     </span>
@@ -58,49 +60,135 @@ function MetaRow({ items, lang }: { items: ProjectMetaKV[]; lang: "en" | "tr" })
   );
 }
 
-function GithubBtn({ href }: { href: string }) {
+function CellMarker({
+  left,
+  right,
+  rightColor,
+  liveDot,
+}: {
+  left: string;
+  right?: string;
+  rightColor?: "cyan" | "green" | "orange" | "muted";
+  liveDot?: boolean;
+}) {
+  const rightTint =
+    rightColor === "cyan"   ? "var(--cyan)" :
+    rightColor === "green"  ? "var(--green)" :
+    rightColor === "orange" ? "var(--orange)" :
+    "var(--muted)";
+
+  return (
+    <div className="flex items-center justify-between mb-7">
+      <span
+        className="text-[0.55rem] tracking-[0.25em] uppercase"
+        style={{ color: "var(--muted)" }}
+      >
+        {left}
+      </span>
+      {right && (
+        <span
+          className="inline-flex items-center gap-2 text-[0.55rem] tracking-[0.25em] uppercase font-bold"
+          style={{ color: rightTint }}
+        >
+          {liveDot && (
+            <span
+              className="status-dot w-1.5 h-1.5 rounded-full"
+              style={{ background: "var(--green)", boxShadow: "0 0 6px var(--green)" }}
+            />
+          )}
+          {right}
+        </span>
+      )}
+    </div>
+  );
+}
+
+function ActionBtn({
+  href,
+  label,
+  primary,
+  external = true,
+}: {
+  href: string;
+  label: string;
+  primary?: boolean;
+  external?: boolean;
+}) {
   return (
     <a
       href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-flex items-center gap-1.5 text-[0.65rem] font-bold uppercase tracking-[0.12em] px-4 py-2 transition-all duration-200"
-      style={{ border: "1px solid var(--border)", color: "var(--muted2)" }}
+      target={external && !href.startsWith("mailto") ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
+      className="flex items-center justify-between gap-2 px-5 py-3.5 text-[0.65rem] font-black uppercase tracking-[0.18em] transition-all duration-300"
+      style={
+        primary
+          ? { background: "var(--cyan)", color: "var(--bg)" }
+          : { border: "1px solid var(--border-strong)", color: "var(--muted2)" }
+      }
       onMouseEnter={(e) => {
-        (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.2)";
-        (e.currentTarget as HTMLElement).style.color = "var(--text)";
+        const el = e.currentTarget as HTMLElement;
+        if (primary) {
+          el.style.boxShadow = "0 0 24px rgba(103,232,249,0.4), 0 0 48px rgba(103,232,249,0.15)";
+        } else {
+          el.style.borderColor = "rgba(255,255,255,0.2)";
+          el.style.color = "var(--text-max)";
+        }
       }}
       onMouseLeave={(e) => {
-        (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
-        (e.currentTarget as HTMLElement).style.color = "var(--muted2)";
+        const el = e.currentTarget as HTMLElement;
+        if (primary) {
+          el.style.boxShadow = "none";
+        } else {
+          el.style.borderColor = "var(--border-strong)";
+          el.style.color = "var(--muted2)";
+        }
       }}
     >
-      GitHub ↗
+      <span>{label}</span>
+      <span>↗</span>
     </a>
   );
 }
 
-function PyPIBtn({ href }: { href: string }) {
+function MetricTile({ metric, lang }: { metric: ProjectMetric; lang: "en" | "tr" }) {
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-flex items-center gap-1.5 text-[0.65rem] font-bold uppercase tracking-[0.12em] px-4 py-2 transition-all duration-200"
-      style={{ background: "var(--cyan)", color: "var(--bg)" }}
-      onMouseEnter={(e) =>
-        ((e.currentTarget as HTMLElement).style.boxShadow = "0 0 20px rgba(103,232,249,0.4)")
-      }
-      onMouseLeave={(e) =>
-        ((e.currentTarget as HTMLElement).style.boxShadow = "none")
-      }
-    >
-      PyPI ↗
-    </a>
+    <div className="p-5" style={{ background: "var(--bg2)" }}>
+      <span
+        className="block text-3xl font-black tracking-tighter leading-none"
+        style={{ color: metric.color }}
+      >
+        {metric.val}
+      </span>
+      <span
+        className="block text-[0.52rem] uppercase tracking-[0.2em] mt-2"
+        style={{ color: "var(--muted)" }}
+      >
+        {lang === "tr" ? metric.labelTr : metric.labelEn}
+      </span>
+    </div>
   );
 }
 
-/* ─────────────────────────────────────────── component ── */
+function MetaTile({ item, lang }: { item: ProjectMetaKV; lang: "en" | "tr" }) {
+  return (
+    <div className="p-4" style={{ background: "var(--bg2)" }}>
+      <span
+        className="block text-[0.5rem] uppercase tracking-[0.22em] mb-1.5"
+        style={{ color: "var(--muted)" }}
+      >
+        {lang === "tr" ? item.keyTr : item.keyEn}
+      </span>
+      <span
+        className="block text-[0.92rem] font-bold tracking-tight"
+        style={{ color: item.color ?? "var(--text-max)" }}
+      >
+        {item.val}
+      </span>
+    </div>
+  );
+}
+
+/* ──────────────────────────────────── component ── */
 
 export default function Projects() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -108,46 +196,62 @@ export default function Projects() {
   const t = T[lang].projects;
 
   useEffect(() => {
-    const els = sectionRef.current?.querySelectorAll(".reveal");
+    const els = sectionRef.current?.querySelectorAll(".reveal, .reveal-line");
     if (!els) return;
     const observer = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add("visible")),
+      (entries) =>
+        entries.forEach((e) => e.isIntersecting && e.target.classList.add("visible")),
       { threshold: 0.05 }
     );
     els.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
-  const [featured, ...rest] = projectsList as [ProjectCard, ...ProjectCard[]];
-  const featuredContent = lang === "tr" ? featured.tr : featured.en;
-  const featuredBadgeLabels = featured.badges.map((b) => (lang === "tr" ? b.tr : b.en));
+  // Resolve cards by id so layout slot is decoupled from array order
+  const featured = projectsList.find((p) => p.id === "bt-flow")!;
+  const teknofest = projectsList.find((p) => p.id === "teknofest-health")!;
+  const savtek = projectsList.find((p) => p.id === "savtek-gcs")!;
+  const research = projectsList.find((p) => p.id === "tubitak-research")!;
 
   return (
     <section
       id="projects"
       ref={sectionRef}
       className="relative z-[1] py-28 px-6 md:px-12"
-      style={{ borderTop: "1px solid var(--border)" }}
     >
+      {/* Animated section divider */}
+      <div
+        aria-hidden
+        className="reveal-line absolute top-0 left-0 right-0 h-px"
+        style={{ background: "var(--border-strong)" }}
+      />
+
       <div className="max-w-5xl mx-auto relative overflow-hidden">
 
         {/* Ghost section number */}
         <span
           aria-hidden
           className="absolute right-0 top-0 font-black tracking-tighter leading-none select-none pointer-events-none hidden lg:block"
-          style={{ fontSize: "clamp(8rem,20vw,17rem)", color: "rgba(255,255,255,0.022)", lineHeight: 0.85 }}
+          style={{
+            fontSize: "clamp(8rem,20vw,17rem)",
+            color: "rgba(255,255,255,0.022)",
+            lineHeight: 0.85,
+          }}
         >
           03
         </span>
 
         {/* ── Section header ── */}
         <div className="flex items-baseline gap-5 mb-16 reveal">
-          <span className="text-[0.65rem] tracking-[0.25em] opacity-50 shrink-0" style={{ color: "var(--cyan)" }}>
+          <span
+            className="text-[0.65rem] tracking-[0.25em] opacity-50 shrink-0"
+            style={{ color: "var(--cyan)" }}
+          >
             {t.num}
           </span>
           <h2
             className="font-black tracking-tighter leading-none"
-            style={{ fontSize: "clamp(3rem,8vw,6.5rem)", color: "var(--text-max)" }}
+            style={{ fontSize: "clamp(2.4rem,7.5vw,6rem)", color: "var(--text-max)" }}
           >
             {t.title}
           </h2>
@@ -157,200 +261,309 @@ export default function Projects() {
           />
         </div>
 
-        {/* ══════════════════════ FEATURED CARD ══════════════════════ */}
+        {/* ═══════════════════ BENTO WRAPPER ═══════════════════ */}
         <div
-          className="reveal mb-px relative overflow-hidden"
+          className="flex flex-col gap-px reveal"
+          style={{ background: "var(--border)" }}
+        >
+
+          {/* ════════════ ROW 1 — FEATURED (bt-flow) ════════════ */}
+          <FeaturedRow card={featured} lang={lang} />
+
+          {/* ════════════ ROW 2 — SECONDARY (Teknofest + SAVTEK) ════════════ */}
+          <div
+            className="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-px"
+            style={{ background: "var(--border)" }}
+          >
+            <SecondaryCell
+              card={teknofest}
+              lang={lang}
+              markerLeft={lang === "tr" ? "// 02 · TIBBİ YZ" : "// 02 · MEDICAL AI"}
+            />
+            <SecondaryCell
+              card={savtek}
+              lang={lang}
+              markerLeft={lang === "tr" ? "// 03 · SAVUNMA" : "// 03 · DEFENSE TECH"}
+            />
+          </div>
+
+          {/* ════════════ ROW 3 — RESEARCH (TÜBİTAK) ════════════ */}
+          <ResearchRow card={research} lang={lang} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ──────────────────────────────────── row components ── */
+
+function FeaturedRow({ card, lang }: { card: ProjectCard; lang: "en" | "tr" }) {
+  const content = lang === "tr" ? card.tr : card.en;
+  const badgeLabels = card.badges.map((b) => (lang === "tr" ? b.tr : b.en));
+
+  return (
+    <div
+      className="relative grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-px overflow-hidden"
+      style={{ background: "var(--border)" }}
+    >
+      {/* Featured cyan wash — drawn beneath cells via section bg, peeks through borders */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(135deg, rgba(103,232,249,0.045) 0%, transparent 55%)",
+        }}
+      />
+
+      {/* ── CELL F1: CONTENT ── */}
+      <div
+        className="relative p-8 md:p-10 lg:p-12 flex flex-col"
+        style={{ background: "var(--bg)" }}
+      >
+        <CellMarker
+          left={lang === "tr" ? "// 01 · LANSMAN" : "// 01 · FLAGSHIP LAUNCH"}
+          right={lang === "tr" ? "★ ÖNE ÇIKAN" : "★ FEATURED"}
+          rightColor="cyan"
+        />
+
+        <span
+          className="text-[0.6rem] uppercase tracking-[0.22em] px-2 py-0.5 self-start mb-5"
+          style={{ color: "var(--muted2)", border: "1px solid var(--border)" }}
+        >
+          {content.area}
+        </span>
+
+        <h3
+          className="font-black tracking-tighter mb-5 leading-[1.05]"
           style={{
-            background: "var(--bg2)",
-            border: "1px solid var(--border)",
-            borderLeftWidth: "2px",
-            borderLeftColor: "var(--cyan)",
-            boxShadow: "0 0 48px rgba(103,232,249,0.04), inset 0 0 48px rgba(103,232,249,0.015)",
+            fontSize: "clamp(2rem,4vw,3.2rem)",
+            color: "var(--text-max)",
           }}
         >
-          {/* subtle gradient wash */}
+          {content.title}
+        </h3>
+
+        <p
+          className="text-[0.85rem] leading-[1.9] mb-6"
+          style={{ color: "var(--muted2)", maxWidth: "54ch" }}
+        >
+          {content.description}
+        </p>
+
+        <MetaRow items={card.meta} lang={lang} />
+
+        {badgeLabels.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-5">
+            {badgeLabels.map((b) => (
+              <Badge key={b} label={b} accent />
+            ))}
+          </div>
+        )}
+
+        <div className="flex flex-wrap gap-1.5 mt-auto">
+          {card.stack.map((s) => (
+            <StackTag key={s} label={s} />
+          ))}
+        </div>
+      </div>
+
+      {/* ── CELL F2: METRICS + ACTIONS ── */}
+      <div
+        className="relative p-8 md:p-10 lg:p-12 flex flex-col"
+        style={{ background: "var(--bg)" }}
+      >
+        <CellMarker
+          left={lang === "tr" ? "// METRİKLER" : "// METRICS"}
+          right="LIVE"
+          rightColor="green"
+          liveDot
+        />
+
+        {/* Vertical metric stack with hair-thin dividers */}
+        {card.metrics.length > 0 && (
           <div
-            className="absolute inset-0 pointer-events-none"
-            style={{ background: "linear-gradient(135deg, rgba(103,232,249,0.05) 0%, transparent 55%)" }}
-          />
+            className="grid grid-cols-1 gap-px mb-6"
+            style={{ background: "var(--border)" }}
+          >
+            {card.metrics.map((m) => (
+              <MetricTile key={m.labelEn} metric={m} lang={lang} />
+            ))}
+          </div>
+        )}
 
-          <div className="relative p-8 md:p-10">
-            {/* top row: area + featured label */}
-            <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
-              <span
-                className="text-[0.6rem] uppercase tracking-[0.22em] px-2 py-0.5"
-                style={{ color: "var(--muted2)", border: "1px solid var(--border)" }}
-              >
-                {featuredContent.area}
-              </span>
-              <span
-                className="text-[0.55rem] uppercase tracking-[0.25em] px-2.5 py-1 font-bold"
-                style={{
-                  background: "rgba(103,232,249,0.1)",
-                  border: "1px solid rgba(103,232,249,0.35)",
-                  color: "var(--cyan)",
-                }}
-              >
-                ★ {lang === "tr" ? "Öne Çıkan Proje" : "Featured Project"}
-              </span>
-            </div>
+        {/* Action triggers — stacked, full-width */}
+        <div className="flex flex-col gap-2 mt-auto">
+          {card.pypiUrl && <ActionBtn href={card.pypiUrl} label="PyPI" primary />}
+          <ActionBtn href={card.href} label="GitHub" />
+        </div>
+      </div>
+    </div>
+  );
+}
 
-            <div className="md:grid md:grid-cols-[1fr_auto] md:gap-12 md:items-start">
-              {/* left: content */}
-              <div>
-                <h3
-                  className="text-3xl md:text-4xl font-black tracking-tighter mb-4 leading-tight"
-                  style={{ color: "var(--text-max)" }}
-                >
-                  {featuredContent.title}
-                </h3>
+function SecondaryCell({
+  card,
+  lang,
+  markerLeft,
+}: {
+  card: ProjectCard;
+  lang: "en" | "tr";
+  markerLeft: string;
+}) {
+  const content = lang === "tr" ? card.tr : card.en;
+  const badgeLabels = card.badges.map((b) => (lang === "tr" ? b.tr : b.en));
 
-                <p
-                  className="text-[0.78rem] leading-[1.9] mb-5"
-                  style={{ color: "var(--muted2)", maxWidth: "56ch" }}
-                >
-                  {featuredContent.description}
-                </p>
+  return (
+    <div
+      className="group relative p-8 md:p-10 lg:p-12 flex flex-col overflow-hidden transition-colors duration-300"
+      style={{ background: "var(--bg)" }}
+      onMouseEnter={(e) => {
+        const el = e.currentTarget as HTMLElement;
+        el.style.background = "var(--bg2)";
+        el.style.boxShadow = "inset 0 1px 0 rgba(103,232,249,0.22)";
+      }}
+      onMouseLeave={(e) => {
+        const el = e.currentTarget as HTMLElement;
+        el.style.background = "var(--bg)";
+        el.style.boxShadow = "none";
+      }}
+    >
+      <CellMarker left={markerLeft} />
 
-                {/* meta row */}
-                <MetaRow items={featured.meta} lang={lang} />
+      <span
+        className="text-[0.6rem] uppercase tracking-[0.22em] px-2 py-0.5 self-start mb-5"
+        style={{ color: "var(--muted2)", border: "1px solid var(--border)" }}
+      >
+        {content.area}
+      </span>
 
-                {/* badges */}
-                {featuredBadgeLabels.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mb-5">
-                    {featuredBadgeLabels.map((b) => <Badge key={b} label={b} accent />)}
-                  </div>
-                )}
+      <h3
+        className="text-2xl md:text-3xl font-black tracking-tighter mb-4 leading-tight"
+        style={{ color: "var(--text-max)", overflowWrap: "break-word" }}
+      >
+        {content.title}
+      </h3>
 
-                {/* stack */}
-                <div className="flex flex-wrap gap-1.5 mb-8">
-                  {featured.stack.map((s) => <StackTag key={s} label={s} />)}
-                </div>
+      <p
+        className="text-[0.78rem] leading-[1.9] mb-5"
+        style={{ color: "var(--muted2)" }}
+      >
+        {content.description}
+      </p>
 
-                {/* links */}
-                <div className="flex flex-wrap gap-3">
-                  {featured.pypiUrl && <PyPIBtn href={featured.pypiUrl} />}
-                  <GithubBtn href={featured.href} />
-                </div>
+      <MetaRow items={card.meta} lang={lang} />
+
+      {badgeLabels.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 mb-4">
+          {badgeLabels.map((b) => (
+            <Badge key={b} label={b} />
+          ))}
+        </div>
+      )}
+
+      <div className="flex flex-wrap gap-1.5 mb-6">
+        {card.stack.map((s) => (
+          <StackTag key={s} label={s} />
+        ))}
+      </div>
+
+      <div
+        className="mt-auto pt-5"
+        style={{ borderTop: "1px solid var(--border)" }}
+      >
+        <ActionBtn href={card.href} label="GitHub" />
+      </div>
+    </div>
+  );
+}
+
+function ResearchRow({ card, lang }: { card: ProjectCard; lang: "en" | "tr" }) {
+  const content = lang === "tr" ? card.tr : card.en;
+  const badgeLabels = card.badges.map((b) => (lang === "tr" ? b.tr : b.en));
+
+  return (
+    <div
+      className="relative overflow-hidden"
+      style={{ background: "var(--bg)" }}
+    >
+      {/* Ghost watermark — centered TÜBİTAK at 2.5% orange */}
+      <span
+        aria-hidden
+        className="absolute inset-0 flex items-center justify-center font-black tracking-tighter pointer-events-none select-none hidden md:flex"
+        style={{
+          fontSize: "clamp(4rem,14vw,11rem)",
+          color: "rgba(251,191,36,0.025)",
+          letterSpacing: "-0.04em",
+          lineHeight: 1,
+        }}
+      >
+        TÜBİTAK
+      </span>
+
+      <div className="relative p-8 md:p-10 lg:p-12">
+        <CellMarker
+          left={lang === "tr" ? "// 04 · AKADEMİK HİBE" : "// 04 · RESEARCH GRANT"}
+          right={lang === "tr" ? "AKADEMİK" : "ACADEMIC"}
+          rightColor="orange"
+        />
+
+        <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-10 lg:gap-14 items-start">
+
+          {/* LEFT: title + description + badges + stack */}
+          <div>
+            <span
+              className="text-[0.6rem] uppercase tracking-[0.22em] px-2 py-0.5 inline-block mb-5"
+              style={{ color: "var(--muted2)", border: "1px solid var(--border)" }}
+            >
+              {content.area}
+            </span>
+
+            <h3
+              className="text-2xl md:text-3xl font-black tracking-tighter mb-5 leading-tight"
+              style={{ color: "var(--text-max)" }}
+            >
+              {content.title}
+            </h3>
+
+            <p
+              className="text-[0.85rem] leading-[1.9] mb-6"
+              style={{ color: "var(--muted2)", maxWidth: "58ch" }}
+            >
+              {content.description}
+            </p>
+
+            {badgeLabels.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-5">
+                {badgeLabels.map((b) => (
+                  <Badge key={b} label={b} />
+                ))}
               </div>
+            )}
 
-              {/* right: metric panel */}
-              {featured.metrics.length > 0 && (
-                <div className="flex flex-row md:flex-col gap-3 mt-8 md:mt-0 flex-wrap">
-                  {featured.metrics.map((m) => (
-                    <div
-                      key={m.labelEn}
-                      className="flex-1 md:flex-none px-5 py-4 text-center min-w-[80px]"
-                      style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)" }}
-                    >
-                      <span className="block text-2xl font-bold leading-none mb-1.5" style={{ color: m.color }}>
-                        {m.val}
-                      </span>
-                      <span className="block text-[0.52rem] uppercase tracking-[0.18em]" style={{ color: "var(--muted)" }}>
-                        {lang === "tr" ? m.labelTr : m.labelEn}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              )}
+            <div className="flex flex-wrap gap-1.5">
+              {card.stack.map((s) => (
+                <StackTag key={s} label={s} />
+              ))}
+            </div>
+          </div>
+
+          {/* RIGHT: academic metadata dashboard — vertical stack of telemetry tiles */}
+          <div
+            className="grid grid-cols-1 gap-px"
+            style={{ background: "var(--border)" }}
+          >
+            {card.meta.map((item) => (
+              <MetaTile key={item.keyEn} item={item} lang={lang} />
+            ))}
+
+            {/* Action tile — GitHub */}
+            <div className="p-3" style={{ background: "var(--bg2)" }}>
+              <ActionBtn href={card.href} label="GitHub" />
             </div>
           </div>
         </div>
-
-        {/* ══════════════════════ REGULAR GRID ══════════════════════ */}
-        <div
-          className="grid grid-cols-1 md:grid-cols-2 gap-px"
-          style={{ background: "var(--border)" }}
-        >
-          {rest.map((project, idx) => {
-            const content       = lang === "tr" ? project.tr : project.en;
-            const badgeLabels   = project.badges.map((b) => (lang === "tr" ? b.tr : b.en));
-            const num           = String(idx + 2).padStart(2, "0");
-            const isLastOdd     = idx === rest.length - 1 && rest.length % 2 !== 0;
-
-            return (
-              <div
-                key={project.id}
-                className={`reveal group relative overflow-hidden flex flex-col transition-colors duration-300${isLastOdd ? " md:col-span-2" : ""}`}
-                style={{ background: "var(--bg2)", padding: "2rem" }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.background = "var(--bg3)";
-                  el.style.boxShadow = "inset 0 1px 0 rgba(103,232,249,0.22)";
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.background = "var(--bg2)";
-                  el.style.boxShadow = "none";
-                }}
-              >
-                {/* hover gradient */}
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                  style={{ background: "linear-gradient(135deg, rgba(103,232,249,0.03), transparent)" }}
-                />
-
-                {/* area + number */}
-                <div className="flex items-start justify-between mb-5">
-                  <span
-                    className="text-[0.6rem] uppercase tracking-[0.22em] px-2 py-0.5"
-                    style={{ color: "var(--muted2)", border: "1px solid var(--border)" }}
-                  >
-                    {content.area}
-                  </span>
-                  <span
-                    className="text-[1.6rem] font-bold leading-none tabular-nums select-none"
-                    style={{ color: "rgba(255,255,255,0.05)" }}
-                  >
-                    {num}
-                  </span>
-                </div>
-
-                {/* title */}
-                <h3
-                  className="text-xl font-black tracking-tight mb-3 leading-snug"
-                  style={{ color: "var(--text-max)", overflowWrap: "break-word" }}
-                >
-                  {content.title}
-                </h3>
-
-                {/* description */}
-                <p
-                  className="text-[0.72rem] leading-[1.85] mb-4 flex-1"
-                  style={{ color: "var(--muted2)", overflowWrap: "break-word" }}
-                >
-                  {content.description}
-                </p>
-
-                {/* meta row */}
-                <MetaRow items={project.meta} lang={lang} />
-
-                {/* badges */}
-                {badgeLabels.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 mb-4">
-                    {badgeLabels.map((b) => <Badge key={b} label={b} />)}
-                  </div>
-                )}
-
-                {/* stack */}
-                <div className="flex flex-wrap gap-1.5 mb-5">
-                  {project.stack.map((s) => <StackTag key={s} label={s} />)}
-                </div>
-
-                {/* links */}
-                <div
-                  className="flex flex-wrap gap-2 mt-auto pt-5"
-                  style={{ borderTop: "1px solid var(--border)" }}
-                >
-                  {project.pypiUrl && <PyPIBtn href={project.pypiUrl} />}
-                  <GithubBtn href={project.href} />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
       </div>
-    </section>
+    </div>
   );
 }
