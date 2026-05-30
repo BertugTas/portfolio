@@ -54,7 +54,7 @@ export default function Contact() {
         style={{ background: "var(--border-strong)" }}
       />
 
-      <div className="max-w-5xl mx-auto relative overflow-hidden">
+      <div className="relative overflow-hidden">
 
         {/* Ghost section number */}
         <span
@@ -112,14 +112,22 @@ export default function Contact() {
 
             <a
               href="mailto:bertugtaas@gmail.com"
-              className="inline-flex items-center gap-3 text-[0.75rem] font-black uppercase tracking-[0.18em] px-8 py-4 transition-all duration-300 hover:-translate-y-0.5"
-              style={{ background: "var(--cyan)", color: "var(--bg)" }}
-              onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLElement).style.boxShadow = "0 0 32px rgba(103,232,249,0.45), 0 0 64px rgba(103,232,249,0.15)")
-              }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLElement).style.boxShadow = "none")
-              }
+              className="inline-flex items-center gap-3 text-[0.75rem] font-black uppercase tracking-[0.18em] px-8 py-4 transition-all duration-300"
+              style={{
+                background: "transparent",
+                border: "1px solid rgba(255,255,255,0.12)",
+                color: "var(--text)",
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.borderColor = "var(--cyan)";
+                el.style.color = "var(--cyan)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.borderColor = "rgba(255,255,255,0.12)";
+                el.style.color = "var(--text)";
+              }}
             >
               {t.cta}
             </a>

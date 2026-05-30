@@ -122,22 +122,19 @@ function ActionBtn({
       className="flex items-center justify-between gap-2 px-5 py-3.5 text-[0.65rem] font-black uppercase tracking-[0.18em] transition-all duration-300"
       style={
         primary
-          ? { background: "var(--cyan)", color: "var(--bg)" }
+          ? { background: "transparent", border: "1px solid rgba(255,255,255,0.12)", color: "var(--text)" }
           : { border: "1px solid var(--border-strong)", color: "var(--muted2)" }
       }
       onMouseEnter={(e) => {
         const el = e.currentTarget as HTMLElement;
-        if (primary) {
-          el.style.boxShadow = "0 0 24px rgba(103,232,249,0.4), 0 0 48px rgba(103,232,249,0.15)";
-        } else {
-          el.style.borderColor = "rgba(255,255,255,0.2)";
-          el.style.color = "var(--text-max)";
-        }
+        el.style.borderColor = "var(--cyan)";
+        el.style.color = "var(--cyan)";
       }}
       onMouseLeave={(e) => {
         const el = e.currentTarget as HTMLElement;
         if (primary) {
-          el.style.boxShadow = "none";
+          el.style.borderColor = "rgba(255,255,255,0.12)";
+          el.style.color = "var(--text)";
         } else {
           el.style.borderColor = "var(--border-strong)";
           el.style.color = "var(--muted2)";
@@ -226,7 +223,7 @@ export default function Projects() {
         style={{ background: "var(--border-strong)" }}
       />
 
-      <div className="max-w-5xl mx-auto relative overflow-hidden">
+      <div className="relative overflow-hidden">
 
         {/* Ghost section number */}
         <span

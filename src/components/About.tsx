@@ -30,7 +30,7 @@ export default function About() {
         style={{ background: "var(--border-strong)" }}
       />
 
-      <div className="max-w-5xl mx-auto relative overflow-hidden">
+      <div className="relative overflow-hidden">
 
         {/* Ghost section number */}
         <span

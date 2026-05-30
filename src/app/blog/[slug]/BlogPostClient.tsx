@@ -168,7 +168,7 @@ export default function BlogPostClient({ pair }: Props) {
         style={{ background: "var(--border-strong)" }}
       />
 
-      <div className="max-w-5xl mx-auto relative">
+      <div className="relative">
 
         {/* Back link */}
         <Link
