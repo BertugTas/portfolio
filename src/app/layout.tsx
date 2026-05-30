@@ -15,6 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://bertugtas.com"),
   title: "Bertuğ Taş — ML Engineer & Data Scientist",
   description:
     "Dokuz Eylül Üniversitesi Bilgisayar Bilimi öğrencisi. Makine öğrenmesi, derin öğrenme ve veri mühendisliği.",
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
     title: "Bertuğ Taş — ML Engineer & Data Scientist",
     description:
       "Dokuz Eylül Üniversitesi Bilgisayar Bilimi öğrencisi. Makine öğrenmesi, derin öğrenme ve veri mühendisliği.",
-    url: "https://www.bertugtas.com.tr",
+    url: "https://bertugtas.com",
     siteName: "Bertuğ Taş",
     locale: "tr_TR",
     type: "website",

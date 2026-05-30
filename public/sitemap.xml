@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.bertugtas.com.tr/</loc>
+    <loc>https://bertugtas.com/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.bertugtas.com.tr/projects/brain-mri</loc>
+    <loc>https://bertugtas.com/projects/brain-mri</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.bertugtas.com.tr/projects/cancer-diagnosis</loc>
+    <loc>https://bertugtas.com/projects/cancer-diagnosis</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.bertugtas.com.tr/projects/bi-dashboard</loc>
+    <loc>https://bertugtas.com/projects/bi-dashboard</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.bertugtas.com.tr/projects/automation-bot</loc>
+    <loc>https://bertugtas.com/projects/automation-bot</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.bertugtas.com.tr/projects/database-ui</loc>
+    <loc>https://bertugtas.com/projects/database-ui</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

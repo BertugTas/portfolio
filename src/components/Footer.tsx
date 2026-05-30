@@ -15,13 +15,13 @@ export default function Footer() {
         © {new Date().getFullYear()} Bertuğ Taş · {t.location}
       </span>
       <a
-        href="https://www.bertugtas.com.tr"
+        href="https://bertugtas.com"
         target="_blank"
         rel="noopener noreferrer"
         className="font-mono text-[0.65rem] tracking-[0.1em] transition-opacity duration-200 hover:opacity-70"
         style={{ color: "var(--cyan)" }}
       >
-        bertugtas.com.tr
+        bertugtas.com
       </a>
     </footer>
   );
