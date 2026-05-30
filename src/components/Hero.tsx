@@ -89,11 +89,10 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col z-[1] px-6 md:px-12 overflow-x-hidden"
+      className="relative min-h-screen flex flex-col z-[1] overflow-x-hidden"
     >
-      {/* ─── Constrained bento — aligns hairlines with About/Skills/Projects/Contact ─── */}
       <div
-        className="max-w-5xl mx-auto w-full flex-1 flex flex-col gap-px"
+        className="w-full flex-1 flex flex-col gap-px"
         style={{ background: "var(--border)" }}
       >
 
@@ -129,7 +128,7 @@ export default function Hero() {
 
           {/* Spacer + Name — name pushed to bottom of cell */}
           <div className="flex-1 flex flex-col justify-end pt-8 lg:pt-0">
-            <h1 className="font-black tracking-tighter leading-[0.88] flex flex-col items-start">
+            <h1 className="font-black tracking-tighter leading-[0.92] flex flex-col items-start">
               <SplitReveal
                 chars={firstName}
                 baseDelay={200}
@@ -268,19 +267,24 @@ export default function Hero() {
           <div className="flex flex-col gap-3 mt-auto">
             <a
               href="#projects"
-              className="inline-flex items-center justify-between gap-2 px-6 py-4 text-[0.7rem] font-black uppercase tracking-[0.18em] transition-all duration-300 hover:-translate-y-0.5 opacity-0 animate-fade-up"
+              className="inline-flex items-center justify-between gap-2 px-6 py-4 text-[0.7rem] font-black uppercase tracking-[0.18em] transition-all duration-300 opacity-0 animate-fade-up"
               style={{
-                background: "var(--cyan)",
-                color: "var(--bg)",
+                background: "transparent",
+                border: "1px solid rgba(255,255,255,0.12)",
+                color: "var(--text)",
                 animationDelay: `${nameEnd + 240}ms`,
                 animationFillMode: "forwards",
               }}
-              onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLElement).style.boxShadow = "0 0 32px rgba(103,232,249,0.45), 0 0 64px rgba(103,232,249,0.15)")
-              }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLElement).style.boxShadow = "none")
-              }
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.borderColor = "var(--cyan)";
+                el.style.color = "var(--cyan)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.borderColor = "rgba(255,255,255,0.12)";
+                el.style.color = "var(--text)";
+              }}
             >
               <span>{t.cta_work}</span>
               <span>→</span>

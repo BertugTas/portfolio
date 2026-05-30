@@ -26,7 +26,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 export const T = {
   tr: {
     nav: {
-      about: "hakkımda", skills: "uzmanlık", projects: "çalışmalar", contact: "iletişim",
+      about: "hakkımda", skills: "uzmanlık", projects: "çalışmalar", blog: "yazılar", contact: "iletişim",
       status: "İzmir, TR — aktif",
     },
     hero: {
@@ -105,7 +105,7 @@ export const T = {
 
   en: {
     nav: {
-      about: "about", skills: "expertise", projects: "work", contact: "contact",
+      about: "about", skills: "expertise", projects: "work", blog: "blog", contact: "contact",
       status: "Izmir, TR — active",
     },
     hero: {

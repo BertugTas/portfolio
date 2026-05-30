@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { useLanguage, T } from "@/context/LanguageContext";
 
 export default function Navbar() {
@@ -17,10 +18,11 @@ export default function Navbar() {
   const mobileLiRefs = useRef<(HTMLLIElement | null)[]>([]);
 
   const navLinks = [
-    { label: t.about,    href: "#about"    },
-    { label: t.skills,   href: "#skills"   },
-    { label: t.projects, href: "#projects" },
-    { label: t.contact,  href: "#contact"  },
+    { label: t.about,    href: "/#about"    },
+    { label: t.skills,   href: "/#skills"   },
+    { label: t.projects, href: "/#projects" },
+    { label: t.blog,     href: "/blog"      },
+    { label: t.contact,  href: "/#contact"  },
   ];
 
   useEffect(() => {
@@ -51,14 +53,14 @@ export default function Navbar() {
       style={{ borderColor: "var(--border)" }}
     >
       {/* Logo */}
-      <a
-        href="#"
+      <Link
+        href="/"
         aria-label="Ana sayfa"
         className="font-mono text-[0.95rem] font-black tracking-[0.08em]"
         style={{ color: "var(--cyan)" }}
       >
         BT<span style={{ color: "rgba(255,255,255,0.25)" }}>.</span>dev
-      </a>
+      </Link>
 
       {/* Desktop links */}
       <ul
@@ -82,7 +84,7 @@ export default function Navbar() {
             ref={(el) => { desktopLiRefs.current[i] = el; }}
             onMouseEnter={() => handleDesktopEnter(i)}
           >
-            <a
+            <Link
               href={link.href}
               className="text-[0.7rem] uppercase tracking-[0.15em] transition-colors duration-200"
               style={{ color: "var(--muted2)" }}
@@ -90,7 +92,7 @@ export default function Navbar() {
               onMouseLeave={(e) => (e.currentTarget.style.color = "var(--muted2)")}
             >
               {link.label}
-            </a>
+            </Link>
           </li>
         ))}
       </ul>
@@ -170,7 +172,7 @@ export default function Navbar() {
                 ref={(el) => { mobileLiRefs.current[i] = el; }}
                 onMouseEnter={() => handleMobileEnter(i)}
               >
-                <a
+                <Link
                   href={link.href}
                   className="text-xs uppercase tracking-[0.15em] transition-colors pl-4"
                   style={{ color: "var(--muted2)" }}
@@ -179,7 +181,7 @@ export default function Navbar() {
                   onMouseLeave={(e) => (e.currentTarget.style.color = "var(--muted2)")}
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

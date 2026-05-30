@@ -101,7 +101,6 @@ function NumericCell({
       className={`relative flex flex-col justify-between overflow-hidden ${
         compact ? "p-4 h-[92px]" : "p-5 h-[108px]"
       }`}
-      style={{ background: "var(--bg2)" }}
     >
       <span
         className="block text-[0.49rem] uppercase tracking-[0.22em]"
@@ -119,14 +118,6 @@ function NumericCell({
         {displayed}
         {suffix}
       </span>
-      {/* bottom accent line */}
-      <div
-        className="absolute inset-x-0 bottom-0 h-px"
-        style={{
-          background: `linear-gradient(90deg, ${accent}, transparent)`,
-          opacity: 0.38,
-        }}
-      />
     </motion.div>
   );
 }
@@ -156,7 +147,6 @@ function CodeCell({
       className={`relative flex flex-col justify-between overflow-hidden ${
         compact ? "p-4 h-[92px]" : "p-5 h-[108px]"
       }`}
-      style={{ background: "var(--bg2)" }}
     >
       <span
         className="block text-[0.49rem] uppercase tracking-[0.22em]"
@@ -173,25 +163,15 @@ function CodeCell({
       >
         {display}
       </span>
-      {/* designation badge */}
       <span
         className="mt-1.5 self-start text-[0.43rem] uppercase tracking-[0.18em] px-1.5 py-0.5"
         style={{
-          background: "rgba(251,191,36,0.07)",
-          border: "1px solid rgba(251,191,36,0.18)",
+          border: "1px solid rgba(251,191,36,0.14)",
           color: "var(--orange)",
         }}
       >
         TÜBİTAK
       </span>
-      {/* bottom accent line */}
-      <div
-        className="absolute inset-x-0 bottom-0 h-px"
-        style={{
-          background: `linear-gradient(90deg, ${accent}, transparent)`,
-          opacity: 0.38,
-        }}
-      />
     </motion.div>
   );
 }
