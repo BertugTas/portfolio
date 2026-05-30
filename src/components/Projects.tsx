@@ -129,20 +129,32 @@ export default function Projects() {
       className="relative z-[1] py-28 px-6 md:px-12"
       style={{ borderTop: "1px solid var(--border)" }}
     >
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-5xl mx-auto relative overflow-hidden">
+
+        {/* Ghost section number */}
+        <span
+          aria-hidden
+          className="absolute right-0 top-0 font-black tracking-tighter leading-none select-none pointer-events-none hidden lg:block"
+          style={{ fontSize: "clamp(8rem,20vw,17rem)", color: "rgba(255,255,255,0.022)", lineHeight: 0.85 }}
+        >
+          03
+        </span>
 
         {/* ── Section header ── */}
-        <div className="flex items-baseline gap-5 mb-14 reveal">
-          <span className="text-[0.7rem] tracking-[0.2em] opacity-60" style={{ color: "var(--cyan)" }}>
+        <div className="flex items-baseline gap-5 mb-16 reveal">
+          <span className="text-[0.65rem] tracking-[0.25em] opacity-50 shrink-0" style={{ color: "var(--cyan)" }}>
             {t.num}
           </span>
           <h2
-            className="text-[clamp(1.8rem,4vw,2.8rem)] font-bold tracking-tight leading-none"
-            style={{ color: "var(--text)" }}
+            className="font-black tracking-tighter leading-none"
+            style={{ fontSize: "clamp(3rem,8vw,6.5rem)", color: "var(--text-max)" }}
           >
             {t.title}
           </h2>
-          <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, var(--border), transparent)" }} />
+          <div
+            className="flex-1 h-px self-center ml-4 hidden md:block"
+            style={{ background: "linear-gradient(to right, var(--border-strong), transparent)" }}
+          />
         </div>
 
         {/* ══════════════════════ FEATURED CARD ══════════════════════ */}
@@ -187,8 +199,8 @@ export default function Projects() {
               {/* left: content */}
               <div>
                 <h3
-                  className="text-2xl md:text-3xl font-bold mb-4 leading-snug"
-                  style={{ color: "var(--text)" }}
+                  className="text-3xl md:text-4xl font-black tracking-tighter mb-4 leading-tight"
+                  style={{ color: "var(--text-max)" }}
                 >
                   {featuredContent.title}
                 </h3>
@@ -296,8 +308,8 @@ export default function Projects() {
 
                 {/* title */}
                 <h3
-                  className="text-[1.05rem] font-bold mb-3 leading-snug"
-                  style={{ color: "var(--text)", overflowWrap: "break-word" }}
+                  className="text-xl font-black tracking-tight mb-3 leading-snug"
+                  style={{ color: "var(--text-max)", overflowWrap: "break-word" }}
                 >
                   {content.title}
                 </h3>

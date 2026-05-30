@@ -11,7 +11,7 @@ export default function Skills() {
   useEffect(() => {
     const revealObserver = new IntersectionObserver(
       (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add("visible")),
-      { threshold: 0.1 }
+      { threshold: 0.08 }
     );
     sectionRef.current?.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
 
@@ -25,14 +25,14 @@ export default function Skills() {
           }
         });
       },
-      { threshold: 0.3 }
+      { threshold: 0.25 }
     );
     sectionRef.current?.querySelectorAll(".skill-fill").forEach((el) => fillObserver.observe(el));
 
     return () => { revealObserver.disconnect(); fillObserver.disconnect(); };
   }, [lang]);
 
-  const variants = ["", "", "orange-fill"];
+  const barVariants = ["", "green-fill", "orange-fill"];
 
   return (
     <section
@@ -41,19 +41,32 @@ export default function Skills() {
       className="relative z-[1] py-28 px-6 md:px-12"
       style={{ borderTop: "1px solid var(--border)" }}
     >
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-5xl mx-auto relative overflow-hidden">
 
-        <div className="flex items-baseline gap-5 mb-14 reveal">
-          <span className="text-[0.7rem] tracking-[0.2em] opacity-60" style={{ color: "var(--cyan)" }}>
+        {/* Ghost section number */}
+        <span
+          aria-hidden
+          className="absolute right-0 top-0 font-black tracking-tighter leading-none select-none pointer-events-none hidden lg:block"
+          style={{ fontSize: "clamp(8rem,20vw,17rem)", color: "rgba(255,255,255,0.022)", lineHeight: 0.85 }}
+        >
+          02
+        </span>
+
+        {/* Section header */}
+        <div className="flex items-baseline gap-5 mb-16 reveal">
+          <span className="text-[0.65rem] tracking-[0.25em] opacity-50 shrink-0" style={{ color: "var(--cyan)" }}>
             {t.num}
           </span>
           <h2
-            className="text-[clamp(1.8rem,4vw,2.8rem)] font-bold tracking-tight leading-none"
-            style={{ color: "var(--text)" }}
+            className="font-black tracking-tighter leading-none"
+            style={{ fontSize: "clamp(3rem,8vw,6.5rem)", color: "var(--text-max)" }}
           >
             {t.title}
           </h2>
-          <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, var(--border), transparent)" }} />
+          <div
+            className="flex-1 h-px self-center ml-4 hidden md:block"
+            style={{ background: "linear-gradient(to right, var(--border-strong), transparent)" }}
+          />
         </div>
 
         <div
@@ -78,28 +91,43 @@ export default function Skills() {
                 if (bar) bar.style.transform = "scaleX(0)";
               }}
             >
+              {/* top accent line */}
               <div
-                className="hover-bar absolute top-0 left-0 right-0 h-0.5 origin-left transition-transform duration-300"
+                className="hover-bar absolute top-0 left-0 right-0 h-px origin-left transition-transform duration-400"
                 style={{ background: "var(--cyan)", transform: "scaleX(0)" }}
               />
 
-              <div className="text-lg mb-4 font-mono" style={{ color: "var(--cyan)" }}>{group.icon}</div>
-              <div className="text-sm font-bold mb-1 tracking-[0.05em]" style={{ color: "var(--text)" }}>
+              {/* Large decorative icon */}
+              <div
+                className="text-5xl mb-5 font-mono leading-none select-none"
+                style={{ color: "rgba(103,232,249,0.18)" }}
+              >
+                {group.icon}
+              </div>
+
+              <div
+                className="text-xl font-black tracking-tight mb-2 leading-tight"
+                style={{ color: "var(--text-max)" }}
+              >
                 {group.title}
               </div>
-              <div className="text-[0.65rem] leading-relaxed mb-6" style={{ color: "var(--muted)" }}>
+              <div className="text-[0.62rem] leading-relaxed mb-7" style={{ color: "var(--muted)" }}>
                 {group.sub}
               </div>
 
-              <div className="space-y-3 mb-5">
+              <div className="space-y-4 mb-6">
                 {group.bars.map((bar, bi) => (
                   <div key={bar.name}>
-                    <div className="flex justify-between mb-1">
-                      <span className="text-[0.65rem]" style={{ color: "var(--muted2)" }}>{bar.name}</span>
-                      <span className="text-[0.65rem]" style={{ color: "var(--cyan)" }}>{bar.pct}%</span>
+                    <div className="flex justify-between mb-1.5">
+                      <span className="text-[0.62rem]" style={{ color: "var(--muted2)" }}>{bar.name}</span>
+                      <span className="text-[0.62rem] font-bold tabular-nums" style={{ color: "var(--cyan)" }}>{bar.pct}%</span>
                     </div>
-                    <div className="h-0.5 rounded-sm overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
-                      <div className={`skill-fill ${variants[i] ?? ""}`} data-w={bar.pct} key={`${lang}-${bi}`} />
+                    <div className="h-px overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
+                      <div
+                        className={`skill-fill ${barVariants[i] ?? ""}`}
+                        data-w={bar.pct}
+                        key={`${lang}-${bi}`}
+                      />
                     </div>
                   </div>
                 ))}
@@ -109,15 +137,15 @@ export default function Skills() {
                 {group.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="text-[0.55rem] uppercase tracking-[0.1em] px-2 py-0.5 rounded-sm transition-colors duration-200 cursor-default"
-                    style={{ border: "1px solid var(--border)", color: "var(--muted2)" }}
+                    className="text-[0.52rem] uppercase tracking-[0.12em] px-2 py-0.5 transition-colors duration-200"
+                    style={{ border: "1px solid var(--border)", color: "var(--muted)" }}
                     onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLElement).style.borderColor = "var(--cyan)";
+                      (e.currentTarget as HTMLElement).style.borderColor = "rgba(103,232,249,0.4)";
                       (e.currentTarget as HTMLElement).style.color = "var(--cyan)";
                     }}
                     onMouseLeave={(e) => {
                       (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
-                      (e.currentTarget as HTMLElement).style.color = "var(--muted2)";
+                      (e.currentTarget as HTMLElement).style.color = "var(--muted)";
                     }}
                   >
                     {tag}
@@ -127,7 +155,7 @@ export default function Skills() {
 
               {group.focus && (
                 <div
-                  className="mt-5 pt-4 text-[0.6rem] tracking-[0.03em]"
+                  className="mt-6 pt-5 text-[0.58rem] tracking-[0.03em]"
                   style={{ borderTop: "1px solid var(--border)", color: "var(--muted)" }}
                 >
                   <span style={{ color: "var(--cyan)" }}>▸</span> {group.focus}

@@ -91,16 +91,16 @@ export default function Hero() {
         <div className="mb-8 lg:mb-6 lg:flex lg:items-center lg:justify-between lg:gap-10">
 
           {/* Name — horizontal, same size */}
-          <h1 className="font-bold tracking-tight leading-none flex flex-row flex-wrap items-baseline mb-0">
+          <h1 className="font-black tracking-tighter leading-none flex flex-row flex-wrap items-baseline mb-0">
             <SplitReveal
               chars={firstName}
               baseDelay={200}
-              className="text-[clamp(3.2rem,6.5vw,6rem)] text-[var(--text)] mr-[0.35em]"
+              className="text-[clamp(4.5rem,11vw,9rem)] text-[var(--text-max)] mr-[0.25em]"
             />
             <SplitReveal
               chars={lastName}
               baseDelay={200 + firstName.length * 60 + 80}
-              className="text-[clamp(3.2rem,6.5vw,6rem)] text-[var(--cyan)]"
+              className="text-[clamp(4.5rem,11vw,9rem)] text-[var(--cyan)]"
               glow
             />
           </h1>
@@ -121,7 +121,7 @@ export default function Hero() {
 
         {/* Role paragraph */}
         <p
-          className="text-sm leading-[2] mb-10 max-w-[520px] opacity-0 animate-fade-up"
+          className="text-[0.95rem] leading-[1.95] mb-10 max-w-[520px] opacity-0 animate-fade-up"
           style={{
             color: "var(--muted2)",
             animationDelay: `${nameEnd}ms`,
@@ -163,12 +163,12 @@ export default function Hero() {
           ].map(({ val, valClass, label }) => (
             <div
               key={val}
-              className="pl-4 border-l"
-              style={{ borderColor: "var(--border)" }}
+              className="pl-5 border-l"
+              style={{ borderColor: "var(--border-strong)" }}
             >
-              <span className={`block text-2xl font-bold leading-none ${valClass}`}>{val}</span>
+              <span className={`block text-4xl font-black tracking-tighter leading-none ${valClass}`}>{val}</span>
               <span
-                className="block text-[0.6rem] uppercase tracking-[0.15em] mt-1"
+                className="block text-[0.55rem] uppercase tracking-[0.2em] mt-2"
                 style={{ color: "var(--muted)" }}
               >
                 {label}

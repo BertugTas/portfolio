@@ -11,7 +11,7 @@ export default function About() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add("visible")),
-      { threshold: 0.1 }
+      { threshold: 0.08 }
     );
     sectionRef.current?.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
     return () => observer.disconnect();
@@ -24,29 +24,42 @@ export default function About() {
       className="relative z-[1] py-28 px-6 md:px-12"
       style={{ borderTop: "1px solid var(--border)" }}
     >
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-5xl mx-auto relative overflow-hidden">
 
-        <div className="flex items-baseline gap-5 mb-14 reveal">
-          <span className="text-[0.7rem] tracking-[0.2em] opacity-60" style={{ color: "var(--cyan)" }}>
+        {/* Ghost section number */}
+        <span
+          aria-hidden
+          className="absolute right-0 top-0 font-black tracking-tighter leading-none select-none pointer-events-none hidden lg:block"
+          style={{ fontSize: "clamp(8rem,20vw,17rem)", color: "rgba(255,255,255,0.022)", lineHeight: 0.85 }}
+        >
+          01
+        </span>
+
+        {/* Section header */}
+        <div className="flex items-baseline gap-5 mb-16 reveal">
+          <span className="text-[0.65rem] tracking-[0.25em] opacity-50 shrink-0" style={{ color: "var(--cyan)" }}>
             {t.num}
           </span>
           <h2
-            className="text-[clamp(1.8rem,4vw,2.8rem)] font-bold tracking-tight leading-none"
-            style={{ color: "var(--text)" }}
+            className="font-black tracking-tighter leading-none"
+            style={{ fontSize: "clamp(3rem,8vw,6.5rem)", color: "var(--text-max)" }}
           >
             {t.title}
           </h2>
-          <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, var(--border), transparent)" }} />
+          <div
+            className="flex-1 h-px self-center ml-4 hidden md:block"
+            style={{ background: "linear-gradient(to right, var(--border-strong), transparent)" }}
+          />
         </div>
 
         <div className="grid md:grid-cols-2 gap-16 items-start">
 
           {/* Text */}
-          <div className="space-y-5 reveal" style={{ transitionDelay: "0.1s" }}>
-            <p className="text-sm leading-[2]" style={{ color: "var(--muted2)" }}>
-              <span style={{ color: "var(--cyan)" }}>{t.p1[0]}</span>{t.p1[1]}
+          <div className="space-y-6 reveal" style={{ transitionDelay: "0.1s" }}>
+            <p className="text-[0.9rem] leading-[2.05]" style={{ color: "var(--muted2)" }}>
+              <span style={{ color: "var(--text)" }}>{t.p1[0]}</span>{t.p1[1]}
             </p>
-            <p className="text-sm leading-[2]" style={{ color: "var(--muted2)" }}>
+            <p className="text-[0.9rem] leading-[2.05]" style={{ color: "var(--muted2)" }}>
               {t.p2intro}
               <span style={{ color: "var(--cyan)" }}>{t.p2a}</span>{" "}
               {lang === "tr" ? "ve " : "and "}
@@ -55,7 +68,7 @@ export default function About() {
               <span style={{ color: "var(--cyan)" }}>{t.p2c}</span>
               {t.p2end}
             </p>
-            <p className="text-sm leading-[2]" style={{ color: "var(--muted2)" }}>
+            <p className="text-[0.9rem] leading-[2.05]" style={{ color: "var(--muted2)" }}>
               {t.p3intro}
               <span style={{ color: "var(--green)" }}>{t.p3a}</span>
               {t.p3b}
@@ -67,21 +80,25 @@ export default function About() {
           {/* Detail grid */}
           <div
             className="grid grid-cols-2 gap-px reveal"
-            style={{ background: "var(--border)", border: "1px solid var(--border)", transitionDelay: "0.2s" }}
+            style={{
+              background: "var(--border)",
+              border: "1px solid var(--border)",
+              transitionDelay: "0.2s",
+            }}
           >
             {t.details.map(([key, val, accent]) => (
               <div
                 key={key}
-                className="p-5 transition-colors duration-200"
+                className="p-6 transition-colors duration-300"
                 style={{ background: "var(--bg2)" }}
                 onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "var(--bg3)")}
                 onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "var(--bg2)")}
               >
-                <div className="text-[0.6rem] uppercase tracking-[0.2em] mb-1.5" style={{ color: "var(--muted)" }}>
+                <div className="text-[0.52rem] uppercase tracking-[0.22em] mb-2.5" style={{ color: "var(--muted)" }}>
                   {key}
                 </div>
                 <div
-                  className="text-sm font-semibold"
+                  className="text-[0.9rem] font-bold tracking-tight"
                   style={{ color: accent === "green" ? "var(--green)" : "var(--cyan)" }}
                 >
                   {val}

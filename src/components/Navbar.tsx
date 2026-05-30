@@ -54,10 +54,10 @@ export default function Navbar() {
       <a
         href="#"
         aria-label="Ana sayfa"
-        className="font-mono text-sm font-bold tracking-[0.1em]"
+        className="font-mono text-[0.95rem] font-black tracking-[0.08em]"
         style={{ color: "var(--cyan)" }}
       >
-        BT<span style={{ color: "var(--muted2)" }}>.</span>dev
+        BT<span style={{ color: "rgba(255,255,255,0.25)" }}>.</span>dev
       </a>
 
       {/* Desktop links */}
