@@ -202,10 +202,10 @@ export default function Projects() {
           className="reveal mb-px relative overflow-hidden"
           style={{
             background: "var(--bg2)",
-            borderLeft: "2px solid var(--cyan)",
             border: "1px solid var(--border)",
             borderLeftWidth: "2px",
             borderLeftColor: "var(--cyan)",
+            boxShadow: "0 0 48px rgba(103,232,249,0.04), inset 0 0 48px rgba(103,232,249,0.015)",
           }}
         >
           {/* subtle gradient wash */}
@@ -322,8 +322,16 @@ export default function Projects() {
                   background: "var(--bg2)",
                   padding: "2rem",
                 }}
-                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "var(--bg3)")}
-                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "var(--bg2)")}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = "var(--bg3)";
+                  el.style.boxShadow = "inset 0 1px 0 rgba(103,232,249,0.22)";
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = "var(--bg2)";
+                  el.style.boxShadow = "none";
+                }}
               >
                 {/* hover gradient */}
                 <div

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Github, Linkedin, Mail } from "lucide-react";
-import DataScienceCube from "@/components/DataScienceCube";
+import DataScienceMetrics from "@/components/DataScienceMetrics";
 import { useLanguage, T } from "@/context/LanguageContext";
 
 const firstName = "Bertuğ".split("");
@@ -63,13 +63,13 @@ export default function Hero() {
     >
       <div className="w-full max-w-5xl mx-auto pt-20 lg:pt-24">
 
-        {/* Mobile-only cube — mounted only when isDesktop is confirmed false */}
+        {/* Mobile-only metrics — mounted only when isDesktop is confirmed false */}
         {isDesktop === false && (
           <div
             className="flex justify-center mb-8 opacity-0 animate-fade-up"
             style={{ animationDelay: "80ms", animationFillMode: "forwards" }}
           >
-            <DataScienceCube size={200} />
+            <DataScienceMetrics compact />
           </div>
         )}
 
@@ -105,7 +105,7 @@ export default function Hero() {
             />
           </h1>
 
-          {/* Desktop cube — mounted only when isDesktop is confirmed true */}
+          {/* Desktop metrics — mounted only when isDesktop is confirmed true */}
           {isDesktop === true && (
             <div
               className="shrink-0 translate-x-72 opacity-0 animate-fade-up"
@@ -114,7 +114,7 @@ export default function Hero() {
                 animationFillMode: "forwards",
               }}
             >
-              <DataScienceCube size={280} />
+              <DataScienceMetrics />
             </div>
           )}
         </div>
