@@ -337,8 +337,11 @@ function FeaturedRow({ card, lang }: { card: ProjectCard; lang: "en" | "tr" }) {
         <h3
           className="font-black tracking-tighter mb-5 leading-[1.05]"
           style={{
-            fontSize: "clamp(2rem,4vw,3.2rem)",
+            fontSize: "clamp(1.75rem,3.5vw,2.6rem)",
             color: "var(--text-max)",
+            overflowWrap: "break-word",
+            wordBreak: "break-word",
+            hyphens: "auto",
           }}
         >
           {content.title}
@@ -521,7 +524,12 @@ function ResearchRow({ card, lang }: { card: ProjectCard; lang: "en" | "tr" }) {
 
             <h3
               className="text-2xl md:text-3xl font-black tracking-tighter mb-5 leading-tight"
-              style={{ color: "var(--text-max)" }}
+              style={{
+                color: "var(--text-max)",
+                overflowWrap: "break-word",
+                wordBreak: "break-word",
+                hyphens: "auto",
+              }}
             >
               {content.title}
             </h3>

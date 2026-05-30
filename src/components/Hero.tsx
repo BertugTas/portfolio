@@ -89,9 +89,14 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col gap-px z-[1] overflow-x-hidden"
-      style={{ background: "var(--border)" }}
+      className="relative min-h-screen flex flex-col z-[1] px-6 md:px-12 overflow-x-hidden"
     >
+      {/* ─── Constrained bento — aligns hairlines with About/Skills/Projects/Contact ─── */}
+      <div
+        className="max-w-5xl mx-auto w-full flex-1 flex flex-col gap-px"
+        style={{ background: "var(--border)" }}
+      >
+
       {/* ═══════════════════ ROW 1 — A: NAME · B: METRICS ═══════════════════ */}
       <div
         className="flex-1 grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-px"
@@ -128,12 +133,12 @@ export default function Hero() {
               <SplitReveal
                 chars={firstName}
                 baseDelay={200}
-                className="text-[clamp(4.5rem,13vw,10.5rem)] text-[var(--text-max)]"
+                className="text-[clamp(3.5rem,10vw,7.5rem)] text-[var(--text-max)]"
               />
               <SplitReveal
                 chars={lastName}
                 baseDelay={200 + firstName.length * 60 + 80}
-                className="text-[clamp(4.5rem,13vw,10.5rem)] text-[var(--cyan)]"
+                className="text-[clamp(3.5rem,10vw,7.5rem)] text-[var(--cyan)]"
                 glow
               />
             </h1>
@@ -173,7 +178,7 @@ export default function Hero() {
 
         {/* ───── CELL B · METRICS PANEL ───── */}
         <div
-          className="relative flex flex-col p-8 pt-12 md:p-12 lg:p-16 lg:pt-36"
+          className="relative flex flex-col p-8 pt-12 md:p-12 md:pt-32 lg:p-16 lg:pt-36"
           style={{ background: "var(--bg)" }}
         >
           <CellMarker
@@ -344,6 +349,8 @@ export default function Hero() {
             ))}
           </div>
         </div>
+      </div>
+
       </div>
     </section>
   );
