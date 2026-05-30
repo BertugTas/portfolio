@@ -13,7 +13,7 @@ export default function Skills() {
       (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add("visible")),
       { threshold: 0.08 }
     );
-    sectionRef.current?.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
+    sectionRef.current?.querySelectorAll(".reveal, .reveal-line").forEach((el) => revealObserver.observe(el));
 
     const fillObserver = new IntersectionObserver(
       (entries) => {
@@ -39,8 +39,14 @@ export default function Skills() {
       id="skills"
       ref={sectionRef}
       className="relative z-[1] py-28 px-6 md:px-12"
-      style={{ borderTop: "1px solid var(--border)" }}
     >
+      {/* Animated section divider — grows from left as section enters viewport */}
+      <div
+        aria-hidden
+        className="reveal-line absolute top-0 left-0 right-0 h-px"
+        style={{ background: "var(--border-strong)" }}
+      />
+
       <div className="max-w-5xl mx-auto relative overflow-hidden">
 
         {/* Ghost section number */}
@@ -59,7 +65,7 @@ export default function Skills() {
           </span>
           <h2
             className="font-black tracking-tighter leading-none"
-            style={{ fontSize: "clamp(3rem,8vw,6.5rem)", color: "var(--text-max)" }}
+            style={{ fontSize: "clamp(2.4rem,7.5vw,6rem)", color: "var(--text-max)" }}
           >
             {t.title}
           </h2>
