@@ -218,3 +218,164 @@ export const slugMap: Record<string, string> = {
   "PredictiveOps Platform — Full-Stack ML Platform":  "predictiveops-platform",
   "PredictiveOps Platform — Full-Stack ML Platformu": "predictiveops-platform",
 };
+
+// ── Project card list — single source of truth for the main page ────────
+
+export type ProjectMetric = {
+  val: string;
+  labelEn: string;
+  labelTr: string;
+  color: string;
+};
+
+export type ProjectMetaKV = {
+  keyEn: string;
+  keyTr: string;
+  val: string;
+  color?: string;
+};
+
+export type ProjectCard = {
+  id: string;
+  featured: boolean;
+  slug?: string;
+  href: string;
+  pypiUrl?: string;
+  stack: string[];
+  badges: { en: string; tr: string }[];
+  metrics: ProjectMetric[];
+  meta: ProjectMetaKV[];
+  en: { title: string; area: string; description: string };
+  tr: { title: string; area: string; description: string };
+};
+
+export const projectsList: ProjectCard[] = [
+  // ── 1. bt-flow (featured) ──────────────────────────────────────────────
+  {
+    id: "bt-flow",
+    featured: true,
+    href: "https://github.com/BertugTas/bt-flow",
+    pypiUrl: "https://pypi.org/project/bt-flow/",
+    stack: ["Python", "FastAPI", "Pydantic", "scikit-learn", "Typer", "PyPI"],
+    badges: [
+      { en: "Open Source", tr: "Açık Kaynak" },
+      { en: "PyPI Published", tr: "PyPI'da Yayında" },
+      { en: "1-Line Deploy", tr: "Tek Satır Deploy" },
+    ],
+    metrics: [
+      { val: "PyPI", labelEn: "Published",  labelTr: "Yayında",    color: "var(--cyan)"   },
+      { val: "REST", labelEn: "API Layer",  labelTr: "API Katmanı", color: "var(--green)"  },
+      { val: "MIT",  labelEn: "License",    labelTr: "Lisans",      color: "var(--orange)" },
+    ],
+    meta: [
+      { keyEn: "Status",  keyTr: "Durum", val: "Live on PyPI",        color: "var(--green)"  },
+      { keyEn: "Type",    keyTr: "Tür",   val: "Open Source Library"                         },
+      { keyEn: "License", keyTr: "Lisans",val: "MIT"                                         },
+    ],
+    en: {
+      title: "bt-flow — Zero-Boilerplate ML Deployment",
+      area: "Open Source · MLOps · Python Library",
+      description:
+        "Open-source Python library published on PyPI. Wraps trained scikit-learn models into production-ready FastAPI REST APIs in a single line — automated route generation, dynamic Pydantic schema inference, and a CLI designed for zero-friction ML deployment workflows.",
+    },
+    tr: {
+      title: "bt-flow — Tek Satırda ML Deployment",
+      area: "Açık Kaynak · MLOps · Python Kütüphanesi",
+      description:
+        "PyPI üzerinde yayınlanan açık kaynaklı Python kütüphanesi. Eğitilmiş scikit-learn modellerini tek satırda production-ready FastAPI REST API'lerine dönüştürür — otomatik route üretimi, dinamik Pydantic şema çıkarımı ve sıfır sürtünmeli ML deployment için CLI.",
+    },
+  },
+
+  // ── 2. Teknofest Health AI ─────────────────────────────────────────────
+  {
+    id: "teknofest-health",
+    featured: false,
+    href: "https://github.com/BertugTas",
+    stack: ["Python", "PyTorch", "CNN", "OpenCV", "DICOM", "NumPy"],
+    badges: [
+      { en: "Score: 88/100", tr: "Puan: 88/100" },
+      { en: "Oncology AI",   tr: "Onkoloji AI"  },
+      { en: "Medical Imaging", tr: "Tıbbi Görüntüleme" },
+    ],
+    metrics: [],
+    meta: [
+      { keyEn: "Score",  keyTr: "Puan",  val: "88 / 100",      color: "var(--cyan)"   },
+      { keyEn: "Type",   keyTr: "Tür",   val: "Competition",    color: "var(--orange)" },
+      { keyEn: "Domain", keyTr: "Alan",  val: "Medical AI"                             },
+    ],
+    en: {
+      title: "Medical AI Platform — Teknofest Health Technologies",
+      area: "Medical AI · Computer Vision · Teknofest",
+      description:
+        "Comprehensive medical AI system developed for the Teknofest Health Technologies competition. Focuses on oncology data analysis and deep learning-based medical imaging classification using CNN architectures. Achieved an 88/100 evaluation score in competitive judging.",
+    },
+    tr: {
+      title: "Tıbbi Yapay Zeka Platformu — Teknofest Sağlık Teknolojileri",
+      area: "Tıbbi Yapay Zeka · Bilgisayarlı Görü · Teknofest",
+      description:
+        "Teknofest Sağlık Teknolojileri yarışması için geliştirilen kapsamlı tıbbi yapay zeka sistemi. CNN mimarileri kullanılarak onkoloji veri analizi ve derin öğrenme tabanlı tıbbi görüntü sınıflandırmasına odaklanır. Rekabetçi değerlendirmede 88/100 puan elde edildi.",
+    },
+  },
+
+  // ── 3. SAVTEK GCS Drone Tracker ────────────────────────────────────────
+  {
+    id: "savtek-gcs",
+    featured: false,
+    href: "https://github.com/BertugTas",
+    stack: ["Python", "ONNX", "OpenCV", "NumPy", "Embedded Systems"],
+    badges: [
+      { en: "Real-Time",    tr: "Gerçek Zamanlı" },
+      { en: "ROI Detection",tr: "ROI Tespiti"    },
+      { en: "ONNX Runtime", tr: "ONNX Runtime"   },
+    ],
+    metrics: [],
+    meta: [
+      { keyEn: "Status",    keyTr: "Durum",  val: "Competition",     color: "var(--orange)" },
+      { keyEn: "Type",      keyTr: "Tür",    val: "Defense Tech"                            },
+      { keyEn: "Inference", keyTr: "Çıkarım",val: "ONNX Optimized"                         },
+    ],
+    en: {
+      title: "SAVTEK GCS — Real-Time Drone Tracking System",
+      area: "Computer Vision · Embedded Systems · SAVTEK",
+      description:
+        "Real-time drone-based object tracking and ground control station (GCS) application. Integrates Region of Interest (ROI) detection with ONNX-optimized model inference for low-latency aerial surveillance and target acquisition under competition conditions.",
+    },
+    tr: {
+      title: "SAVTEK GCS — Gerçek Zamanlı İHA Takip Sistemi",
+      area: "Bilgisayarlı Görü · Gömülü Sistemler · SAVTEK",
+      description:
+        "Gerçek zamanlı İHA tabanlı nesne takibi ve yer kontrol istasyonu (GCS) uygulaması. Yarışma koşullarında düşük gecikmeli havadan gözetleme ve hedef tespiti için ROI algılama ile ONNX optimize model çıkarımını entegre eder.",
+    },
+  },
+
+  // ── 4. TÜBİTAK Research Platform ──────────────────────────────────────
+  {
+    id: "tubitak-research",
+    featured: false,
+    href: "https://github.com/BertugTas",
+    stack: ["Python", "R", "Statistics", "pandas", "scikit-learn"],
+    badges: [
+      { en: "2209-A Funded",       tr: "2209-A Destekli"      },
+      { en: "1002-A Funded",       tr: "1002-A Destekli"      },
+      { en: "Predictive Modeling", tr: "Tahminsel Modelleme"  },
+    ],
+    metrics: [],
+    meta: [
+      { keyEn: "Grant",  keyTr: "Hibe",  val: "2209-A · 1002-A",   color: "var(--orange)" },
+      { keyEn: "Status", keyTr: "Durum", val: "Active Research",    color: "var(--green)"  },
+      { keyEn: "Type",   keyTr: "Tür",   val: "Academic Research"                          },
+    ],
+    en: {
+      title: "TÜBİTAK 2209-A & 1002-A — Research Data Platform",
+      area: "Academic Research · Data Science · Statistics",
+      description:
+        "Academic and regional research data analysis platform developed under TÜBİTAK 2209-A (undergraduate research support) and 1002-A grants. Applies statistical modeling, machine learning, and data visualization to derive actionable insights from domain-specific research datasets.",
+    },
+    tr: {
+      title: "TÜBİTAK 2209-A & 1002-A — Araştırma Veri Platformu",
+      area: "Akademik Araştırma · Veri Bilimi · İstatistik",
+      description:
+        "TÜBİTAK 2209-A (lisans araştırma desteği) ve 1002-A hibeleri kapsamında geliştirilen akademik ve bölgesel araştırma veri analizi platformu. Alan spesifik araştırma veri setlerinden uygulanabilir içgörüler türetmek için istatistiksel modelleme, makine öğrenmesi ve veri görselleştirme kullanır.",
+    },
+  },
+];

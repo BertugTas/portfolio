@@ -1,71 +1,18 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Link from "next/link";
 import { useLanguage, T } from "@/context/LanguageContext";
-import { slugMap } from "@/data/projects";
-
-const stack: Record<string, string[]> = {
-  "Brain MRI Tumor Classification System":             ["Python", "TensorFlow / Keras", "CNN", "NumPy", "OpenCV"],
-  "Beyin MRI Tümör Sınıflandırma Sistemi":             ["Python", "TensorFlow / Keras", "CNN", "NumPy", "OpenCV"],
-  "Cancer Diagnosis Model — Multi-Algorithm Analysis":  ["Python", "scikit-learn", "pandas", "NumPy", "matplotlib"],
-  "Kanser Teşhis Modeli — Çok Algoritma Analizi":      ["Python", "scikit-learn", "pandas", "NumPy", "matplotlib"],
-  "Enterprise BI Dashboard":                            ["Power BI", "DAX", "MS SQL Server", "T-SQL"],
-  "Kurumsal İş Zekası Dashboard":                      ["Power BI", "DAX", "MS SQL Server", "T-SQL"],
-  "Automated Data Collection & Alerting System":        ["Python", "Playwright", "Twilio API"],
-  "Otomatik Veri Toplama & Uyarı Sistemi":             ["Python", "Playwright", "Twilio API"],
-  "Enterprise Database Management System":              ["C#", "OOP", "MS SQL Server", "T-SQL", "Windows Forms"],
-  "Kurumsal Veritabanı Yönetim Sistemi":               ["C#", "OOP", "MS SQL Server", "T-SQL", "Windows Forms"],
-  "PredictiveOps Platform — Full-Stack ML Platform":   ["Python", "FastAPI", "Next.js", "Docker", "GitHub Actions", "SQLite"],
-  "PredictiveOps Platform — Full-Stack ML Platformu":  ["Python", "FastAPI", "Next.js", "Docker", "GitHub Actions", "SQLite"],
-  "bt-flow — Zero-Boilerplate ML Deployment":          ["PyPI", "CLI", "FastAPI", "Pydantic", "Typer"],
-  "bt-flow — Tek Satırda ML Deployment":               ["PyPI", "CLI", "FastAPI", "Pydantic", "Typer"],
-};
-
-const badges: Record<string, string[]> = {
-  "Brain MRI Tumor Classification System":             ["CNN Architecture", "Medical Imaging", "Multi-class"],
-  "Beyin MRI Tümör Sınıflandırma Sistemi":             ["CNN Architecture", "Medical Imaging", "Multi-class"],
-  "Cancer Diagnosis Model — Multi-Algorithm Analysis":  ["4 Algorithms", "ROC / AUC", "Confusion Matrix"],
-  "Kanser Teşhis Modeli — Çok Algoritma Analizi":      ["4 Algoritma", "ROC / AUC", "Confusion Matrix"],
-  "Enterprise BI Dashboard":                            ["DAX", "Star Schema", "KPI Tracking"],
-  "Kurumsal İş Zekası Dashboard":                      ["DAX", "Star Schema", "KPI Takibi"],
-  "Automated Data Collection & Alerting System":        ["Scheduled Pipeline", "SMS Alert", "Auto Filter"],
-  "Otomatik Veri Toplama & Uyarı Sistemi":             ["Zamanlı Pipeline", "SMS Bildirim", "Oto Filtre"],
-  "Enterprise Database Management System":              ["CRUD", "Role-based Auth", "Reporting"],
-  "Kurumsal Veritabanı Yönetim Sistemi":               ["CRUD", "Rol Tabanlı Auth", "Raporlama"],
-  "PredictiveOps Platform — Full-Stack ML Platform":   ["REST API", "CI/CD Pipeline", "Docker Compose"],
-  "PredictiveOps Platform — Full-Stack ML Platformu":  ["REST API", "CI/CD Pipeline", "Docker Compose"],
-  "bt-flow — Zero-Boilerplate ML Deployment":          ["Open Source", "PyPI Published", "1-Line Deploy"],
-  "bt-flow — Tek Satırda ML Deployment":               ["Açık Kaynak", "PyPI'da Yayında", "Tek Satır Deploy"],
-};
-
-const pypiLinks: Record<string, string> = {
-  "bt-flow — Zero-Boilerplate ML Deployment": "https://pypi.org/project/bt-flow/",
-  "bt-flow — Tek Satırda ML Deployment":      "https://pypi.org/project/bt-flow/",
-};
-
-const metrics: Record<string, { val: string; label: string; color: string }[]> = {
-  "PredictiveOps Platform — Full-Stack ML Platform": [
-    { val: "REST",  label: "API Layer",  color: "var(--cyan)"  },
-    { val: "CI/CD", label: "Automated",  color: "var(--green)" },
-    { val: "3",     label: "Services",   color: "var(--orange)"},
-  ],
-  "PredictiveOps Platform — Full-Stack ML Platformu": [
-    { val: "REST",  label: "API Katmanı", color: "var(--cyan)"  },
-    { val: "CI/CD", label: "Otomatik",    color: "var(--green)" },
-    { val: "3",     label: "Servis",      color: "var(--orange)"},
-  ],
-};
+import { projectsList, type ProjectCard, type ProjectMetaKV } from "@/data/projects";
 
 /* ─────────────────────────────────────────── helpers ── */
+
 function StackTag({ label }: { label: string }) {
   return (
     <span
-      className="text-[0.6rem] tracking-[0.08em] px-2 py-0.5 whitespace-nowrap"
+      className="text-[0.58rem] tracking-[0.07em] px-1.5 py-px"
       style={{
-        background: "rgba(255,255,255,0.04)",
-        border: "1px solid var(--border)",
-        color: "var(--muted2)",
+        border: "1px solid rgba(255,255,255,0.08)",
+        color: "var(--muted)",
       }}
     >
       {label}
@@ -76,15 +23,38 @@ function StackTag({ label }: { label: string }) {
 function Badge({ label, accent }: { label: string; accent?: boolean }) {
   return (
     <span
-      className="text-[0.6rem] tracking-[0.08em] px-2 py-0.5 whitespace-nowrap"
+      className="text-[0.58rem] tracking-[0.07em] px-2 py-0.5 whitespace-nowrap"
       style={{
         background: accent ? "rgba(103,232,249,0.07)" : "rgba(110,231,183,0.07)",
-        border: `1px solid ${accent ? "rgba(103,232,249,0.25)" : "rgba(110,231,183,0.2)"}`,
+        border: `1px solid ${accent ? "rgba(103,232,249,0.22)" : "rgba(110,231,183,0.18)"}`,
         color: accent ? "var(--cyan)" : "var(--green)",
       }}
     >
       {label}
     </span>
+  );
+}
+
+function MetaRow({ items, lang }: { items: ProjectMetaKV[]; lang: "en" | "tr" }) {
+  return (
+    <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 mb-4">
+      {items.map((item) => (
+        <span key={item.keyEn} className="inline-flex items-center gap-1.5">
+          <span
+            className="text-[0.49rem] uppercase tracking-[0.18em]"
+            style={{ color: "var(--muted)" }}
+          >
+            {lang === "tr" ? item.keyTr : item.keyEn}
+          </span>
+          <span
+            className="text-[0.6rem] tracking-[0.04em]"
+            style={{ color: item.color ?? "var(--muted2)" }}
+          >
+            {item.val}
+          </span>
+        </span>
+      ))}
+    </div>
   );
 }
 
@@ -110,7 +80,7 @@ function GithubBtn({ href }: { href: string }) {
   );
 }
 
-function PrimaryBtn({ href, label }: { href: string; label: string }) {
+function PyPIBtn({ href }: { href: string }) {
   return (
     <a
       href={href}
@@ -125,30 +95,13 @@ function PrimaryBtn({ href, label }: { href: string; label: string }) {
         ((e.currentTarget as HTMLElement).style.boxShadow = "none")
       }
     >
-      {label} ↗
+      PyPI ↗
     </a>
   );
 }
 
-function CaseStudyBtn({ slug, label }: { slug: string; label: string }) {
-  return (
-    <Link
-      href={`/projects/${slug}`}
-      className="inline-flex items-center gap-1.5 text-[0.65rem] font-bold uppercase tracking-[0.12em] px-4 py-2 transition-all duration-200"
-      style={{ background: "var(--cyan)", color: "var(--bg)" }}
-      onMouseEnter={(e) =>
-        ((e.currentTarget as HTMLElement).style.boxShadow = "0 0 20px rgba(103,232,249,0.4)")
-      }
-      onMouseLeave={(e) =>
-        ((e.currentTarget as HTMLElement).style.boxShadow = "none")
-      }
-    >
-      {label} →
-    </Link>
-  );
-}
-
 /* ─────────────────────────────────────────── component ── */
+
 export default function Projects() {
   const sectionRef = useRef<HTMLElement>(null);
   const { lang } = useLanguage();
@@ -165,14 +118,9 @@ export default function Projects() {
     return () => observer.disconnect();
   }, []);
 
-  const [featured, ...rest] = t.items;
-
-  const featuredStack   = stack[featured.title]   ?? [];
-  const featuredBadges  = badges[featured.title]  ?? [];
-  const featuredMetrics = metrics[featured.title] ?? [];
-  const featuredSlug    = slugMap[featured.title] ?? "";
-  const featuredPypi    = pypiLinks[featured.title] ?? "";
-  const featuredGithub  = featured.href;
+  const [featured, ...rest] = projectsList as [ProjectCard, ...ProjectCard[]];
+  const featuredContent = lang === "tr" ? featured.tr : featured.en;
+  const featuredBadgeLabels = featured.badges.map((b) => (lang === "tr" ? b.tr : b.en));
 
   return (
     <section
@@ -221,7 +169,7 @@ export default function Projects() {
                 className="text-[0.6rem] uppercase tracking-[0.22em] px-2 py-0.5"
                 style={{ color: "var(--muted2)", border: "1px solid var(--border)" }}
               >
-                {featured.area}
+                {featuredContent.area}
               </span>
               <span
                 className="text-[0.55rem] uppercase tracking-[0.25em] px-2.5 py-1 font-bold"
@@ -242,49 +190,44 @@ export default function Projects() {
                   className="text-2xl md:text-3xl font-bold mb-4 leading-snug"
                   style={{ color: "var(--text)" }}
                 >
-                  {featured.title}
+                  {featuredContent.title}
                 </h3>
 
                 <p
-                  className="text-[0.78rem] leading-[1.9] mb-6"
+                  className="text-[0.78rem] leading-[1.9] mb-5"
                   style={{ color: "var(--muted2)", maxWidth: "56ch" }}
                 >
-                  {featured.description}
+                  {featuredContent.description}
                 </p>
 
+                {/* meta row */}
+                <MetaRow items={featured.meta} lang={lang} />
+
                 {/* badges */}
-                {featuredBadges.length > 0 && (
+                {featuredBadgeLabels.length > 0 && (
                   <div className="flex flex-wrap gap-2 mb-5">
-                    {featuredBadges.map((b) => <Badge key={b} label={b} accent />)}
+                    {featuredBadgeLabels.map((b) => <Badge key={b} label={b} accent />)}
                   </div>
                 )}
 
                 {/* stack */}
-                <div className="flex flex-wrap gap-2 mb-8">
-                  {featuredStack.map((s) => <StackTag key={s} label={s} />)}
+                <div className="flex flex-wrap gap-1.5 mb-8">
+                  {featured.stack.map((s) => <StackTag key={s} label={s} />)}
                 </div>
 
                 {/* links */}
                 <div className="flex flex-wrap gap-3">
-                  {featuredPypi
-                    ? <PrimaryBtn href={featuredPypi} label="PyPI" />
-                    : featuredSlug && (
-                        <CaseStudyBtn
-                          slug={featuredSlug}
-                          label={lang === "tr" ? "Vaka Analizi" : "Case Study"}
-                        />
-                      )
-                  }
-                  {featuredSlug !== "bi-dashboard" && <GithubBtn href={featuredGithub} />}
+                  {featured.pypiUrl && <PyPIBtn href={featured.pypiUrl} />}
+                  <GithubBtn href={featured.href} />
                 </div>
               </div>
 
-              {/* right: metric cards */}
-              {featuredMetrics.length > 0 && (
+              {/* right: metric panel */}
+              {featured.metrics.length > 0 && (
                 <div className="flex flex-row md:flex-col gap-3 mt-8 md:mt-0 flex-wrap">
-                  {featuredMetrics.map((m) => (
+                  {featured.metrics.map((m) => (
                     <div
-                      key={m.label}
+                      key={m.labelEn}
                       className="flex-1 md:flex-none px-5 py-4 text-center min-w-[80px]"
                       style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)" }}
                     >
@@ -292,7 +235,7 @@ export default function Projects() {
                         {m.val}
                       </span>
                       <span className="block text-[0.52rem] uppercase tracking-[0.18em]" style={{ color: "var(--muted)" }}>
-                        {m.label}
+                        {lang === "tr" ? m.labelTr : m.labelEn}
                       </span>
                     </div>
                   ))}
@@ -308,20 +251,16 @@ export default function Projects() {
           style={{ background: "var(--border)" }}
         >
           {rest.map((project, idx) => {
-            const projectStack  = stack[project.title]   ?? [];
-            const projectBadges = badges[project.title]  ?? [];
-            const projectSlug   = slugMap[project.title] ?? "";
-            const projectPypi   = pypiLinks[project.title] ?? "";
+            const content       = lang === "tr" ? project.tr : project.en;
+            const badgeLabels   = project.badges.map((b) => (lang === "tr" ? b.tr : b.en));
             const num           = String(idx + 2).padStart(2, "0");
+            const isLastOdd     = idx === rest.length - 1 && rest.length % 2 !== 0;
 
             return (
               <div
-                key={project.title}
-                className="reveal group relative overflow-hidden flex flex-col transition-colors duration-300"
-                style={{
-                  background: "var(--bg2)",
-                  padding: "2rem",
-                }}
+                key={project.id}
+                className={`reveal group relative overflow-hidden flex flex-col transition-colors duration-300${isLastOdd ? " md:col-span-2" : ""}`}
+                style={{ background: "var(--bg2)", padding: "2rem" }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget as HTMLElement;
                   el.style.background = "var(--bg3)";
@@ -339,13 +278,13 @@ export default function Projects() {
                   style={{ background: "linear-gradient(135deg, rgba(103,232,249,0.03), transparent)" }}
                 />
 
-                {/* project number + area */}
+                {/* area + number */}
                 <div className="flex items-start justify-between mb-5">
                   <span
                     className="text-[0.6rem] uppercase tracking-[0.22em] px-2 py-0.5"
                     style={{ color: "var(--muted2)", border: "1px solid var(--border)" }}
                   >
-                    {project.area}
+                    {content.area}
                   </span>
                   <span
                     className="text-[1.6rem] font-bold leading-none tabular-nums select-none"
@@ -360,7 +299,7 @@ export default function Projects() {
                   className="text-[1.05rem] font-bold mb-3 leading-snug"
                   style={{ color: "var(--text)", overflowWrap: "break-word" }}
                 >
-                  {project.title}
+                  {content.title}
                 </h3>
 
                 {/* description */}
@@ -368,19 +307,22 @@ export default function Projects() {
                   className="text-[0.72rem] leading-[1.85] mb-4 flex-1"
                   style={{ color: "var(--muted2)", overflowWrap: "break-word" }}
                 >
-                  {project.description}
+                  {content.description}
                 </p>
 
+                {/* meta row */}
+                <MetaRow items={project.meta} lang={lang} />
+
                 {/* badges */}
-                {projectBadges.length > 0 && (
+                {badgeLabels.length > 0 && (
                   <div className="flex flex-wrap gap-1.5 mb-4">
-                    {projectBadges.map((b) => <Badge key={b} label={b} />)}
+                    {badgeLabels.map((b) => <Badge key={b} label={b} />)}
                   </div>
                 )}
 
                 {/* stack */}
                 <div className="flex flex-wrap gap-1.5 mb-5">
-                  {projectStack.map((s) => <StackTag key={s} label={s} />)}
+                  {project.stack.map((s) => <StackTag key={s} label={s} />)}
                 </div>
 
                 {/* links */}
@@ -388,16 +330,8 @@ export default function Projects() {
                   className="flex flex-wrap gap-2 mt-auto pt-5"
                   style={{ borderTop: "1px solid var(--border)" }}
                 >
-                  {projectPypi
-                    ? <PrimaryBtn href={projectPypi} label="PyPI" />
-                    : projectSlug && (
-                        <CaseStudyBtn
-                          slug={projectSlug}
-                          label={lang === "tr" ? "Vaka Analizi" : "Case Study"}
-                        />
-                      )
-                  }
-                  {projectSlug !== "bi-dashboard" && <GithubBtn href={project.href} />}
+                  {project.pypiUrl && <PyPIBtn href={project.pypiUrl} />}
+                  <GithubBtn href={project.href} />
                 </div>
               </div>
             );
