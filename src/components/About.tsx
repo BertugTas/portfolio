@@ -13,7 +13,9 @@ export default function About() {
       (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add("visible")),
       { threshold: 0.08 }
     );
-    sectionRef.current?.querySelectorAll(".reveal, .reveal-line").forEach((el) => observer.observe(el));
+    sectionRef.current
+      ?.querySelectorAll(".reveal, .reveal-line, .chapter-reveal")
+      .forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
@@ -23,7 +25,6 @@ export default function About() {
       ref={sectionRef}
       className="relative z-[1] py-28 px-6 md:px-12"
     >
-      {/* Animated section divider — grows from left as section enters viewport */}
       <div
         aria-hidden
         className="reveal-line absolute top-0 left-0 right-0 h-px"
@@ -43,11 +44,11 @@ export default function About() {
 
         {/* Section header */}
         <div className="flex items-baseline gap-5 mb-16 reveal">
-          <span className="text-[0.65rem] tracking-[0.25em] opacity-50 shrink-0" style={{ color: "var(--cyan)" }}>
+          <span className="text-[0.65rem] tracking-[0.25em] shrink-0" style={{ color: "var(--muted)" }}>
             {t.num}
           </span>
           <h2
-            className="font-black tracking-tighter leading-none"
+            className="chapter-reveal font-black tracking-tighter leading-none"
             style={{ fontSize: "clamp(2.4rem,7.5vw,6rem)", color: "var(--text-max)" }}
           >
             {t.title}
@@ -60,7 +61,7 @@ export default function About() {
 
         <div className="grid md:grid-cols-2 gap-16 items-start">
 
-          {/* Text */}
+          {/* Prose */}
           <div className="space-y-6 reveal" style={{ transitionDelay: "0.1s" }}>
             <p className="text-[0.9rem] leading-[2.05]" style={{ color: "var(--muted2)" }}>
               <span style={{ color: "var(--text)" }}>{t.p1[0]}</span>{t.p1[1]}
@@ -83,7 +84,7 @@ export default function About() {
             </p>
           </div>
 
-          {/* Detail grid */}
+          {/* Floating detail grid — hairline borders only, no cell backgrounds */}
           <div
             className="grid grid-cols-2 gap-px reveal"
             style={{
@@ -95,10 +96,8 @@ export default function About() {
             {t.details.map(([key, val, accent]) => (
               <div
                 key={key}
-                className="p-6 transition-colors duration-300"
-                style={{ background: "var(--bg2)" }}
-                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "var(--bg3)")}
-                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "var(--bg2)")}
+                className="p-6"
+                style={{ background: "var(--bg)" }}
               >
                 <div className="text-[0.52rem] uppercase tracking-[0.22em] mb-2.5" style={{ color: "var(--muted)" }}>
                   {key}

@@ -17,6 +17,37 @@ export type ProjectEntry = {
 
 export const projectsData: ProjectEntry[] = [
   {
+    slug: "bt-flow",
+    tr: {
+      title: "bt-flow — Tek Satırda ML Deployment",
+      area: "Açık Kaynak · MLOps · Python Kütüphanesi",
+      problem:
+        "Makine öğrenmesi modelleri araştırma ortamından production REST API'sine taşınırken ciddi mühendislik maliyeti doğuruyor. Her yeni model için FastAPI endpoint yazımı, Pydantic şema tanımı ve deployment yapılandırması manuel olarak tekrarlanıyor; bu tekrar hem zaman alıcı hem de hata prone.",
+      approach:
+        "Eğitilmiş scikit-learn modellerini introspect eden bir sarmalayıcı kütüphane tasarlandı. Model özellik isimleri ve veri türlerinden dinamik Pydantic şema çıkarımı yapıldı. Tek satır API ile tam donanımlı bir FastAPI uygulaması otomatik oluşturuldu. Typer ile CLI arayüzü eklendi. Paket PyPI'da yayınlandı.",
+      outcome:
+        "pip install bt-flow ile kurulabilir. Herhangi bir scikit-learn modeli tek komutla production-ready REST API'ye dönüşüyor. MIT lisansı ile açık kaynak olarak aktif biçimde yayında.",
+      learnings:
+        "Python paket geliştirme, PyPI yayımlama süreci, model introspection, dinamik Pydantic şema üretimi ve CLI tasarımı konularında derinlemesine deneyim kazanıldı.",
+      stack: ["Python", "FastAPI", "Pydantic", "scikit-learn", "Typer", "PyPI"],
+      github: "https://github.com/BertugTas/bt-flow",
+    },
+    en: {
+      title: "bt-flow — Zero-Boilerplate ML Deployment",
+      area: "Open Source · MLOps · Python Library",
+      problem:
+        "Moving ML models from research to a production REST API requires substantial engineering overhead. For every new model, developers must manually write FastAPI endpoints, define Pydantic schemas, and configure deployment — a repetitive, error-prone cycle that slows iteration.",
+      approach:
+        "Built a wrapper library that introspects trained scikit-learn models at runtime. Automated Pydantic schema inference from model feature names and types. A single-line API generates a complete FastAPI application with typed routes. Typer CLI added for developer ergonomics. Published as a package on PyPI.",
+      outcome:
+        "Installable via pip install bt-flow. Any scikit-learn model becomes a production-ready REST API in one command. Live on PyPI under the MIT license with active maintenance.",
+      learnings:
+        "Gained deep experience in Python package development, PyPI publishing pipeline, model introspection, dynamic Pydantic schema generation, and CLI design.",
+      stack: ["Python", "FastAPI", "Pydantic", "scikit-learn", "Typer", "PyPI"],
+      github: "https://github.com/BertugTas/bt-flow",
+    },
+  },
+  {
     slug: "brain-mri",
     tr: {
       title: "Beyin MRI Tümör Sınıflandırma Sistemi",
@@ -205,6 +236,8 @@ export const projectsData: ProjectEntry[] = [
 ];
 
 export const slugMap: Record<string, string> = {
+  "bt-flow — Zero-Boilerplate ML Deployment":          "bt-flow",
+  "bt-flow — Tek Satırda ML Deployment":               "bt-flow",
   "Brain MRI Tumor Classification System":            "brain-mri",
   "Beyin MRI Tümör Sınıflandırma Sistemi":            "brain-mri",
   "Cancer Diagnosis Model — Multi-Algorithm Analysis": "cancer-diagnosis",

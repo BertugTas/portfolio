@@ -32,9 +32,7 @@ export default function Footer() {
           © {new Date().getFullYear()} Bertuğ Taş · {t.location}
         </span>
         <a
-          href="https://bertugtas.com"
-          target="_blank"
-          rel="noopener noreferrer"
+          href="/"
           className="font-mono text-[0.6rem] tracking-[0.12em] transition-opacity duration-200 hover:opacity-60"
           style={{ color: "var(--cyan)" }}
         >

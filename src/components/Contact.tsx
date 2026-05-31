@@ -6,23 +6,26 @@ import { useLanguage, T } from "@/context/LanguageContext";
 const CONTACTS = [
   {
     index: "01",
+    type: "Email",
     label: "bertugtaas@gmail.com",
     href: "mailto:bertugtaas@gmail.com",
   },
   {
     index: "02",
+    type: "GitHub",
     label: "github.com/BertugTas",
     href: "https://github.com/BertugTas",
   },
   {
     index: "03",
-    label: "LinkedIn — Bertuğ Taş",
+    type: "LinkedIn",
+    label: "linkedin.com/in/bertuğ-taş",
     href: "https://linkedin.com/in/bertu%C4%9F-ta%C5%9F-bb20562b5",
   },
   {
     index: "04",
-    labelEn: "ResearchGate — Academic",
-    labelTr: "ResearchGate — Akademik",
+    type: "ResearchGate",
+    label: "researchgate.net/profile/Bertug-Tas",
     href: "https://www.researchgate.net/profile/Bertug-Tas?ev=hdr_xprf",
   },
 ] as const;
@@ -37,7 +40,9 @@ export default function Contact() {
       (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add("visible")),
       { threshold: 0.08 }
     );
-    sectionRef.current?.querySelectorAll(".reveal, .reveal-line").forEach((el) => observer.observe(el));
+    sectionRef.current
+      ?.querySelectorAll(".reveal, .reveal-line, .chapter-reveal")
+      .forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
@@ -47,7 +52,6 @@ export default function Contact() {
       ref={sectionRef}
       className="relative z-[1] py-28 px-6 md:px-12"
     >
-      {/* Animated section divider — grows from left as section enters viewport */}
       <div
         aria-hidden
         className="reveal-line absolute top-0 left-0 right-0 h-px"
@@ -62,16 +66,16 @@ export default function Contact() {
           className="absolute right-0 top-0 font-black tracking-tighter leading-none select-none pointer-events-none hidden lg:block"
           style={{ fontSize: "clamp(8rem,20vw,17rem)", color: "rgba(255,255,255,0.022)", lineHeight: 0.85 }}
         >
-          04
+          06
         </span>
 
         {/* Section header */}
         <div className="flex items-baseline gap-5 mb-16 reveal">
-          <span className="text-[0.65rem] tracking-[0.25em] opacity-50 shrink-0" style={{ color: "var(--cyan)" }}>
+          <span className="text-[0.65rem] tracking-[0.25em] shrink-0" style={{ color: "var(--muted)" }}>
             {t.num}
           </span>
           <h2
-            className="font-black tracking-tighter leading-none"
+            className="chapter-reveal font-black tracking-tighter leading-none"
             style={{ fontSize: "clamp(2.4rem,7.5vw,6rem)", color: "var(--text-max)" }}
           >
             {t.title}
@@ -82,58 +86,50 @@ export default function Contact() {
           />
         </div>
 
-        <div className="grid md:grid-cols-[3fr_2fr] gap-16 items-start">
+        <div className="grid md:grid-cols-[3fr_2fr] gap-8 md:gap-12 lg:gap-16 items-start">
 
-          {/* Left: editorial CTA block */}
+          {/* LEFT: terse descriptor */}
           <div className="reveal">
-            <div
-              className="font-black tracking-tighter leading-[1.0] mb-8"
-              style={{
-                fontSize: "clamp(2.2rem,6.5vw,5rem)",
-                color: "var(--text-max)",
-                overflowWrap: "break-word",
-                wordBreak: "break-word",
-              }}
+            {/* Chapter micro-label — typographic anchor for the left column */}
+            <span
+              className="block text-[0.52rem] uppercase tracking-[0.3em] mb-4 font-bold"
+              style={{ color: "var(--cyan)" }}
             >
-              {t.heading1}
-              <br />
-              <span style={{ color: "var(--cyan)" }}>{t.heading2}</span>
-            </div>
-
-            {/* Thin rule */}
-            <div className="h-px mb-8 w-16" style={{ background: "var(--border-strong)" }} />
+              {t.chapter}
+            </span>
 
             <p
-              className="text-[0.88rem] leading-[2] mb-10 max-w-sm"
-              style={{ color: "var(--muted2)" }}
+              className="text-[0.68rem] uppercase tracking-[0.2em] mb-8"
+              style={{ color: "var(--muted)" }}
+            >
+              {t.descriptor}
+            </p>
+
+            <div
+              className="h-px mb-8 w-10"
+              style={{ background: "var(--border-strong)" }}
+            />
+
+            <p
+              className="text-[0.88rem] leading-[2] mb-6"
+              style={{ color: "var(--muted2)", maxWidth: "42ch" }}
             >
               {t.body}
             </p>
 
-            <a
-              href="mailto:bertugtaas@gmail.com"
-              className="inline-flex items-center gap-3 text-[0.75rem] font-black uppercase tracking-[0.18em] px-8 py-4 transition-all duration-300"
-              style={{
-                background: "transparent",
-                border: "1px solid rgba(255,255,255,0.12)",
-                color: "var(--text)",
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.borderColor = "var(--cyan)";
-                el.style.color = "var(--cyan)";
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.borderColor = "rgba(255,255,255,0.12)";
-                el.style.color = "var(--text)";
-              }}
-            >
-              {t.cta}
-            </a>
+            {/* Location telemetry */}
+            <div className="flex items-center gap-3 mt-10">
+              <span
+                className="status-dot w-1.5 h-1.5 rounded-full shrink-0"
+                style={{ background: "var(--green)", boxShadow: "0 0 6px var(--green)" }}
+              />
+              <span className="text-[0.52rem] uppercase tracking-[0.22em]" style={{ color: "var(--muted)" }}>
+                {lang === "tr" ? "İzmir, TR — müsait" : "Izmir, TR — available"}
+              </span>
+            </div>
           </div>
 
-          {/* Right: editorial numbered contact rows */}
+          {/* RIGHT: numbered coordinate list */}
           <div
             className="flex flex-col gap-px reveal"
             style={{
@@ -142,50 +138,41 @@ export default function Contact() {
               transitionDelay: "0.15s",
             }}
           >
-            {CONTACTS.map((link) => {
-              const label =
-                "label" in link
-                  ? link.label
-                  : lang === "tr"
-                  ? link.labelTr
-                  : link.labelEn;
-
-              return (
-                <a
-                  key={link.index}
-                  href={link.href}
-                  target={link.href.startsWith("mailto") ? undefined : "_blank"}
-                  rel="noopener noreferrer"
-                  className="group flex items-center justify-between px-6 py-5 transition-all duration-250"
-                  style={{ background: "var(--bg2)", color: "var(--muted2)" }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLElement;
-                    el.style.background = "var(--bg3)";
-                    el.style.color = "var(--text-max)";
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLElement;
-                    el.style.background = "var(--bg2)";
-                    el.style.color = "var(--muted2)";
-                  }}
-                >
-                  <span className="flex items-center gap-4">
-                    <span
-                      className="text-[0.48rem] font-black uppercase tracking-[0.25em] tabular-nums shrink-0"
-                      style={{ color: "var(--muted)" }}
-                    >
-                      {link.index}
-                    </span>
-                    <span className="text-[0.72rem] tracking-[0.02em]">{label}</span>
-                  </span>
+            {CONTACTS.map((link) => (
+              <a
+                key={link.index}
+                href={link.href}
+                target={link.href.startsWith("mailto") ? undefined : "_blank"}
+                rel="noopener noreferrer"
+                className="group flex items-center justify-between px-6 py-5 transition-all duration-200"
+                style={{ background: "var(--bg)", color: "var(--muted2)" }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = "var(--bg2)";
+                  el.style.color = "var(--text-max)";
+                  el.style.boxShadow = "inset 0 1px 0 rgba(103,232,249,0.15)";
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = "var(--bg)";
+                  el.style.color = "var(--muted2)";
+                  el.style.boxShadow = "none";
+                }}
+              >
+                <span className="flex flex-col gap-0.5">
                   <span
-                    className="text-[0.65rem] opacity-30 transition-opacity duration-200 group-hover:opacity-70"
+                    className="text-[0.58rem] uppercase tracking-[0.22em] tabular-nums"
+                    style={{ color: "var(--muted)" }}
                   >
-                    →
+                    {link.index} · {link.type}
                   </span>
-                </a>
-              );
-            })}
+                  <span className="text-[0.7rem] tracking-[0.02em]">{link.label}</span>
+                </span>
+                <span className="text-[0.65rem] opacity-25 transition-all duration-200 group-hover:opacity-60 group-hover:translate-x-0.5 transform">
+                  →
+                </span>
+              </a>
+            ))}
           </div>
         </div>
       </div>

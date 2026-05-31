@@ -380,24 +380,35 @@ export default function BlogIndexClient({ pairs }: Props) {
         </span>
 
         {/* Section header */}
-        <div className="flex items-baseline gap-5 mb-16 reveal">
-          <span
-            className="text-[0.65rem] tracking-[0.25em] opacity-50 shrink-0"
-            style={{ color: "var(--cyan)" }}
+        <div className="mb-4 reveal">
+          <div className="flex items-baseline gap-5">
+            <span
+              className="text-[0.65rem] tracking-[0.25em] opacity-50 shrink-0"
+              style={{ color: "var(--cyan)" }}
+            >
+              // 05
+            </span>
+            <h2
+              className="font-black tracking-tighter leading-none"
+              style={{ fontSize: "clamp(2.4rem,7.5vw,6rem)", color: "var(--text-max)" }}
+            >
+              Transmissions
+            </h2>
+            <div
+              className="flex-1 h-px self-center ml-4 hidden md:block"
+              style={{ background: "linear-gradient(to right, var(--border-strong), transparent)" }}
+            />
+          </div>
+          <p
+            className="text-[0.62rem] uppercase tracking-[0.18em] mt-3 ml-0"
+            style={{ color: "var(--muted)" }}
           >
-            // 05
-          </span>
-          <h2
-            className="font-black tracking-tighter leading-none"
-            style={{ fontSize: "clamp(2.4rem,7.5vw,6rem)", color: "var(--text-max)" }}
-          >
-            {lang === "tr" ? "Yazılar" : "Writing"}
-          </h2>
-          <div
-            className="flex-1 h-px self-center ml-4 hidden md:block"
-            style={{ background: "linear-gradient(to right, var(--border-strong), transparent)" }}
-          />
+            {lang === "tr"
+              ? "Araştırma katmanından saha notları."
+              : "Field notes from the research layer."}
+          </p>
         </div>
+        <div className="mb-12" />
 
         {/* ═══════════════════ BENTO WRAPPER ═══════════════════ */}
         <div

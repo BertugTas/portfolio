@@ -5,6 +5,10 @@ import CaseStudyClient from "./CaseStudyClient";
 
 type Props = { params: Promise<{ slug: string }> };
 
+export function generateStaticParams() {
+  return projectsData.map((p) => ({ slug: p.slug }));
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const project = projectsData.find((p) => p.slug === slug);

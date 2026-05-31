@@ -42,6 +42,7 @@ body {
 .reveal {
   opacity: 0;
   transform: translateY(32px);
+  transition-delay: 0s; /* explicit base so inline transitionDelay overrides work */
   transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -57,7 +58,7 @@ body {
 }
 .animate-char-reveal {
   opacity: 0;
-  animation: charReveal 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: charReveal 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* ── Generic fade-up ── */
@@ -87,6 +88,29 @@ body {
 }
 .reveal-line.visible {
   transform: scaleX(1);
+}
+
+/* ── Name wipe — cinematic title-card reveal, left → right ── */
+@keyframes nameWipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0%   0 0); }
+}
+.name-wipe {
+  clip-path: inset(0 100% 0 0);
+  animation: nameWipe 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+}
+.name-wipe-2 {
+  clip-path: inset(0 100% 0 0);
+  animation: nameWipe 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.58s forwards;
+}
+
+/* ── Chapter reveal — scroll-triggered display titles, bottom → top ── */
+.chapter-reveal {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.chapter-reveal.visible {
+  clip-path: inset(0 0 0% 0);
 }
 
 /* ── Blink cursor ── */
@@ -144,8 +168,32 @@ body {
   }
 }
 
-/* ── Force hide native cursor ── */
-* { cursor: none !important; }
+/* ── Force hide native cursor (pointer devices only) ── */
+@media (pointer: fine) {
+  * { cursor: none !important; }
+}
+
+/* ── Reduced motion: disable all transitions and animations ── */
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal-line, .chapter-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    transition: none !important;
+  }
+  .name-wipe, .name-wipe-2 {
+    clip-path: none !important;
+    animation: none !important;
+  }
+  .animate-fade-up, .animate-char-reveal, .animate-line-grow,
+  .tas-glow, .animate-scan-down, .status-dot {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+  .skill-fill {
+    transition: none !important;
+  }
+}
 
 /* ────────────────────────────────────────────────────────────────────
    Blog post body — institutional dark prose

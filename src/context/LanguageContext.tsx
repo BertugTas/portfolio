@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 export type Lang = "tr" | "en";
 
@@ -15,6 +15,12 @@ export const useLanguage = () => useContext(LanguageContext);
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLang] = useState<Lang>("tr");
   const toggle = () => setLang((l) => (l === "tr" ? "en" : "tr"));
+
+  // Keep html[lang] in sync with active language for screen readers
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
+
   return (
     <LanguageContext.Provider value={{ lang, toggle }}>
       {children}
@@ -26,13 +32,15 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 export const T = {
   tr: {
     nav: {
-      about: "hakkımda", skills: "uzmanlık", projects: "çalışmalar", blog: "yazılar", contact: "iletişim",
+      about: "hakkımda", research: "araştırma", skills: "uzmanlık", projects: "çalışmalar", blog: "yazılar", contact: "iletişim",
       status: "İzmir, TR — aktif",
     },
     hero: {
-      eyebrow: "Veri Bilimi · Veri Mühendisi",
+      eyebrow: "Bilgisayar Bilimi · Yapay Zeka · İzmir",
       ml: "Makine Öğrenmesi", dl: "Derin Öğrenme", bi: "Veri Mühendisliği",
       cta_work: "Çalışmaları Gör →", cta_contact: "İletişim", scroll: "Kaydır",
+      currently: "Güncel",
+      currentProject: "Tıbbi Görüntü Sınıflandırması · TÜBİTAK 2209-A",
     },
     about: {
       num: "// 01", title: "Hakkımda",
@@ -53,8 +61,17 @@ export const T = {
         ["Hedef Rol",  "Veri Mühendisi"],
       ],
     },
+    research: {
+      num: "// 02", title: "Araştırmalar",
+      chapter: "ARAŞTIRMACI",
+      descriptor: "Aktif araştırma projeleri ve akademik çalışmalar.",
+      featured: "// 01 · AKADEMİK HİBE",
+      secondary: "// 02 · REKABET",
+      methodology: "Metodoloji",
+      outcome: "Çıktı",
+    },
     skills: {
-      num: "// 02", title: "Uzmanlık Alanları",
+      num: "// 04", title: "Uzmanlık Alanları",
       groups: [
         {
           icon: "◈", title: "Makine Öğrenmesi",
@@ -95,8 +112,10 @@ export const T = {
       num: "// 03", title: "Çalışmalar",
     },
     contact: {
-      num: "// 04", title: "İletişim",
+      num: "// 06", title: "İletişim",
       heading1: "Birlikte", heading2: "çalışalım.",
+      chapter: "AÇIK KANAL",
+      descriptor: "Veri bilimi, araştırma ve mühendislik projeleri için müsait.",
       body: "Veri bilimi projeleri, iş zekası çözümleri veya yazılım geliştirme konularında iş birliği için ulaşabilirsiniz.",
       cta: "Mail Gönder →",
     },
@@ -105,13 +124,15 @@ export const T = {
 
   en: {
     nav: {
-      about: "about", skills: "expertise", projects: "work", blog: "blog", contact: "contact",
+      about: "about", research: "research", skills: "stack", projects: "work", blog: "blog", contact: "contact",
       status: "Izmir, TR — active",
     },
     hero: {
-      eyebrow: "Data Science · Data Engineer",
+      eyebrow: "Computer Science · Artificial Intelligence · Izmir",
       ml: "Machine Learning", dl: "Deep Learning", bi: "Data Engineering",
       cta_work: "View Work →", cta_contact: "Contact", scroll: "Scroll",
+      currently: "Currently",
+      currentProject: "Medical Image Classification · TÜBİTAK 2209-A",
     },
     about: {
       num: "// 01", title: "About",
@@ -132,8 +153,17 @@ export const T = {
         ["Target Role","Data Engineer"],
       ],
     },
+    research: {
+      num: "// 02", title: "Research",
+      chapter: "THE RESEARCHER",
+      descriptor: "Active research projects and academic work.",
+      featured: "// 01 · RESEARCH GRANT",
+      secondary: "// 02 · COMPETITION",
+      methodology: "Methodology",
+      outcome: "Outcome",
+    },
     skills: {
-      num: "// 02", title: "Areas of Expertise",
+      num: "// 04", title: "Areas of Expertise",
       groups: [
         {
           icon: "◈", title: "Machine Learning",
@@ -174,8 +204,10 @@ export const T = {
       num: "// 03", title: "Work",
     },
     contact: {
-      num: "// 04", title: "Contact",
+      num: "// 06", title: "Contact",
       heading1: "Let's", heading2: "work together.",
+      chapter: "OPEN CHANNEL",
+      descriptor: "Available for data science, research, and engineering work.",
       body: "Available for collaboration on data science projects, business intelligence solutions, or software development.",
       cta: "Send Email →",
     },

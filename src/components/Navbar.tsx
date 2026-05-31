@@ -19,6 +19,7 @@ export default function Navbar() {
 
   const navLinks = [
     { label: t.about,    href: "/#about"    },
+    { label: t.research, href: "/#research" },
     { label: t.skills,   href: "/#skills"   },
     { label: t.projects, href: "/#projects" },
     { label: t.blog,     href: "/blog"      },
@@ -55,17 +56,17 @@ export default function Navbar() {
       {/* Logo */}
       <Link
         href="/"
-        aria-label="Ana sayfa"
+        aria-label={lang === "tr" ? "Ana sayfa" : "Home"}
         className="font-mono text-[0.95rem] font-black tracking-[0.08em]"
-        style={{ color: "var(--cyan)" }}
+        style={{ color: "var(--text-max)" }}
       >
-        BT<span style={{ color: "rgba(255,255,255,0.25)" }}>.</span>dev
+        BT<span style={{ color: "rgba(255,255,255,0.2)" }}>.</span><span style={{ color: "var(--cyan)" }}>dev</span>
       </Link>
 
       {/* Desktop links */}
       <ul
         ref={desktopUlRef}
-        className="hidden md:flex items-center gap-10 relative"
+        className="hidden lg:flex items-center gap-8 relative"
         onMouseLeave={() => setDesktopInd((s) => ({ ...s, visible: false }))}
       >
         <div
@@ -98,7 +99,7 @@ export default function Navbar() {
       </ul>
 
       {/* Right side: status + lang toggle */}
-      <div className="hidden md:flex items-center gap-5">
+      <div className="hidden lg:flex items-center gap-5">
         <div
           className="flex items-center gap-2 text-[0.65rem] tracking-[0.1em]"
           style={{ color: "var(--green)" }}
@@ -128,7 +129,7 @@ export default function Navbar() {
       </div>
 
       {/* Mobile: lang toggle + menu button */}
-      <div className="md:hidden flex items-center gap-3">
+      <div className="lg:hidden flex items-center gap-3">
         <button
           onClick={toggle}
           className="text-[0.6rem] font-bold uppercase tracking-[0.15em] border flex items-center justify-center"
@@ -140,6 +141,9 @@ export default function Navbar() {
           className="text-xs tracking-widest transition-colors"
           style={{ color: "var(--muted2)" }}
           onClick={() => setMenuOpen(!menuOpen)}
+          aria-label={menuOpen ? (lang === "tr" ? "Menüyü kapat" : "Close menu") : (lang === "tr" ? "Menüyü aç" : "Open menu")}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-nav"
         >
           {menuOpen ? (lang === "tr" ? "kapat" : "close") : (lang === "tr" ? "menü" : "menu")}
         </button>
@@ -148,11 +152,12 @@ export default function Navbar() {
       {/* Mobile menu */}
       {menuOpen && (
         <div
-          className="absolute top-full left-0 right-0 border-t border-b"
-          style={{ background: "rgba(8,8,8,0.97)", borderColor: "var(--border)" }}
+          className="absolute top-full left-0 right-0 border-t border-b max-h-[calc(100vh-4rem)] overflow-y-auto"
+          style={{ background: "rgba(0,0,0,0.97)", borderColor: "var(--border)" }}
         >
           <ul
             ref={mobileUlRef}
+            id="mobile-nav"
             className="flex flex-col px-6 py-6 gap-5 relative"
             onMouseLeave={() => setMobileInd((s) => ({ ...s, visible: false }))}
           >

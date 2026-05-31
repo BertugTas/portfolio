@@ -1,360 +1,174 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Github, Linkedin, Mail } from "lucide-react";
-import DataScienceMetrics from "@/components/DataScienceMetrics";
 import { useLanguage, T } from "@/context/LanguageContext";
+import InferenceCanvas from "@/components/InferenceCanvas";
 
-const firstName = "Bertuğ".split("");
-const lastName  = "TAŞ".split("");
-
-function SplitReveal({
-  chars,
-  baseDelay,
-  className,
-  glow,
-}: {
-  chars: string[];
-  baseDelay: number;
-  className?: string;
-  glow?: boolean;
-}) {
-  return (
-    <span
-      className={`inline-flex pb-1 ${glow ? "tas-glow" : "overflow-hidden pb-3 -mb-3"} ${className ?? ""}`}
-    >
-      {chars.map((char, i) => (
-        <span
-          key={i}
-          className="inline-block animate-char-reveal"
-          style={{ animationDelay: `${baseDelay + i * 60}ms` }}
-        >
-          {char === " " ? " " : char}
-        </span>
-      ))}
-    </span>
-  );
-}
-
-function CellMarker({
-  left,
-  right,
-  liveDot,
-}: {
-  left: string;
-  right?: string;
-  liveDot?: boolean;
-}) {
-  return (
-    <div className="flex items-center justify-between mb-8 lg:mb-10">
-      <span
-        className="text-[0.55rem] tracking-[0.25em] uppercase"
-        style={{ color: "var(--muted)" }}
-      >
-        {left}
-      </span>
-      {right && (
-        <span
-          className="inline-flex items-center gap-2 text-[0.55rem] tracking-[0.25em] uppercase"
-          style={{ color: liveDot ? "var(--green)" : "var(--muted)" }}
-        >
-          {liveDot && (
-            <span
-              className="status-dot w-1.5 h-1.5 rounded-full"
-              style={{ background: "var(--green)", boxShadow: "0 0 6px var(--green)" }}
-            />
-          )}
-          {right}
-        </span>
-      )}
-    </div>
-  );
-}
+// ── Hero: editorial 2-zone layout ─────────────────────────────────────────────
+// LEFT  — name at display scale + identity descriptor
+// RIGHT — InferenceCanvas (desktop only)
+// STRIP — currently-badge + scroll indicator
 
 export default function Hero() {
   const { lang } = useLanguage();
   const t = T[lang].hero;
-  const nameEnd = 200 + (firstName.length + lastName.length) * 60 + 120;
-
-  // null = not yet measured (avoids SSR/hydration mismatch)
-  const [isDesktop, setIsDesktop] = useState<boolean | null>(null);
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 1024px)");
-    setIsDesktop(mq.matches);
-    const onChange = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, []);
 
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col z-[1] overflow-x-hidden"
+      className="relative min-h-screen flex flex-col z-[1] overflow-hidden"
     >
+      {/* ── Mobile: canvas as barely-visible ambient layer ───────────────── */}
       <div
-        className="w-full flex-1 flex flex-col gap-px"
-        style={{ background: "var(--border)" }}
+        aria-hidden
+        className="lg:hidden absolute inset-0 pointer-events-none"
+        style={{ opacity: 0.1 }}
       >
+        <InferenceCanvas />
+      </div>
 
-      {/* ═══════════════════ ROW 1 — A: NAME · B: METRICS ═══════════════════ */}
-      <div
-        className="flex-1 grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-px"
-        style={{ background: "var(--border)" }}
-      >
+      {/* ── Main: [LEFT identity] | [RIGHT canvas] ───────────────────────── */}
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-[1fr_min(420px,36vw)]">
 
-        {/* ───── CELL A · NAME PANEL ───── */}
-        <div
-          className="relative flex flex-col p-8 pt-24 md:p-12 md:pt-32 lg:p-16 lg:pt-36"
-          style={{ background: "var(--bg)" }}
-        >
-          <CellMarker
-            left={lang === "tr" ? "// 00 · KİMLİK" : "// 00 · IDENTITY"}
-            right="HERO_PANEL"
-          />
+        {/* ── LEFT: identity ──────────────────────────────────────────────── */}
+        <div className="relative z-[1] flex flex-col px-8 md:px-16 pt-32 md:pt-36 pb-10 lg:pb-16">
 
-          {/* Eyebrow */}
-          <div
-            className="flex items-center gap-4 mb-12 lg:mb-0 opacity-0 animate-fade-up"
-            style={{ animationDelay: "100ms", animationFillMode: "forwards" }}
+          {/* Micro section marker */}
+          <span
+            className="text-[0.52rem] uppercase tracking-[0.28em] animate-fade-up"
+            style={{
+              color: "var(--muted)",
+              animationDelay: "80ms",
+              animationFillMode: "both",
+            }}
           >
-            <div className="w-14 h-px" style={{ background: "var(--cyan)" }} />
-            <span
-              className="text-[0.7rem] uppercase tracking-[0.28em]"
-              style={{ color: "var(--cyan)" }}
+            {lang === "tr" ? "// 00 · KİMLİK" : "// 00 · IDENTITY"}
+          </span>
+
+          {/* Name — primary brand statement ───────────────────────────────── */}
+          <div className="flex-1 flex flex-col justify-center py-12 lg:py-0">
+            <h1
+              className="font-black leading-[0.88] flex flex-col items-start"
+              style={{ letterSpacing: "-0.04em" }}
+              aria-label="Bertuğ Taş"
+            >
+              <span
+                className="name-wipe block"
+                style={{
+                  fontSize: "clamp(4rem,14vw,11rem)",
+                  color: "var(--text-max)",
+                }}
+              >
+                BERTUĞ
+              </span>
+              <span
+                className="name-wipe-2 block tas-glow"
+                style={{
+                  fontSize: "clamp(4rem,14vw,11rem)",
+                  color: "var(--cyan)",
+                }}
+              >
+                TAŞ
+              </span>
+            </h1>
+
+            {/* Thin rule */}
+            <div
+              className="w-10 h-px mt-8 mb-5 animate-fade-up"
+              style={{
+                background: "var(--border-strong)",
+                animationDelay: "1.4s",
+                animationFillMode: "both",
+              }}
+            />
+
+            {/* Eyebrow descriptor */}
+            <p
+              className="text-[0.68rem] uppercase tracking-[0.22em] animate-fade-up"
+              style={{
+                color: "var(--muted2)",
+                animationDelay: "1.5s",
+                animationFillMode: "both",
+              }}
             >
               {t.eyebrow}
+            </p>
+          </div>
+        </div>
+
+        {/* ── RIGHT: InferenceCanvas — desktop only ────────────────────────── */}
+        <div
+          className="hidden lg:flex flex-col px-10 pt-36 pb-12"
+          style={{ borderLeft: "1px solid var(--border)" }}
+        >
+          {/* Top telemetry label */}
+          <span
+            className="text-[0.48rem] uppercase tracking-[0.28em] animate-fade-up"
+            style={{
+              color: "var(--muted)",
+              animationDelay: "1.2s",
+              animationFillMode: "both",
+            }}
+          >
+            {lang === "tr" ? "// ÇIKARIM MOTORU" : "// INFERENCE ENGINE"}
+          </span>
+
+          {/* Canvas — fills the available vertical space */}
+          <div className="flex-1 my-8 min-h-[240px]">
+            <InferenceCanvas />
+          </div>
+
+          {/* Bottom telemetry label */}
+          <span
+            className="font-mono text-[0.44rem] uppercase tracking-[0.2em] animate-fade-up"
+            style={{
+              color: "var(--muted)",
+              animationDelay: "1.8s",
+              animationFillMode: "both",
+            }}
+          >
+            NEURAL FORWARD-PASS · 4L
+          </span>
+        </div>
+      </div>
+
+      {/* ── Bottom strip: currently + scroll ─────────────────────────────── */}
+      <div style={{ borderTop: "1px solid var(--border)" }}>
+        <div className="flex items-center justify-between px-8 md:px-16 py-4">
+
+          {/* Currently badge */}
+          <div
+            className="flex items-center gap-3 animate-fade-up"
+            style={{ animationDelay: "1.7s", animationFillMode: "both" }}
+          >
+            <span
+              className="status-dot w-1.5 h-1.5 rounded-full shrink-0"
+              style={{
+                background: "var(--green)",
+                boxShadow: "0 0 6px var(--green)",
+              }}
+            />
+            <span
+              className="text-[0.55rem] uppercase tracking-[0.2em]"
+              style={{ color: "var(--muted)" }}
+            >
+              {t.currently}
+            </span>
+            <span
+              className="hidden sm:inline text-[0.58rem] tracking-[0.04em]"
+              style={{ color: "var(--muted2)" }}
+            >
+              {t.currentProject}
             </span>
           </div>
 
-          {/* Spacer + Name — name pushed to bottom of cell */}
-          <div className="flex-1 flex flex-col justify-end pt-8 lg:pt-0">
-            <h1 className="font-black tracking-tighter leading-[0.92] flex flex-col items-start">
-              <SplitReveal
-                chars={firstName}
-                baseDelay={200}
-                className="text-[clamp(3.5rem,10vw,7.5rem)] text-[var(--text-max)]"
-              />
-              <SplitReveal
-                chars={lastName}
-                baseDelay={200 + firstName.length * 60 + 80}
-                className="text-[clamp(3.5rem,10vw,7.5rem)] text-[var(--cyan)]"
-                glow
-              />
-            </h1>
-          </div>
-
-          {/* ML / DL / BI — editorial stat footer */}
-          <div
-            className="flex flex-wrap items-end gap-7 md:gap-10 mt-10 lg:mt-12 opacity-0 animate-fade-up"
-            style={{
-              animationDelay: `${nameEnd + 120}ms`,
-              animationFillMode: "forwards",
-            }}
+          {/* Scroll indicator */}
+          <span
+            className="animate-scan-down text-[0.52rem] uppercase tracking-[0.25em]"
+            style={{ color: "var(--muted)" }}
           >
-            {[
-              { val: "ML", valClass: "text-[var(--cyan)]",   label: t.ml },
-              { val: "DL", valClass: "text-[var(--green)]",  label: t.dl },
-              { val: "BI", valClass: "text-[var(--orange)]", label: t.bi },
-            ].map(({ val, valClass, label }) => (
-              <div
-                key={val}
-                className="pl-5 border-l"
-                style={{ borderColor: "var(--border-strong)" }}
-              >
-                <span className={`block text-4xl font-black tracking-tighter leading-none ${valClass}`}>
-                  {val}
-                </span>
-                <span
-                  className="block text-[0.55rem] uppercase tracking-[0.2em] mt-2"
-                  style={{ color: "var(--muted)" }}
-                >
-                  {label}
-                </span>
-              </div>
-            ))}
-          </div>
+            {t.scroll}
+          </span>
         </div>
-
-        {/* ───── CELL B · METRICS PANEL ───── */}
-        <div
-          className="relative flex flex-col p-8 pt-12 md:p-12 md:pt-32 lg:p-16 lg:pt-36"
-          style={{ background: "var(--bg)" }}
-        >
-          <CellMarker
-            left={lang === "tr" ? "// TELEMETRİ" : "// TELEMETRY"}
-            right="LIVE"
-            liveDot
-          />
-
-          <div className="flex-1 flex items-center justify-center py-6">
-            {isDesktop === true && (
-              <div
-                className="opacity-0 animate-fade-up"
-                style={{
-                  animationDelay: `${nameEnd - 40}ms`,
-                  animationFillMode: "forwards",
-                }}
-              >
-                <DataScienceMetrics />
-              </div>
-            )}
-            {isDesktop === false && (
-              <div
-                className="opacity-0 animate-fade-up"
-                style={{
-                  animationDelay: "80ms",
-                  animationFillMode: "forwards",
-                }}
-              >
-                <DataScienceMetrics compact />
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* ═══════════════════ ROW 2 — C1: PROFILE · C2: ACT · C3: CONNECT ═══════════════════ */}
-      <div
-        className="grid grid-cols-1 lg:grid-cols-[3fr_2fr_2fr] gap-px"
-        style={{ background: "var(--border)" }}
-      >
-
-        {/* ───── CELL C1 · ROLE NARRATIVE ───── */}
-        <div
-          className="p-8 md:p-12 lg:p-12 flex flex-col"
-          style={{ background: "var(--bg)" }}
-        >
-          <CellMarker left={lang === "tr" ? "// PROFİL" : "// PROFILE"} />
-
-          <p
-            className="text-[0.92rem] leading-[1.9] max-w-[48ch] opacity-0 animate-fade-up"
-            style={{
-              color: "var(--muted2)",
-              animationDelay: `${nameEnd}ms`,
-              animationFillMode: "forwards",
-            }}
-          >
-            {lang === "tr" ? (
-              <>
-                Dokuz Eylül Üniversitesi Bilgisayar Bilimi öğrencisi.{" "}
-                <span style={{ color: "var(--cyan)" }}>Makine öğrenmesi</span> ve{" "}
-                <span style={{ color: "var(--cyan)" }}>derin öğrenme</span> modelleri üzerinde çalışıyor;{" "}
-                <span style={{ color: "var(--cyan)" }}>veri bilimi</span> ve{" "}
-                <span style={{ color: "var(--cyan)" }}>veri mühendisliği</span> alanlarında
-                uzmanlaşıyorum.
-                <span className="blink-cursor" />
-              </>
-            ) : (
-              <>
-                Computer Science student at Dokuz Eylül University.{" "}
-                Working on <span style={{ color: "var(--cyan)" }}>machine learning</span> and{" "}
-                <span style={{ color: "var(--cyan)" }}>deep learning</span> models;
-                specializing in <span style={{ color: "var(--cyan)" }}>data science</span> and{" "}
-                <span style={{ color: "var(--cyan)" }}>data engineering</span>.
-                <span className="blink-cursor" />
-              </>
-            )}
-          </p>
-        </div>
-
-        {/* ───── CELL C2 · CTA BUTTONS ───── */}
-        <div
-          className="p-8 md:p-12 lg:p-12 flex flex-col"
-          style={{ background: "var(--bg)" }}
-        >
-          <CellMarker left={lang === "tr" ? "// EYLEMLER" : "// ACTIONS"} />
-
-          <div className="flex flex-col gap-3 mt-auto">
-            <a
-              href="#projects"
-              className="inline-flex items-center justify-between gap-2 px-6 py-4 text-[0.7rem] font-black uppercase tracking-[0.18em] transition-all duration-300 opacity-0 animate-fade-up"
-              style={{
-                background: "transparent",
-                border: "1px solid rgba(255,255,255,0.12)",
-                color: "var(--text)",
-                animationDelay: `${nameEnd + 240}ms`,
-                animationFillMode: "forwards",
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.borderColor = "var(--cyan)";
-                el.style.color = "var(--cyan)";
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.borderColor = "rgba(255,255,255,0.12)";
-                el.style.color = "var(--text)";
-              }}
-            >
-              <span>{t.cta_work}</span>
-              <span>→</span>
-            </a>
-            <a
-              href="#contact"
-              className="inline-flex items-center justify-between gap-2 px-6 py-4 text-[0.7rem] font-bold uppercase tracking-[0.18em] transition-all duration-300 opacity-0 animate-fade-up"
-              style={{
-                border: "1px solid var(--border-strong)",
-                color: "var(--muted2)",
-                animationDelay: `${nameEnd + 320}ms`,
-                animationFillMode: "forwards",
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.borderColor = "var(--cyan)";
-                el.style.color = "var(--cyan)";
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.borderColor = "var(--border-strong)";
-                el.style.color = "var(--muted2)";
-              }}
-            >
-              <span>{t.cta_contact}</span>
-              <span>↗</span>
-            </a>
-          </div>
-        </div>
-
-        {/* ───── CELL C3 · SOCIAL ANCHORS ───── */}
-        <div
-          className="p-8 md:p-12 lg:p-12 flex flex-col"
-          style={{ background: "var(--bg)" }}
-        >
-          <CellMarker
-            left={lang === "tr" ? "// BAĞLANTILAR" : "// CONNECT"}
-            right={lang === "tr" ? "İZMİR · TR" : "IZMIR · TR"}
-          />
-
-          <div
-            className="flex items-center gap-7 mt-auto opacity-0 animate-fade-up"
-            style={{
-              animationDelay: `${nameEnd + 360}ms`,
-              animationFillMode: "forwards",
-            }}
-          >
-            {[
-              { icon: <Github size={18} />,   href: "https://github.com/BertugTas",                                     label: "GitHub"   },
-              { icon: <Linkedin size={18} />, href: "https://linkedin.com/in/bertu%C4%9F-ta%C5%9F-bb20562b5",          label: "LinkedIn" },
-              { icon: <Mail size={18} />,     href: "mailto:bertugtaas@gmail.com",                                      label: "Email"    },
-            ].map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                target={s.href.startsWith("mailto") ? undefined : "_blank"}
-                rel="noopener noreferrer"
-                aria-label={s.label}
-                className="transition-colors duration-200"
-                style={{ color: "var(--muted2)" }}
-                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--cyan)")}
-                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--muted2)")}
-              >
-                {s.icon}
-              </a>
-            ))}
-          </div>
-        </div>
-      </div>
-
       </div>
     </section>
   );

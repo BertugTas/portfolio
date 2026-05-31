@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { useLanguage, T } from "@/context/LanguageContext";
 import {
   projectsList,
+  projectsData,
   type ProjectCard,
   type ProjectMetaKV,
   type ProjectMetric,
@@ -43,7 +44,7 @@ function MetaRow({ items, lang }: { items: ProjectMetaKV[]; lang: "en" | "tr" })
       {items.map((item) => (
         <span key={item.keyEn} className="inline-flex items-center gap-1.5">
           <span
-            className="text-[0.49rem] uppercase tracking-[0.18em]"
+            className="text-[0.58rem] uppercase tracking-[0.18em]"
             style={{ color: "var(--muted)" }}
           >
             {lang === "tr" ? item.keyTr : item.keyEn}
@@ -149,7 +150,7 @@ function ActionBtn({
 
 function MetricTile({ metric, lang }: { metric: ProjectMetric; lang: "en" | "tr" }) {
   return (
-    <div className="p-5" style={{ background: "var(--bg2)" }}>
+    <div className="p-5" style={{ background: "var(--bg)" }}>
       <span
         className="block text-3xl font-black tracking-tighter leading-none"
         style={{ color: metric.color }}
@@ -168,7 +169,7 @@ function MetricTile({ metric, lang }: { metric: ProjectMetric; lang: "en" | "tr"
 
 function MetaTile({ item, lang }: { item: ProjectMetaKV; lang: "en" | "tr" }) {
   return (
-    <div className="p-4" style={{ background: "var(--bg2)" }}>
+    <div className="p-4" style={{ background: "var(--bg)" }}>
       <span
         className="block text-[0.5rem] uppercase tracking-[0.22em] mb-1.5"
         style={{ color: "var(--muted)" }}
@@ -193,7 +194,7 @@ export default function Projects() {
   const t = T[lang].projects;
 
   useEffect(() => {
-    const els = sectionRef.current?.querySelectorAll(".reveal, .reveal-line");
+    const els = sectionRef.current?.querySelectorAll(".reveal, .reveal-line, .chapter-reveal");
     if (!els) return;
     const observer = new IntersectionObserver(
       (entries) =>
@@ -241,13 +242,13 @@ export default function Projects() {
         {/* ── Section header ── */}
         <div className="flex items-baseline gap-5 mb-16 reveal">
           <span
-            className="text-[0.65rem] tracking-[0.25em] opacity-50 shrink-0"
-            style={{ color: "var(--cyan)" }}
+            className="text-[0.65rem] tracking-[0.25em] shrink-0"
+            style={{ color: "var(--muted)" }}
           >
             {t.num}
           </span>
           <h2
-            className="font-black tracking-tighter leading-none"
+            className="chapter-reveal font-black tracking-tighter leading-none"
             style={{ fontSize: "clamp(2.4rem,7.5vw,6rem)", color: "var(--text-max)" }}
           >
             {t.title}
@@ -294,108 +295,164 @@ export default function Projects() {
 
 /* ──────────────────────────────────── row components ── */
 
+function CaseStudyBlock({
+  label,
+  text,
+}: {
+  label: string;
+  text: string;
+}) {
+  return (
+    <div
+      className="pt-5"
+      style={{ borderTop: "1px solid var(--border)" }}
+    >
+      <span
+        className="block text-[0.58rem] uppercase tracking-[0.28em] mb-2 font-bold"
+        style={{ color: "var(--muted)" }}
+      >
+        {label}
+      </span>
+      <p className="text-[0.84rem] leading-[1.95]" style={{ color: "var(--muted2)" }}>
+        {text}
+      </p>
+    </div>
+  );
+}
+
 function FeaturedRow({ card, lang }: { card: ProjectCard; lang: "en" | "tr" }) {
   const content = lang === "tr" ? card.tr : card.en;
-  const badgeLabels = card.badges.map((b) => (lang === "tr" ? b.tr : b.en));
+  const study = projectsData.find((p) => p.slug === "bt-flow");
+  const studyContent = study ? (lang === "tr" ? study.tr : study.en) : null;
+
+  const labels = {
+    problem:  lang === "tr" ? "Problem"   : "Problem",
+    approach: lang === "tr" ? "Yaklaşım"  : "Approach",
+    outcome:  lang === "tr" ? "Çıktı"     : "Outcome",
+    stack:    lang === "tr" ? "Yığın"     : "Stack",
+    launch:   lang === "tr" ? "// 01 · LANSMAN"       : "// 01 · FLAGSHIP LAUNCH",
+    featured: lang === "tr" ? "★ ÖNE ÇIKAN"           : "★ FEATURED",
+    links:    lang === "tr" ? "// BAĞLANTILAR"         : "// LINKS",
+    live:     lang === "tr" ? "PyPI'DA AKTİF"          : "LIVE ON PYPI",
+  };
 
   return (
     <div
-      className="relative grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-px overflow-hidden"
+      className="relative grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-px overflow-hidden"
       style={{ background: "var(--border)" }}
     >
-      {/* Featured cyan wash — drawn beneath cells via section bg, peeks through borders */}
+      {/* Cyan wash */}
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(135deg, rgba(103,232,249,0.045) 0%, transparent 55%)",
-        }}
+        style={{ background: "linear-gradient(135deg, rgba(103,232,249,0.04) 0%, transparent 50%)" }}
       />
 
-      {/* ── CELL F1: CONTENT ── */}
+      {/* ── LEFT: case study narrative ── */}
       <div
-        className="relative p-8 md:p-10 lg:p-12 flex flex-col"
+        className="relative p-8 md:p-10 lg:p-12 flex flex-col gap-5"
         style={{ background: "var(--bg)" }}
       >
         <CellMarker
-          left={lang === "tr" ? "// 01 · LANSMAN" : "// 01 · FLAGSHIP LAUNCH"}
-          right={lang === "tr" ? "★ ÖNE ÇIKAN" : "★ FEATURED"}
+          left={labels.launch}
+          right={labels.featured}
           rightColor="cyan"
         />
 
         <span
-          className="text-[0.6rem] uppercase tracking-[0.22em] px-2 py-0.5 self-start mb-5"
+          className="text-[0.6rem] uppercase tracking-[0.22em] px-2 py-0.5 self-start"
           style={{ color: "var(--muted2)", border: "1px solid var(--border)" }}
         >
           {content.area}
         </span>
 
         <h3
-          className="font-black tracking-tighter mb-5 leading-[1.05]"
+          className="font-black tracking-tighter leading-[1.05]"
           style={{
             fontSize: "clamp(1.75rem,3.5vw,2.6rem)",
             color: "var(--text-max)",
             overflowWrap: "break-word",
             wordBreak: "break-word",
-            hyphens: "auto",
           }}
         >
           {content.title}
         </h3>
 
-        <p
-          className="text-[0.85rem] leading-[1.9] mb-6"
-          style={{ color: "var(--muted2)", maxWidth: "54ch" }}
-        >
-          {content.description}
-        </p>
-
-        <MetaRow items={card.meta} lang={lang} />
-
-        {badgeLabels.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-5">
-            {badgeLabels.map((b) => (
-              <Badge key={b} label={b} accent />
-            ))}
-          </div>
+        {/* Case study blocks — Problem → Approach → Outcome */}
+        {studyContent ? (
+          <>
+            <CaseStudyBlock label={labels.problem}  text={studyContent.problem}  />
+            <CaseStudyBlock label={labels.approach} text={studyContent.approach} />
+            <CaseStudyBlock label={labels.outcome}  text={studyContent.outcome}  />
+          </>
+        ) : (
+          <p className="text-[0.85rem] leading-[1.9]" style={{ color: "var(--muted2)" }}>
+            {content.description}
+          </p>
         )}
 
-        <div className="flex flex-wrap gap-1.5 mt-auto">
-          {card.stack.map((s) => (
-            <StackTag key={s} label={s} />
-          ))}
+        {/* Stack */}
+        <div
+          className="pt-5 mt-auto"
+          style={{ borderTop: "1px solid var(--border)" }}
+        >
+          <span
+            className="block text-[0.58rem] uppercase tracking-[0.28em] mb-3 font-bold"
+            style={{ color: "var(--muted)" }}
+          >
+            {labels.stack}
+          </span>
+          <div className="flex flex-wrap gap-1.5">
+            {card.stack.map((s) => (
+              <StackTag key={s} label={s} />
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* ── CELL F2: METRICS + ACTIONS ── */}
+      {/* ── RIGHT: meta + links ── */}
       <div
         className="relative p-8 md:p-10 lg:p-12 flex flex-col"
         style={{ background: "var(--bg)" }}
       >
         <CellMarker
-          left={lang === "tr" ? "// METRİKLER" : "// METRICS"}
-          right="LIVE"
+          left={labels.links}
+          right={labels.live}
           rightColor="green"
           liveDot
         />
 
-        {/* Vertical metric stack with hair-thin dividers */}
-        {card.metrics.length > 0 && (
-          <div
-            className="grid grid-cols-1 gap-px mb-6"
-            style={{ background: "var(--border)" }}
-          >
-            {card.metrics.map((m) => (
-              <MetricTile key={m.labelEn} metric={m} lang={lang} />
-            ))}
-          </div>
-        )}
+        {/* Metadata — hairline key-value rows, no filled boxes */}
+        <div
+          className="flex flex-col gap-px mb-8"
+          style={{ background: "var(--border)" }}
+        >
+          {card.meta.map((item) => (
+            <div
+              key={item.keyEn}
+              className="flex items-baseline justify-between px-4 py-3.5"
+              style={{ background: "var(--bg)" }}
+            >
+              <span
+                className="text-[0.58rem] uppercase tracking-[0.2em]"
+                style={{ color: "var(--muted)" }}
+              >
+                {lang === "tr" ? item.keyTr : item.keyEn}
+              </span>
+              <span
+                className="text-[0.75rem] font-bold tracking-tight tabular-nums"
+                style={{ color: item.color ?? "var(--text-max)" }}
+              >
+                {item.val}
+              </span>
+            </div>
+          ))}
+        </div>
 
-        {/* Action triggers — stacked, full-width */}
+        {/* Action buttons — stacked, full-width */}
         <div className="flex flex-col gap-2 mt-auto">
-          {card.pypiUrl && <ActionBtn href={card.pypiUrl} label="PyPI" primary />}
-          <ActionBtn href={card.href} label="GitHub" />
+          {card.pypiUrl && <ActionBtn href={card.pypiUrl} label="PyPI →" primary />}
+          <ActionBtn href={card.href} label="GitHub →" />
         </div>
       </div>
     </div>
@@ -563,7 +620,7 @@ function ResearchRow({ card, lang }: { card: ProjectCard; lang: "en" | "tr" }) {
             ))}
 
             {/* Action tile — GitHub */}
-            <div className="p-3" style={{ background: "var(--bg2)" }}>
+            <div className="p-3" style={{ background: "var(--bg)" }}>
               <ActionBtn href={card.href} label="GitHub" />
             </div>
           </div>
