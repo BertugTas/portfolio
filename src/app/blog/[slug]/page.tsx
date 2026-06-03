@@ -22,20 +22,33 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${title} | Bertuğ Taş`,
     description: excerpt,
-    alternates: { canonical: `/blog/${slug}` },
+    authors: [{ name: "Bertuğ Taş", url: "https://www.bertugtas.com" }],
+    alternates: { canonical: `https://www.bertugtas.com/blog/${slug}` },
     openGraph: {
       title,
       description: excerpt,
       type: "article",
       siteName: "Bertuğ Taş",
       publishedTime: date,
+      authors: ["Bertuğ Taş"],
       tags: tags,
-      ...(cover ? { images: [cover] } : {}),
+      images: cover
+        ? [{ url: cover, alt: title }]
+        : [
+            {
+              url: "/og.png",
+              width: 1200,
+              height: 630,
+              alt: title,
+            },
+          ],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description: excerpt,
+      creator: "@bertugtas",
+      images: cover ? [cover] : ["/og.png"],
     },
     keywords: [...(tags ?? []), category],
   };

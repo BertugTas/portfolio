@@ -18,19 +18,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = problem.slice(0, 155);
 
   return {
-    title: `${title} | Bertug Tas`,
+    title: `${title} | Bertuğ Taş`,
     description,
-    alternates: { canonical: `/projects/${slug}` },
+    authors: [{ name: "Bertuğ Taş", url: "https://www.bertugtas.com" }],
+    alternates: { canonical: `https://www.bertugtas.com/projects/${slug}` },
     openGraph: {
       title,
       description,
       type: "article",
-      siteName: "Bertug Tas",
+      siteName: "Bertuğ Taş",
+      images: [
+        {
+          url: "/og.png",
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title,
       description,
+      creator: "@bertugtas",
+      images: ["/og.png"],
     },
     keywords: [...area.split(" · "), ...project.en.stack],
   };
