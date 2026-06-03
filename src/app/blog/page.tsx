@@ -6,18 +6,28 @@ export const metadata: Metadata = {
   title: "Transmissions",
   description:
     "Field notes from the research layer — data science, MLOps, computer vision, and engineering practice by Bertuğ Taş.",
-  alternates: { canonical: "https://bertugtas.com/blog" },
+  alternates: { canonical: "https://www.bertugtas.com/blog" },
   openGraph: {
     title: "Transmissions · Bertuğ Taş",
     description:
       "Field notes from the research layer — data science, MLOps, computer vision, and engineering practice.",
-    url: "https://bertugtas.com/blog",
+    url: "https://www.bertugtas.com/blog",
     type: "website",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Transmissions · Bertuğ Taş",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Transmissions · Bertuğ Taş",
     description: "Field notes from the research layer.",
+    creator: "@bertugtas",
+    images: ["/og.png"],
   },
 };
 
