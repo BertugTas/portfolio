@@ -1,10 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
-  <path d="M62 16A30 30 0 1 0 62 64" stroke="#E8E8E8" stroke-width="4.5" stroke-linecap="round" opacity=".4"/>
-  <path d="M25 31L16 40L25 49" stroke="#E8E8E8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/>
-  <path d="M55 31L64 40L55 49" stroke="#E8E8E8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/>
-  <path d="M28 51L39 39L47 45L58 31" stroke="#E8E8E8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="28" cy="51" r="2.8" fill="#67E8F9"/>
-  <circle cx="39" cy="39" r="2.8" fill="#67E8F9"/>
-  <circle cx="47" cy="45" r="2.8" fill="#67E8F9"/>
-  <circle cx="58" cy="31" r="2.8" fill="#67E8F9"/>
+  <rect width="80" height="80" rx="16" fill="#080808"/>
+
+  <!-- B: left bar + two D-lobes -->
+  <path
+    d="M10 15h5v50H10z
+       M15 15h12a11.5 11.5 0 0 1 0 23H15z
+       M15 38h13a12.5 12.5 0 0 1 0 25H15z"
+    fill="#e8e8e8"
+  />
+
+  <!-- T: horizontal bar + centered stem -->
+  <rect x="44" y="15" width="26" height="5" fill="#e8e8e8"/>
+  <rect x="53" y="15" width="6" height="50" fill="#e8e8e8"/>
+
+  <!-- Cyan accent -->
+  <circle cx="67" cy="60" r="3.5" fill="#67e8f9"/>
 </svg>
