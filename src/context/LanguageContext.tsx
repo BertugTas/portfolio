@@ -12,14 +12,24 @@ interface LangCtx {
 export const LanguageContext = createContext<LangCtx>({ lang: "tr", toggle: () => {} });
 export const useLanguage = () => useContext(LanguageContext);
 
+const STORAGE_KEY = "bt-lang";
+
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLang] = useState<Lang>("tr");
-  const toggle = () => setLang((l) => (l === "tr" ? "en" : "tr"));
 
-  // Keep html[lang] in sync with active language for screen readers
+  // Restore persisted language on mount
+  useEffect(() => {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored === "en" || stored === "tr") setLang(stored);
+  }, []);
+
+  // Keep html[lang] in sync and persist choice
   useEffect(() => {
     document.documentElement.lang = lang;
+    localStorage.setItem(STORAGE_KEY, lang);
   }, [lang]);
+
+  const toggle = () => setLang((l) => (l === "tr" ? "en" : "tr"));
 
   return (
     <LanguageContext.Provider value={{ lang, toggle }}>

@@ -5,46 +5,26 @@ type LogoMarkProps = {
 export default function LogoMark({ className }: LogoMarkProps) {
   return (
     <svg
-      viewBox="0 0 80 80"
+      viewBox="0 0 64 64"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
       aria-hidden="true"
     >
+      <rect width="64" height="64" rx="12" fill="currentColor" fillOpacity="0.06" />
+
+      {/* B: left bar + two D-lobes */}
       <path
-        d="M62 16A30 30 0 1 0 62 64"
-        stroke="currentColor"
-        strokeWidth="4.5"
-        strokeLinecap="round"
-        opacity="0.4"
+        d="M9 13h4v38H9z M13 13h9a9 9 0 0 1 0 18H13z M13 31h10a10 10 0 0 1 0 20H13z"
+        fill="currentColor"
       />
-      <path
-        d="M25 31L16 40L25 49"
-        stroke="currentColor"
-        strokeWidth="3.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        opacity="0.85"
-      />
-      <path
-        d="M55 31L64 40L55 49"
-        stroke="currentColor"
-        strokeWidth="3.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        opacity="0.85"
-      />
-      <path
-        d="M28 51L39 39L47 45L58 31"
-        stroke="currentColor"
-        strokeWidth="4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <circle cx="28" cy="51" r="2.8" fill="var(--logo-accent)" />
-      <circle cx="39" cy="39" r="2.8" fill="var(--logo-accent)" />
-      <circle cx="47" cy="45" r="2.8" fill="var(--logo-accent)" />
-      <circle cx="58" cy="31" r="2.8" fill="var(--logo-accent)" />
+
+      {/* T: horizontal bar + centered stem */}
+      <rect x="35" y="13" width="20" height="4" fill="currentColor" />
+      <rect x="43" y="13" width="5" height="38" fill="currentColor" />
+
+      {/* Cyan accent dot */}
+      <circle cx="53" cy="47" r="2.8" fill="var(--logo-accent, #67e8f9)" />
     </svg>
   );
 }

@@ -7,11 +7,11 @@ export default function GlobalCursor() {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
-
     // Don't render on touch/stylus screens — native touch feedback is better
     if (window.matchMedia("(pointer: coarse)").matches) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    setIsClient(true);
 
     const update = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
