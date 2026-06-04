@@ -16,7 +16,6 @@ function useCountUp(
 
   useEffect(() => {
     if (!started) return;
-    setVal(0);
     const t0 = performance.now();
     const tick = (now: number) => {
       const p = Math.min((now - t0) / duration, 1);

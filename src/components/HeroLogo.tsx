@@ -176,8 +176,11 @@ export default function HeroLogo() {
   const [explode, setExplode] = useState(0);
 
   useEffect(() => {
-    setMounted(true);
-    setWebgl(hasWebGL());
+    const frame = window.requestAnimationFrame(() => {
+      setMounted(true);
+      setWebgl(hasWebGL());
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, []);
 
   if (!mounted || !isDesktop || !webgl) return null;

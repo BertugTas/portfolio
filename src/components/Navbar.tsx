@@ -69,7 +69,9 @@ export default function Navbar() {
         className="hidden lg:flex items-center gap-8 relative"
         onMouseLeave={() => setDesktopInd((s) => ({ ...s, visible: false }))}
       >
-        <div
+        <li
+          aria-hidden="true"
+          role="presentation"
           className="absolute top-0 h-full w-0.5 pointer-events-none"
           style={{
             background: "var(--cyan)",
@@ -161,7 +163,9 @@ export default function Navbar() {
             className="flex flex-col px-6 py-6 gap-5 relative"
             onMouseLeave={() => setMobileInd((s) => ({ ...s, visible: false }))}
           >
-            <div
+            <li
+              aria-hidden="true"
+              role="presentation"
               className="absolute left-6 w-0.5 h-5 pointer-events-none"
               style={{
                 background: "var(--cyan)",
