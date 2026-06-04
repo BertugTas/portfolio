@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import { marked } from "marked";
+import sanitizeHtml from "sanitize-html";
 
 // ─── Types ─────────────────────────────────────────────────────────────────
 
@@ -41,6 +42,36 @@ export type BlogPostPair = {
 
 const BLOG_DIR = path.join(process.cwd(), "src", "content", "blog");
 const WORDS_PER_MINUTE = 220;
+const ALLOWED_MARKDOWN_TAGS = sanitizeHtml.defaults.allowedTags.concat([
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "img",
+  "pre",
+  "span",
+  "table",
+  "thead",
+  "tbody",
+  "tr",
+  "th",
+  "td",
+]);
+const ALLOWED_MARKDOWN_ATTRIBUTES: sanitizeHtml.IOptions["allowedAttributes"] = {
+  a: ["href", "name", "target", "rel", "title"],
+  img: ["src", "alt", "title", "width", "height", "loading"],
+  code: ["class"],
+  pre: ["class"],
+  span: ["class"],
+  h1: ["id"],
+  h2: ["id"],
+  h3: ["id"],
+  h4: ["id"],
+  h5: ["id"],
+  h6: ["id"],
+};
 
 // ─── Validation ────────────────────────────────────────────────────────────
 
@@ -96,7 +127,14 @@ function parseFile(filePath: string): BlogPostFile {
     data as Record<string, unknown>,
     path.basename(filePath),
   );
-  const contentHtml = marked.parse(content, { async: false }) as string;
+  const renderedHtml = marked.parse(content, { async: false }) as string;
+  const contentHtml = sanitizeHtml(renderedHtml, {
+    allowedTags: ALLOWED_MARKDOWN_TAGS,
+    allowedAttributes: ALLOWED_MARKDOWN_ATTRIBUTES,
+    allowedSchemes: ["http", "https", "mailto"],
+    allowProtocolRelative: false,
+    enforceHtmlBoundary: true,
+  });
   const readMinutes = frontmatter.readMinutes ?? computeReadMinutes(content);
 
   return { frontmatter, contentHtml, readMinutes };

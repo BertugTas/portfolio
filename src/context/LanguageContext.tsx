@@ -19,6 +19,9 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   // Keep html[lang] in sync with active language for screen readers
   useEffect(() => {
     document.documentElement.lang = lang;
+    if (window.location.pathname === "/") {
+      document.title = T[lang].meta.homeTitle;
+    }
   }, [lang]);
 
   return (
@@ -31,6 +34,9 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 /* ─── translations ─────────────────────────────────────────────── */
 export const T = {
   tr: {
+    meta: {
+      homeTitle: "Bertuğ Taş — Makine Öğrenmesi Mühendisi & Veri Bilimci",
+    },
     nav: {
       about: "hakkımda", research: "araştırma", skills: "uzmanlık", projects: "çalışmalar", blog: "yazılar", contact: "iletişim",
       status: "İzmir, TR — aktif",
@@ -56,7 +62,7 @@ export const T = {
         ["Üniversite", "Dokuz Eylül Üniversitesi"],
         ["Bölüm",      "Bilgisayar Bilimi"],
         ["Konum",      "İzmir, TR"],
-        ["Uzmanlık",   "Veri Bilimi & ML"],
+        ["Uzmanlık",   "Veri Bilimi ve Makine Öğrenmesi"],
         ["Durum",      "● Müsait", "green"],
         ["Hedef Rol",  "Veri Mühendisi"],
       ],
@@ -123,6 +129,9 @@ export const T = {
   },
 
   en: {
+    meta: {
+      homeTitle: "Bertuğ Taş — ML Engineer & Data Scientist",
+    },
     nav: {
       about: "about", research: "research", skills: "stack", projects: "work", blog: "blog", contact: "contact",
       status: "Izmir, TR — active",

@@ -4,23 +4,25 @@ import { motion } from "framer-motion";
 
 export default function GlobalCursor() {
   const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
-  const [isClient, setIsClient] = useState(false);
+  const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
-
     // Don't render on touch/stylus screens — native touch feedback is better
     if (window.matchMedia("(pointer: coarse)").matches) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
+    const frame = window.requestAnimationFrame(() => setEnabled(true));
     const update = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
     window.addEventListener("mousemove", update, { passive: true });
-    return () => window.removeEventListener("mousemove", update);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("mousemove", update);
+    };
   }, []);
 
-  if (!isClient) return null;
+  if (!enabled) return null;
 
   return (
     <motion.div

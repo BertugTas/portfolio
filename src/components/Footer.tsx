@@ -1,6 +1,7 @@
 "use client";
 
 import { useLanguage, T } from "@/context/LanguageContext";
+import Link from "next/link";
 
 export default function Footer() {
   const { lang } = useLanguage();
@@ -31,13 +32,13 @@ export default function Footer() {
         <span className="font-mono text-[0.6rem] tracking-[0.12em]" style={{ color: "var(--muted)" }}>
           © {new Date().getFullYear()} Bertuğ Taş · {t.location}
         </span>
-        <a
+        <Link
           href="/"
           className="font-mono text-[0.6rem] tracking-[0.12em] transition-opacity duration-200 hover:opacity-60"
           style={{ color: "var(--cyan)" }}
         >
           bertugtas.com
-        </a>
+        </Link>
       </div>
     </footer>
   );

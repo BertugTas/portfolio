@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
 import { getAllPostPairs } from "@/data/blog";
+import { projectsData } from "@/data/projects";
 
-const BASE = "https://bertugtas.com";
+const BASE = "https://www.bertugtas.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const pairs = getAllPostPairs();
@@ -11,6 +12,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(pair.date),
     changeFrequency: "monthly",
     priority: 0.8,
+  }));
+
+  const projectEntries: MetadataRoute.Sitemap = projectsData.map((project) => ({
+    url: `${BASE}/projects/${project.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.7,
   }));
 
   return [
@@ -27,5 +35,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     ...postEntries,
+    ...projectEntries,
   ];
 }

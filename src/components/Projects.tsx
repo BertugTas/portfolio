@@ -7,7 +7,6 @@ import {
   projectsData,
   type ProjectCard,
   type ProjectMetaKV,
-  type ProjectMetric,
 } from "@/data/projects";
 
 /* ──────────────────────────────────── primitives ── */
@@ -145,25 +144,6 @@ function ActionBtn({
       <span>{label}</span>
       <span>↗</span>
     </a>
-  );
-}
-
-function MetricTile({ metric, lang }: { metric: ProjectMetric; lang: "en" | "tr" }) {
-  return (
-    <div className="p-5" style={{ background: "var(--bg)" }}>
-      <span
-        className="block text-3xl font-black tracking-tighter leading-none"
-        style={{ color: metric.color }}
-      >
-        {metric.val}
-      </span>
-      <span
-        className="block text-[0.52rem] uppercase tracking-[0.2em] mt-2"
-        style={{ color: "var(--muted)" }}
-      >
-        {lang === "tr" ? metric.labelTr : metric.labelEn}
-      </span>
-    </div>
   );
 }
 

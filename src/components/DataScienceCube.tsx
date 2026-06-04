@@ -76,6 +76,19 @@ const PARTICLE_COLORS = [
   "rgba(255, 255, 255, 0.08)",
 ];
 
+function seededUnit(index: number, salt: number): number {
+  const x = Math.sin((index + 1) * (salt + 12.9898)) * 43758.5453;
+  return x - Math.floor(x);
+}
+
+const PARTICLES = Array.from({ length: 18 }, (_, index) => ({
+  id: index,
+  left: `${8 + seededUnit(index, 0) * 84}%`,
+  top: `${6 + seededUnit(index, 1) * 88}%`,
+  delay: `${seededUnit(index, 2) * 4.2}s`,
+  color: PARTICLE_COLORS[index % PARTICLE_COLORS.length],
+}));
+
 export default function DataScienceCube({ size = 260, className = "" }: DataScienceCubeProps) {
   const half = size / 2;
   const stageSize = size + 124;
@@ -166,17 +179,7 @@ export default function DataScienceCube({ size = 260, className = "" }: DataScie
     [applyRotation],
   );
 
-  const particles = useMemo(
-    () =>
-      [...Array(18)].map((_, index) => ({
-        id: index,
-        left: `${8 + Math.random() * 84}%`,
-        top: `${6 + Math.random() * 88}%`,
-        delay: `${Math.random() * 4.2}s`,
-        color: PARTICLE_COLORS[index % PARTICLE_COLORS.length],
-      })),
-    [],
-  );
+  const particles = PARTICLES;
 
   return (
     <div

@@ -386,7 +386,7 @@ export default function BlogIndexClient({ pairs }: Props) {
               className="text-[0.65rem] tracking-[0.25em] opacity-50 shrink-0"
               style={{ color: "var(--cyan)" }}
             >
-              // 05
+              {"// 05"}
             </span>
             <h2
               className="font-black tracking-tighter leading-none"
