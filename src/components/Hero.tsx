@@ -126,7 +126,7 @@ export default function Hero() {
               animationFillMode: "both",
             }}
           >
-            NEURAL FORWARD-PASS · 4L
+            {lang === "tr" ? "SİNİRSEL İLERİ GEÇİŞ · 4 KATMAN" : "NEURAL FORWARD-PASS · 4L"}
           </span>
         </div>
       </div>

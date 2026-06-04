@@ -82,7 +82,7 @@ const INVENTORY = [
   {
     icon: "◈",
     titleEn: "ML / Deep Learning",
-    titleTr: "ML / Derin Öğrenme",
+    titleTr: "Makine Öğrenmesi / Derin Öğrenme",
     items: [
       { name: "scikit-learn", rating: 5 },
       { name: "TensorFlow",   rating: 4 },
@@ -94,7 +94,7 @@ const INVENTORY = [
   {
     icon: "◎",
     titleEn: "Data & Vision",
-    titleTr: "Veri & Görüntü",
+    titleTr: "Veri ve Görüntü",
     items: [
       { name: "pandas",       rating: 5 },
       { name: "NumPy",        rating: 5 },
@@ -106,7 +106,7 @@ const INVENTORY = [
   {
     icon: "◉",
     titleEn: "Tools & Infra",
-    titleTr: "Araçlar & Altyapı",
+    titleTr: "Araçlar ve Altyapı",
     items: [
       { name: "Git / GitHub",      rating: 5 },
       { name: "FastAPI",           rating: 4 },

@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: "Bertuğ Taş — ML Engineer & Data Scientist",
+    default: "Bertuğ Taş — Makine Öğrenmesi Mühendisi & Veri Bilimci",
     template: "%s · Bertuğ Taş",
   },
   description:
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "Bertuğ Taş — ML Engineer & Data Scientist",
+        alt: "Bertuğ Taş — Makine Öğrenmesi Mühendisi & Veri Bilimci",
       },
     ],
   },
@@ -71,6 +71,11 @@ export const metadata: Metadata = {
       "ML · Deep Learning · Computer Vision · MLOps · İzmir",
     creator: "@bertugtas",
     images: ["/twitter-image"],
+  },
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
   },
   robots: {
     index: true,
